@@ -4,13 +4,21 @@
   "description": "blacklake components",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook",
+    "chromatic": "npx chromatic --project-token 3b2136bffe83"
   },
   "keywords": [],
   "author": "blacklake",
   "license": "ISC",
   "devDependencies": {
+    "@babel/core": "^7.13.10",
+    "@storybook/addon-actions": "^6.1.21",
+    "@storybook/addon-essentials": "^6.1.21",
+    "@storybook/addon-links": "^6.1.21",
     "@storybook/react": "^6.1.21",
+    "babel-loader": "^8.2.2",
     "rollup": "^2.42.2"
   },
   "dependencies": {

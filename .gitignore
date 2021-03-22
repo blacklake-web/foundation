@@ -1,11 +1,43 @@
-# See http://help.github.com/ignore-files/ for more about ignoring files.
+.storybook
+.doc
+*.iml
+*.log
+.idea/
+.ipr
+.iws
+*~
+~*
+*.diff
+*.patch
+*.bak
+.DS_Store
+Thumbs.db
+.project
+.*proj
+.svn/
+*.swp
+*.swo
+*.pyc
+*.pyo
+.build
+node_modules
+.cache
+dist
+assets/**/*.css
+build
+lib
+coverage
+yarn.lock
+package-lock.json
+es/
+.storybook
+.doc
+!tests/__mocks__/rc-util/lib
+examples/debug.tsx
+.history
 
-# dependencies
-/node_modules
-
-# testing
-/coverage
-
-# production
-/build
-
+# umi
+.umi
+.umi-production
+.umi-test
+.env.local
