@@ -21,6 +21,7 @@
     "dotenv": "^8.2.0",
     "fs-extra": "^9.1.0",
     "gatsby-plugin-less": "^5.1.0",
+    "lerna": "^4.0.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "rollup": "^2.42.2",
