@@ -8,7 +8,11 @@ interface BLButtonProps extends ButtonProps {
 const Button = (props: BLButtonProps) => {
   const { label, ...rest } = props;
   console.log('rest: ', rest);
-  return <AntBtn {...rest}>{props?.label}</AntBtn>;
+  return (
+    <AntBtn {...rest} type={'primary'}>
+      {props?.label}
+    </AntBtn>
+  );
 };
 
 export default Button;

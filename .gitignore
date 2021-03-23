@@ -32,6 +32,8 @@ package-lock.json
 es/
 .storybook
 .doc
+.docz
+docz-build
 !tests/__mocks__/rc-util/lib
 examples/debug.tsx
 .history
