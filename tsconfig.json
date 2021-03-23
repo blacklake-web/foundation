@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "allowJs": true,
+    "allowSyntheticDefaultImports": true,
+    "jsx": "react",
+    // "module": "es6",
+    "moduleResolution": "node",
+    "noImplicitAny": false,
+    "outDir": "./dist/",
+    "removeComments": true,
+    "sourceMap": true,
+    "downlevelIteration": true,
+    "target": "es5",
+    "baseUrl": "./src",
+    "paths": {
+      "src/*": ["*"],
+      "components": ["components"],
+      "components/*": ["components/*"]
+    }
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules"]
+}
