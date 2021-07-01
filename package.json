@@ -1,7 +1,7 @@
 {
-  "name": "blacklake_cli",
+  "name": "blacklake-web",
   "version": "1.0.0",
-  "description": "blacklake cli",
+  "description": "blacklake web",
   "main": "index.js",
   "scripts": {},
   "keywords": [],

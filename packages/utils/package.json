@@ -1,7 +1,7 @@
 {
-  "name": "@blacklake_cli/utils",
+  "name": "@blacklake-web/utils",
   "version": "1.0.4-alpha.0",
-  "description": "blackalke_cli utils",
+  "description": "blackalke-web utils",
   "author": "zx <zhaoxin@blacklake.cn>",
   "homepage": "https://github.com/BlacklakeTechWeb/foundation#readme",
   "license": "ISC",
