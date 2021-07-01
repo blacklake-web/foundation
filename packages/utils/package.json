@@ -22,5 +22,9 @@
   },
   "bugs": {
     "url": "https://github.com/zxlsr/foundation/issues"
+  },
+  "gitHead": "239ec7977a17ac5ba4e310a705176b0ae246ce92",
+  "publishConfig": {
+    "access": "public"
   }
 }
