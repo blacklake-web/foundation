@@ -1,5 +1,5 @@
 export default {
-  src: './src',
+  src: './packages',
   dest: '/docz-build',
   title: 'bl-component',
   typescript: true,
