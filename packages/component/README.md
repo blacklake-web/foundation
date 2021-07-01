@@ -1,6 +1,6 @@
 # `component`
 
-> TODO: description
+blackalke component
 
 ## Usage
 
