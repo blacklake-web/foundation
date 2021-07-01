@@ -1,1 +1,1 @@
-blacklake components
+blacklake cli

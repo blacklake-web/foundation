@@ -1,0 +1,34 @@
+{
+  "name": "@blacklake_cli/layout",
+  "version": "1.0.3-alpha.0",
+  "description": "blacklake layout ",
+  "author": "zx <zhaoxin@blacklake.cn>",
+  "homepage": "https://github.com/BlacklakeTechWeb/foundation#readme",
+  "license": "ISC",
+  "main": "lib/layout.js",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BlacklakeTechWeb/foundation.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "bugs": {
+    "url": "https://github.com/BlacklakeTechWeb/foundation/issues"
+  },
+  "peerDependencies": {
+    "react": ">=17.0.0",
+    "react-dom": ">=17.0.0"
+  },
+  "gitHead": "143d91ce1d948236dbaa00e37b4d627e1950fb2c",
+  "publishConfig": {
+    "access": "public"
+  }
+}

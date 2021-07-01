@@ -1,45 +1,13 @@
 {
-  "name": "bl-component",
-  "version": "0.0.1",
-  "description": "blacklake components",
+  "name": "blacklake_cli",
+  "version": "1.0.0",
+  "description": "blacklake cli",
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "rollup -c",
-    "docz:dev": "docz dev",
-    "docz:build": "docz build",
-    "docz:serve": "docz build && docz serve",
-    "chromatic": "npx chromatic --project-token 3b2136bffe83"
-  },
+  "scripts": {},
   "keywords": [],
   "author": "blacklake",
   "license": "ISC",
   "devDependencies": {
-    "@babel/core": "^7.13.10",
-    "babel-loader": "^8.2.2",
-    "docz": "^2.3.1",
-    "dotenv": "^8.2.0",
-    "fs-extra": "^9.1.0",
-    "gatsby-plugin-less": "^5.1.0",
-    "lerna": "^4.0.0",
-    "react": "^17.0.1",
-    "react-dom": "^17.0.1",
-    "rollup": "^2.42.2",
-    "rollup-plugin-babel": "^4.4.0",
-    "rollup-plugin-commonjs": "^10.1.0",
-    "rollup-plugin-json": "^4.0.0",
-    "rollup-plugin-livereload": "^2.0.0",
-    "rollup-plugin-node-resolve": "^5.2.0",
-    "rollup-plugin-terser": "^7.0.2",
-    "rollup-plugin-typescript2": "^0.30.0",
-    "rollup-plugin-uglify": "^6.0.4",
-    "typescript": "^4.2.3"
-  },
-  "dependencies": {
-    "antd": "^4.14.0"
-  },
-  "peerDependencies": {
-    "react": "^16.8.0",
-    "react-dom": "^16.8.0"
+    "lerna": "^4.0.0"
   }
 }
