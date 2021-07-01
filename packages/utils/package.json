@@ -1,0 +1,26 @@
+{
+  "name": "@blacklake_cli/utils",
+  "version": "1.0.0",
+  "description": "blackalke_cli utils",
+  "author": "zx <zhaoxin@blacklake.cn>",
+  "homepage": "https://github.com/zxlsr/foundation#readme",
+  "license": "ISC",
+  "main": "lib/utils.js",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zxlsr/foundation.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "bugs": {
+    "url": "https://github.com/zxlsr/foundation/issues"
+  }
+}
