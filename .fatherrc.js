@@ -1,7 +1,6 @@
 export default {
   entry: 'src/index.ts',
-  esm: 'rollup',
-  cjs: 'babel',
+  cjs: 'rollup',
   target: 'browser',
   extraBabelPlugins: [
     [
