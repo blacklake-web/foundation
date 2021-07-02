@@ -20,6 +20,7 @@
     "url": "git+https://github.com/blacklake-web/foundation.git"
   },
   "scripts": {
+    "build": "father build",
     "test": "echo \"Error: run tests from root\" && exit 1"
   },
   "bugs": {
