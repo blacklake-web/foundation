@@ -1,9 +1,7 @@
 {
-  "packages": [
-    "packages/*"
-  ],
+  "packages": ["packages/*"],
   "version": "1.0.10-alpha.0",
   "publishConfig": {
-    "directory": "dist"
+    "directory": "lib"
   }
 }

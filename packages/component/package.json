@@ -5,9 +5,8 @@
   "author": "zx <zhaoxin@blacklake.cn>",
   "homepage": "https://github.com/blacklake-web/foundation#readme",
   "license": "ISC",
-  "main": "dist/index.js",
+  "main": "lib/index.js",
   "directories": {
-    "lib": "lib",
     "dist": "dist",
     "test": "__tests__"
   },
