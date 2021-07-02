@@ -5,15 +5,12 @@
   "author": "zx <zhaoxin@blacklake.cn>",
   "homepage": "https://github.com/blacklake-web/foundation#readme",
   "license": "ISC",
-  "main": "lib/index.js",
-  "module": "es/index.js",
+  "main": "dist/index.js",
   "directories": {
     "dist": "dist",
     "test": "__tests__"
   },
   "files": [
-    "lib",
-    "es",
     "dist"
   ],
   "sideEffects": false,
@@ -37,8 +34,10 @@
   "publishConfig": {
     "access": "public"
   },
+  "dependencies": {
+    "antd": "^4.16.6"
+  },
   "devDependencies": {
-    "antd": "^4.16.6",
     "babel-plugin-import": "^1.13.3",
     "docz": "^2.3.1",
     "father": "^2.30.6"
