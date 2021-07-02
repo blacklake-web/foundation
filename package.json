@@ -3,11 +3,16 @@
   "version": "1.0.0",
   "description": "blacklake web",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "build:component": "PACKAGE=component father build",
+    "build:layout": "PACKAGE=layout father build",
+    "build:utils": "PACKAGE=utils father build"
+  },
   "keywords": [],
   "author": "blacklake",
   "license": "ISC",
   "devDependencies": {
+    "father": "^2.30.6",
     "lerna": "^4.0.0"
   }
 }

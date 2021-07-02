@@ -13,6 +13,7 @@
   "files": [
     "lib"
   ],
+  "sideEffects": false,
   "repository": {
     "type": "git",
     "url": "git+https://github.com/blacklake-web/foundation.git"
@@ -31,5 +32,11 @@
   "gitHead": "143d91ce1d948236dbaa00e37b4d627e1950fb2c",
   "publishConfig": {
     "access": "public"
+  },
+  "devDependencies": {
+    "docz": "^2.3.1"
+  },
+  "dependencies": {
+    "antd": "^4.16.6"
   }
 }

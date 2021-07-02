@@ -1,1 +1,1 @@
-blacklake cli
+blacklake web
