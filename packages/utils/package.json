@@ -26,5 +26,9 @@
   "gitHead": "143d91ce1d948236dbaa00e37b4d627e1950fb2c",
   "publishConfig": {
     "access": "public"
+  },
+  "devDependencies": {
+    "babel-plugin-import": "^1.13.3",
+    "father": "^2.30.6"
   }
 }

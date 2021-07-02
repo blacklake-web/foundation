@@ -7,12 +7,13 @@
   "license": "ISC",
   "main": "dist/index.js",
   "directories": {
+    "lib": "lib",
     "dist": "dist",
     "test": "__tests__"
   },
   "files": [
-    "dist",
-    "es"
+    "lib",
+    "dist"
   ],
   "sideEffects": false,
   "repository": {
@@ -36,9 +37,9 @@
     "access": "public"
   },
   "devDependencies": {
-    "docz": "^2.3.1"
-  },
-  "dependencies": {
-    "antd": "^4.16.6"
+    "antd": "^4.16.6",
+    "babel-plugin-import": "^1.13.3",
+    "docz": "^2.3.1",
+    "father": "^2.30.6"
   }
 }
