@@ -2,7 +2,7 @@
   "packages": [
     "packages/*"
   ],
-  "version": "1.0.13-alpha.2",
+  "version": "1.0.13-alpha.3",
   "publishConfig": {
     "directory": "lib"
   }
