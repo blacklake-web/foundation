@@ -12,4 +12,8 @@ export default {
       },
     ],
   ],
+  doc: {
+    title: 'blacklake component',
+    typescript: true,
+  },
 };

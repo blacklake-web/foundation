@@ -4,6 +4,7 @@ packages/**/node_modules
 packages/**/dist
 packages/**/es
 packages/**/lib
+packages/**/.docz
 
 lerna-debug.log
 

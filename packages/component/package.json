@@ -20,6 +20,8 @@
   },
   "scripts": {
     "build": "father build",
+    "doc:dev": "father doc dev",
+    "doc:build": "father doc build",
     "test": "echo \"Error: run tests from root\" && exit 1"
   },
   "bugs": {
