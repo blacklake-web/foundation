@@ -5,13 +5,14 @@
   "author": "zx <zhaoxin@blacklake.cn>",
   "homepage": "https://github.com/blacklake-web/foundation#readme",
   "license": "ISC",
-  "main": "lib/component.js",
+  "main": "dist/index.js",
   "directories": {
-    "lib": "lib",
+    "dist": "dist",
     "test": "__tests__"
   },
   "files": [
-    "lib"
+    "dist",
+    "es"
   ],
   "sideEffects": false,
   "repository": {
@@ -25,7 +26,7 @@
     "url": "https://github.com/blacklake-web/foundation/issues"
   },
   "peerDependencies": {
-    "antd": "^4.16.6",
+    "antd": ">=4.10.0",
     "react": ">=17.0.0",
     "react-dom": ">=17.0.0"
   },
