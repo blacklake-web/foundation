@@ -6,12 +6,14 @@
   "homepage": "https://github.com/blacklake-web/foundation#readme",
   "license": "ISC",
   "main": "lib/index.js",
+  "module": "es/index.js",
   "directories": {
     "dist": "dist",
     "test": "__tests__"
   },
   "files": [
     "lib",
+    "es",
     "dist"
   ],
   "sideEffects": false,
