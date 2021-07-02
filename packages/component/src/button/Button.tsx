@@ -2,7 +2,7 @@ import React, { ReactNode } from 'react';
 //
 import { Button as AntdButton, ButtonProps as AntdButtonProps } from 'antd';
 
-export interface ButtonProps extends AntdButtonProps {
+export interface ButtonProps {
   block?: boolean; //	将按钮宽度调整为其父宽度的选项		false
   danger?: boolean; //	设置危险按钮		false
   disabled?: boolean; //	按钮失效状态		false
@@ -18,7 +18,7 @@ export interface ButtonProps extends AntdButtonProps {
   onClick?: (event) => void; //	点击按钮时的回调
 }
 
-const Button = (props: ButtonProps) => {
+const Button = (props: ButtonProps & AntdButtonProps) => {
   return <AntdButton {...props} />;
 };
 
