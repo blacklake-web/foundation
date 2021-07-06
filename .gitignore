@@ -2,9 +2,28 @@ node_modules
 
 packages/**/node_modules
 packages/**/dist
+packages/**/docs-dist
 packages/**/es
 packages/**/lib
-packages/**/.docz
+packages/**/npm-debug.log*
+packages/**/yarn-error.log
+packages/**/yarn.lock
+packages/**/package-lock.json
 
 lerna-debug.log
+package-lock.json
 
+# misc
+.DS_Store
+
+# umi
+.umi
+.umi-production
+.umi-test
+.env.local
+
+# ide
+/.vscode
+/.idea
+
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
