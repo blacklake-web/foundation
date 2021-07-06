@@ -1,11 +1,27 @@
-# `component`
+# component
 
-blackalke component
+## Getting Started
 
-## Usage
+Install dependencies,
 
+```bash
+$ npm i
 ```
-const component = require('component');
 
-// TODO: DEMONSTRATE API
+Start the dev server,
+
+```bash
+$ npm start
+```
+
+Build documentation,
+
+```bash
+$ npm run docs:build
+```
+
+Build library via `father-build`,
+
+```bash
+$ npm run build
 ```

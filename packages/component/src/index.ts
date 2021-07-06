@@ -1,3 +1,8 @@
-import { Button, ButtonProps } from './button';
+import { Button } from './Button';
+import { Radio } from './Radio';
+import './index.css';
 
-export { Button, ButtonProps };
+export {
+    Button,
+    Radio,
+};
