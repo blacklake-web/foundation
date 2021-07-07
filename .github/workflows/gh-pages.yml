@@ -10,9 +10,11 @@ jobs:
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v2
-      - run: cd packages/component
-      - run: npm install
-      - run: npm run docs:build
+      - name: Build
+      - run: |
+         cd packages/component
+         npm install
+         npm run docs:build
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
