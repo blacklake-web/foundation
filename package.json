@@ -6,7 +6,12 @@
   "scripts": {
     "build:component": "PACKAGE=component father build",
     "build:layout": "PACKAGE=layout father build",
-    "build:utils": "PACKAGE=utils father build"
+    "build:utils": "PACKAGE=utils father build",
+    "start": "dumi dev",
+    "docs:build": "dumi build",
+    "docs:deploy": "gh-pages -d docs-dist",
+    "build": "father-build",
+    "deploy": "npm run docs:build && npm run docs:deploy"
   },
   "keywords": [],
   "author": "blacklake",
@@ -14,5 +19,8 @@
   "devDependencies": {
     "father": "^2.30.6",
     "lerna": "^4.0.0"
+  },
+  "dependencies": {
+    "dumi": "^1.1.23"
   }
 }

@@ -21,9 +21,7 @@
   "scripts": {
     "start": "dumi dev",
     "docs:build": "dumi build",
-    "docs:deploy": "gh-pages -d docs-dist",
     "build": "father-build",
-    "deploy": "npm run docs:build && npm run docs:deploy",
     "release": "npm run build && npm publish",
     "prettier": "prettier --write \"**/*.{js,jsx,tsx,ts,less,md,json}\"",
     "test": "umi-test",
@@ -58,7 +56,7 @@
   },
   "devDependencies": {
     "@umijs/test": "^3.0.5",
-    "dumi": "^1.0.16",
+    "dumi": "^1.1.23",
     "father-build": "^1.17.2",
     "gh-pages": "^3.0.0",
     "lint-staged": "^10.0.7",

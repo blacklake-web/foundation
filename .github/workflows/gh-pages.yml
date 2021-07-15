@@ -11,11 +11,10 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - run: |
-         cd packages/component
-         npm install
-         npm run docs:build
+          npm install
+          npm run docs:build
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./packages/component/docs-dist
+          publish_dir: ./docs-dist

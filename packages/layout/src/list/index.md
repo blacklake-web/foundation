@@ -1,12 +1,12 @@
 ---
-title: 单选 - radio
+title: 列表页 - list
 nav:
-  title: 组件
-  path: /component
-  order: 1
+  title: 布局
+  path: /layout
 group:
-  title: component
-  path: /component
+  title: layout
+  path: /layout
+  order: 2
 ---
 
 ```tsx
