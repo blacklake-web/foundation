@@ -1,6 +1,3 @@
-import React from 'react';
-// import { Radio as AntdRadio } from 'antd';
-
 export interface RadioProps {
   /**
    * 自动获取焦点
@@ -38,9 +35,3 @@ export interface RadioProps {
    */
   onChange?: (event) => void;
 }
-
-export const Radio: React.FC<RadioProps> = (props) => {
-  return <input />;
-};
-
-export default Radio;

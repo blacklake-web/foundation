@@ -4,23 +4,23 @@
   "description": "blacklake web",
   "main": "index.js",
   "scripts": {
+    "build": "father build",
     "build:component": "PACKAGE=component father build",
     "build:layout": "PACKAGE=layout father build",
     "build:utils": "PACKAGE=utils father build",
     "start": "dumi dev",
     "docs:build": "dumi build",
-    "docs:deploy": "gh-pages -d docs-dist",
-    "build": "father-build",
-    "deploy": "npm run docs:build && npm run docs:deploy"
+    "docs:deploy": "npm run docs:build && gh-pages -d docs-dist"
   },
   "keywords": [],
   "author": "blacklake",
   "license": "ISC",
   "devDependencies": {
+    "babel-plugin-import": "^1.13.3",
     "father": "^2.30.6",
     "lerna": "^4.0.0"
   },
   "dependencies": {
-    "dumi": "^1.1.23"
+    "dumi": "^1.1.18"
   }
 }

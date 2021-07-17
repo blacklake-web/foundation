@@ -19,8 +19,6 @@
     "url": "git+https://github.com/blacklake-web/foundation.git"
   },
   "scripts": {
-    "start": "dumi dev",
-    "docs:build": "dumi build",
     "build": "father-build",
     "release": "npm run build && npm publish",
     "prettier": "prettier --write \"**/*.{js,jsx,tsx,ts,less,md,json}\"",
@@ -56,7 +54,6 @@
   },
   "devDependencies": {
     "@umijs/test": "^3.0.5",
-    "dumi": "^1.1.23",
     "father-build": "^1.17.2",
     "gh-pages": "^3.0.0",
     "lint-staged": "^10.0.7",
