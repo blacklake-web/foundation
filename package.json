@@ -10,7 +10,8 @@
     "build:utils": "PACKAGE=utils father build",
     "start": "dumi dev",
     "docs:build": "dumi build",
-    "docs:deploy": "npm run docs:build && gh-pages -d docs-dist"
+    "docs:deploy": "npm run docs:build && gh-pages -d docs-dist",
+    "publish": "npm run build && lerna publish"
   },
   "keywords": [],
   "author": "blacklake",
