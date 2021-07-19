@@ -5,7 +5,7 @@
   "author": "zx <zhaoxin@blacklake.cn>",
   "homepage": "https://github.com/blacklake-web/foundation#readme",
   "license": "ISC",
-  "main": "dist/index.js",
+  "main": "dist/index.esm.js",
   "directories": {
     "dist": "dist",
     "test": "__tests__"
@@ -28,16 +28,9 @@
   "bugs": {
     "url": "https://github.com/blacklake-web/foundation/issues"
   },
-  "peerDependencies": {
-    "react": ">=17.0.0",
-    "react-dom": ">=17.0.0"
-  },
   "gitHead": "143d91ce1d948236dbaa00e37b4d627e1950fb2c",
   "publishConfig": {
     "access": "public"
-  },
-  "dependencies": {
-    "antd": "^4.16.6"
   },
   "module": "dist/index.esm.js",
   "typings": "dist/index.d.ts",
@@ -51,6 +44,11 @@
     "*.ts?(x)": [
       "prettier --parser=typescript --write"
     ]
+  },
+  "peerDependencies": {
+    "react": ">=17.0.0",
+    "react-dom": ">=17.0.0",
+    "antd": ">=4.10.0"
   },
   "devDependencies": {
     "@umijs/test": "^3.0.5",

@@ -5,13 +5,15 @@
   "author": "zx <zhaoxin@blacklake.cn>",
   "homepage": "https://github.com/blacklake-web/foundation#readme",
   "license": "ISC",
-  "main": "lib/utils.js",
+  "main": "dist/index.esm.js",
+  "module": "dist/index.esm.js",
+  "typings": "dist/index.d.ts",
   "directories": {
-    "lib": "lib",
+    "dist": "dist",
     "test": "__tests__"
   },
   "files": [
-    "lib"
+    "dist"
   ],
   "repository": {
     "type": "git",
@@ -27,8 +29,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "devDependencies": {
-    "babel-plugin-import": "^1.13.3",
-    "father": "^2.30.6"
+  "peerDependencies": {
+    "lodash": ">4.10.0"
   }
 }

@@ -1,5 +1,5 @@
 export default {
   esm: 'rollup',
-  target: 'browser',
   extractCSS: true,
+  pkgs: ['utils', 'component', 'layout'],
 };

@@ -1,5 +1,1 @@
-console.log('[ 213123 ]', 213123);
-
-export default {
-  a: '1111',
-};
+export * as LocalStorage from './localStroage';
