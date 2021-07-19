@@ -11,7 +11,16 @@ class BlLocalStorage {
   orgId?: number;
   userId?: number;
 
-  constructor() {}
+  private static instance: BlLocalStorage;
+
+  private constructor() {}
+
+  public static getInstance() {
+    if (BlLocalStorage.instance === undefined) {
+      BlLocalStorage.instance = new BlLocalStorage();
+    }
+    return BlLocalStorage.instance;
+  }
 
   /**
    * 设置当前登录userId,orgId,如果不需要限制，可以不传，登录时初始化

@@ -20,7 +20,7 @@ import { LocalStorage } from '@blacklake-web/utils';
 
 const { BlLocalStorage, StorageLimitType } = LocalStorage;
 
-const blLocalStorage = new BlLocalStorage(['token']);
+const blLocalStorage = BlLocalStorage.getInstance();
 
 export default () => {
   const [stroage, setStorage] = useState('');
@@ -60,7 +60,7 @@ import { LocalStorage } from '@blacklake-web/utils';
 
 const { BlLocalStorage, StorageLimitType } = LocalStorage;
 
-const blLocalStorage = new BlLocalStorage(['token']);
+const blLocalStorage = BlLocalStorage.getInstance();
 blLocalStorage.setBaseInfo('111');
 
 export default () => {
