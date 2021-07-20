@@ -16,16 +16,16 @@ group:
  */
 
 import React from 'react';
-import { Button } from '@blacklake-web/component';
+import { BlButton } from '@blacklake-web/component';
 
 export default () => (
-  <Button
+  <BlButton
     onClick={() => {
       alert('你点了按钮');
     }}
   >
     按钮test
-  </Button>
+  </BlButton>
 );
 ```
 

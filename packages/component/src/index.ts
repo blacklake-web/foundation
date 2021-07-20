@@ -1,7 +1,10 @@
-import { Button } from './Button';
+import { BlButton } from './Button';
+import { BlAttachment } from './Attachment';
+import { BlIcon } from './Icon';
 
-import type { ButtonProps } from './Button/index.type';
+import type { BlButtonProps } from './Button/index.type';
+import type { AttachmentProps } from './Attachment/index.type';
 
-export { Button };
+export { BlButton, BlAttachment, BlIcon };
 
-export type { ButtonProps };
+export type { BlButtonProps, AttachmentProps };

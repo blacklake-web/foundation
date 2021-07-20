@@ -16,12 +16,10 @@ export default defineConfig({
       path: 'https://github.com/blacklake-web/foundation#readme',
     },
   ],
-  mfsu: {},
-  themeConfig: {
-    '@primary-color': '#02b980',
-    '@c-primary': '#02b980',
-    '@c-heading': '#02b980',
-    '@c-text': '#02b980',
+  theme: {
+    'primary-color': '#02B980',
+    'error-color': '#f5222d',
+    'border-color-base': '#d9d9d9',
   },
   extraBabelPlugins: [
     [

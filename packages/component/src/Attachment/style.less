@@ -1,0 +1,27 @@
+.attach-upload {
+  .ant-upload-list-item-name {
+    color: rgba(0, 0, 0, 0.65);
+  }
+  .anticon.anticon-download:hover {
+    color: @primary-color;
+  }
+  .anticon.anticon-delete:hover {
+    color: @error-color;
+  }
+  .ant-upload-list-item-info:hover {
+    background-color: @border-color-base;
+    .ant-upload-text-icon .anticon,
+    .ant-upload-list-item-name {
+      color: @primary-color;
+    }
+  }
+  .ant-upload-list-item-error,
+  .ant-upload-list-item-error .ant-upload-text-icon > .anticon,
+  .ant-upload-list-item-error .ant-upload-list-item-name {
+    color: @error-color !important;
+  }
+  .ant-progress-success-bg,
+  .ant-progress-bg {
+    background-color: @primary-color;
+  }
+}

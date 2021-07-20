@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 
-export interface ButtonProps {
+export interface BlButtonProps {
   /**
    * 将按钮宽度调整为其父宽度的选项
    * @default false
