@@ -1,0 +1,125 @@
+.rs-picker-menu {
+  // z-index: 1000 !important;
+}
+@primary: #02b980;
+@black: rgba(0, 0, 0, 0.85);
+// :global {
+//   body {
+.ant-select-dropdown {
+  max-height: 300px;
+}
+.ant-select-selection-selected-value {
+  width: 100%;
+}
+div .rs-picker-disabled {
+  background: #f5f5f5;
+  border-color: rgb(211, 216, 227);
+  color: #f5f5f5;
+  opacity: 1;
+  line-height: 18px;
+  .rs-picker-has-value .rs-picker-toggle .rs-picker-toggle-value {
+    color: rgba(0, 0, 0, 0.25);
+  }
+}
+.rs-picker-toggle-wrapper {
+  background: #fff;
+  line-height: 18px;
+}
+.rs-picker-default .rs-picker-toggle {
+  padding: 5px 11px;
+  transition: 0.3s;
+  height: 100%;
+  background-color: transparent;
+  border-radius: 0;
+  z-index: 0;
+}
+.rs-picker-toggle-caret {
+  top: 4px;
+}
+.rs-picker-toggle-clean {
+  top: 4px;
+}
+.rs-picker-toggle-caret {
+  color: #b8bfcf;
+}
+.rs-picker-toggle-caret::before {
+  content: '\E61D';
+  font-family: 'anticon';
+}
+.rs-picker-toggle .rs-picker-toggle-placeholder {
+  color: #b8bfcf;
+}
+.rs-picker-menu {
+  z-index: 1000;
+}
+.rs-picker-menu .rs-picker-search-bar::after {
+  top: 15px;
+}
+.rs-picker-default:not(.rs-picker-disabled) .rs-picker-toggle:hover,
+.rs-picker-default:not(.rs-picker-disabled) .rs-picker-toggle.active {
+  border-color: @primary;
+  transition: 0.3s;
+}
+.rs-picker-check-menu-item:not(.rs-picker-check-menu-item-disabled):hover,
+.rs-picker-check-menu-item.rs-picker-check-menu-item-focus {
+  background-color: #e1faee;
+  color: @primary;
+}
+.rs-picker-cascader-menu-item.rs-picker-cascader-menu-item-focus {
+  background-color: #e1faee;
+  color: @primary;
+}
+.rs-picker-cascader-menu-item.rs-picker-cascader-menu-item-active {
+  background-color: #e1faee;
+  color: @primary;
+}
+.rs-picker-cascader-menu-item:not(.rs-picker-cascader-menu-item-disabled):hover,
+.rs-picker-cascader-menu-item:not(.rs-picker-cascader-menu-item-disabled):focus {
+  background-color: #e1faee;
+  color: @primary;
+}
+.rs-picker-cascader-menu-item.rs-picker-cascader-menu-item-focus:hover:focus {
+  background-color: #e1faee;
+  color: @primary;
+}
+.rs-picker-has-value .rs-picker-toggle .rs-picker-toggle-value {
+  height: 20px;
+  color: @black;
+}
+.rs-picker-disabled .rs-picker-toggle .rs-picker-toggle-value {
+  color: #afafaf;
+}
+.rs-picker-check-menu-item-wrapper,
+.rs-picker-cascader-menu-caret {
+  top: 30%;
+}
+.rs-picker-check-menu-item-active
+  .rs-picker-check-menu-item-wrapper
+  .rs-picker-check-menu-item-inner::before,
+.rs-picker-check-menu-item-indeterminate .rs-picker-check-menu-item-inner::before {
+  border-color: @primary;
+  background-color: @primary;
+}
+
+.rs-picker-check-menu-item-indeterminate
+  .rs-picker-check-menu-item-wrapper
+  .rs-picker-check-menu-item-inner::before {
+  border-color: @primary;
+  background-color: @primary;
+}
+.rs-picker-menu .rs-picker-search-bar .rs-picker-search-bar-input:hover {
+  border-color: @primary;
+}
+.rs-picker-menu .rs-picker-search-bar .rs-picker-search-bar-input:focus {
+  border-color: @primary;
+}
+
+// .rs-picker-value-item,
+// .rs-picker-value-separator {
+//   color: @black;
+// }
+.rs-picker-value-count {
+  background-color: @primary;
+}
+//   }
+// }
