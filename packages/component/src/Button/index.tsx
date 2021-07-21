@@ -1,9 +1,9 @@
 import React from 'react';
 import { Button as AntdButton } from 'antd';
 //
-import { BlButtonProps } from './index.type';
+import { ButtonProps } from './index.type';
 import './index.less';
 
-export const BlButton: React.FC<BlButtonProps> = (props) => {
+export const Button: React.FC<ButtonProps> = (props) => {
   return <AntdButton className={'bl-button'} {...props} />;
 };

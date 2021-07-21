@@ -7,7 +7,7 @@ import { getBase64 } from './utils';
 import { AttachmentProps } from './index.type';
 import './style.less';
 
-const BlAttachment: React.FC<AttachmentProps & UploadProps> = (props) => {
+const Attachment: React.FC<AttachmentProps & UploadProps> = (props) => {
   const {
     defaultFiles,
     draggable = false,
@@ -198,4 +198,4 @@ const BlAttachment: React.FC<AttachmentProps & UploadProps> = (props) => {
   );
 };
 
-export { BlAttachment };
+export { Attachment };

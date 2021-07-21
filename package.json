@@ -8,6 +8,7 @@
     "build:component": "PACKAGE=component father build",
     "build:layout": "PACKAGE=layout father build",
     "build:utils": "PACKAGE=utils father build",
+    "build:hooks": "PACKAGE=hooks father build",
     "start": "dumi dev",
     "docs:build": "dumi build",
     "docs:deploy": "npm run docs:build && gh-pages -d docs-dist",

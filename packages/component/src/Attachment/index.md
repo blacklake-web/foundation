@@ -16,10 +16,10 @@ group:
  */
 
 import React from 'react';
-import { BlAttachment } from '@blacklake-web/component';
+import { Attachment } from '@blacklake-web/component';
 
 export default () => (
-  <BlAttachment totalMaxSize={200} limit="attach" autoDelErrorFile draggable multiple canPreview>
+  <Attachment totalMaxSize={200} limit="attach" autoDelErrorFile draggable multiple canPreview>
     <div
       style={{
         cursor: 'pointer',
@@ -34,7 +34,7 @@ export default () => (
         格式的文件；仅JPG/PNG/JPEG格式的文件支持预览；总文件大小限制不能超过200M.
       </p>
     </div>
-  </BlAttachment>
+  </Attachment>
 );
 ```
 

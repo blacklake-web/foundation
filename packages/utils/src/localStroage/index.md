@@ -3,10 +3,10 @@ title: LocalStroage
 nav:
   title: 工具
   path: /utils
+  order: 3
 group:
   title: utils
   path: /utils
-  order: 3
 ---
 
 ```tsx

@@ -3,10 +3,10 @@ title: 列表页 - list
 nav:
   title: 布局
   path: /layout
+  order: 2
 group:
   title: layout
   path: /layout
-  order: 2
 ---
 
 ```tsx
