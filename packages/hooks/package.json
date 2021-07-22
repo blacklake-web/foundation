@@ -1,6 +1,6 @@
 {
   "name": "@blacklake-web/hooks",
-  "version": "1.0.13-alpha.8",
+  "version": "1.0.13-alpha.9",
   "description": "blacklack-web react hook",
   "keywords": [
     "hooks",
@@ -30,9 +30,9 @@
     "url": "https://github.com/blacklake-web/foundation/issues"
   },
   "peerDependencies": {
+    "lodash": ">=4.10.0",
     "react": ">=17.0.0",
-    "react-dom": ">=17.0.0",
-    "lodash": ">=4.10.0"
+    "react-dom": ">=17.0.0"
   },
   "dependencies": {
     "lodash": "^4.17.21"

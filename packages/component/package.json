@@ -1,6 +1,6 @@
 {
   "name": "@blacklake-web/component",
-  "version": "1.0.13-alpha.8",
+  "version": "1.0.13-alpha.9",
   "description": "blackalke component",
   "author": "zx <zhaoxin@blacklake.cn>",
   "homepage": "https://github.com/blacklake-web/foundation#readme",
@@ -8,7 +8,7 @@
   "main": "dist/index.esm.js",
   "directories": {
     "dist": "dist",
-    "public":"public",
+    "public": "public",
     "test": "__tests__"
   },
   "files": [
@@ -64,7 +64,7 @@
     "yorkie": "^2.0.0"
   },
   "dependencies": {
-    "@blacklake-web/utils": "^1.0.13-alpha.8",
+    "@blacklake-web/utils": "^1.0.13-alpha.9",
     "array-move": "^3.0.1",
     "qrcode.react": "^1.0.1",
     "react-resizable": "^3.0.4",
