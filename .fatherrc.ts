@@ -14,7 +14,7 @@ export default {
   ],
   lessInRollupMode: {
     modifyVars: {
-      '@primary-color': '#02B980', // 全局主色
+      '@primary-color': 'red', // 全局主色
       '@link-color': '#02B980', // 链接色
       '@success-color': '#52c41a', // 成功色
       '@warning-color': '#faad14', // 警告色

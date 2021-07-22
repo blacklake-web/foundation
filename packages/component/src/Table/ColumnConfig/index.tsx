@@ -11,7 +11,7 @@ import {
 } from '@ant-design/icons';
 import { Space, Button, message } from 'antd';
 //
-import BlIcon from '../../icon';
+import { BlIcon } from '../../icon';
 import { BlColumnsType, ConfigColumn } from '../BlTable.type';
 import './styles.less';
 

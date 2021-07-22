@@ -3,14 +3,14 @@ import { Tooltip as AntTooltip } from 'antd';
 import { AbstractTooltipProps } from 'antd/lib/tooltip';
 
 export interface TextTooltipProps {
-  /**完整的text */
+  /**[BL]完整的text */
   text?: string;
   /**
-   * 显示文字的最大宽度
+   *[BL]显示文字的最大宽度
    * @default '100%'
    */
   width?: number | string;
-  /**text最大显示长度,超出长度时显示省略 */
+  /**[BL]text最大显示长度,超出长度时显示省略 */
   length?: number;
 }
 

@@ -2,7 +2,7 @@ import { Button } from './Button';
 import { Attachment } from './Attachment';
 import { QRcode } from './Qrcode';
 import { TextToolTip } from './Tooltip';
-import BlIcon from './Icon';
+import { BlIcon } from './Icon';
 import { BlTable } from './Table';
 
 import type { ButtonProps } from './Button/index.type';

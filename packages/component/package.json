@@ -8,12 +8,10 @@
   "main": "dist/index.esm.js",
   "directories": {
     "dist": "dist",
-    "public": "public",
     "test": "__tests__"
   },
   "files": [
-    "dist",
-    "public"
+    "dist"
   ],
   "sideEffects": false,
   "repository": {

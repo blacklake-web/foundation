@@ -7,8 +7,6 @@ import { ColumnGroupType } from 'antd/lib/table';
 import { BlLocalStorage } from '@blacklake-web/utils';
 import TextTooltip from '../Tooltip/textToolTip';
 //
-// import color from 'src/styles/color';
-//
 import ResizableTitle from './ResizableTitle';
 import TableColumnConfig from './ColumnConfig';
 import {

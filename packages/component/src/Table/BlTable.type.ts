@@ -2,19 +2,19 @@ import { TableProps, ColumnsType, ColumnGroupType, ColumnType } from 'antd/lib/t
 
 export interface BlTableProps<RecordType> extends TableProps<RecordType> {
   /**
-   * 列宽可拖拽伸缩,可伸缩时，column.width 必填且为数字
+   * [BL]列宽可拖拽伸缩,可伸缩时，column.width 必填且为数字
    */
   resizableCol?: boolean;
   /**
-   * 列表配置表示，全厂唯一，传入时记录到缓存（列配置，上次分页数）
+   * [BL]列表配置表示，全厂唯一，传入时记录到缓存（列配置，上次分页数）
    */
   tableConfigKey?: string;
   /**
-   * 是否启用列配置。1.启用时，但不传tableConfigKey，不会存到缓存
+   * [BL]是否启用列配置。1.启用时，但不传tableConfigKey，不会存到缓存
    */
   useColConfig?: boolean;
   /**
-   * 列
+   * [BL]列
    */
   columns: BlColumnsType<RecordType>;
 }
