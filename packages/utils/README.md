@@ -1,6 +1,6 @@
-# `utils`
+# `@blacklake-web/utils`
 
-> TODO: description
+>
 
 ## Usage
 

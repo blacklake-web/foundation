@@ -1,4 +1,4 @@
-# component
+# @blacklake-web/component
 
 ## Getting Started
 

@@ -1,4 +1,4 @@
-# `hooks`
+# `@blacklake-web/hooks`
 
 > TODO: description
 
