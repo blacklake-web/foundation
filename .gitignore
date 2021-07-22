@@ -1,6 +1,5 @@
 node_modules
 lerna-debug.log
-package-lock.json
 docs-dist
 
 packages/**/node_modules
