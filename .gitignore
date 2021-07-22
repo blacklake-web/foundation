@@ -11,7 +11,6 @@ packages/**/lib
 packages/**/npm-debug.log*
 packages/**/yarn-error.log
 packages/**/yarn.lock
-packages/**/package-lock.json
 
 
 # misc
