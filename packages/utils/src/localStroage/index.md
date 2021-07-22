@@ -16,9 +16,7 @@ group:
  */
 
 import React, { useState, useRef } from 'react';
-import { LocalStorage } from '@blacklake-web/utils';
-
-const { BlLocalStorage, StorageLimitType } = LocalStorage;
+import { BlLocalStorage, StorageLimitType } from '@blacklake-web/utils';
 
 const blLocalStorage = BlLocalStorage.getInstance();
 
@@ -56,9 +54,7 @@ export default () => {
  */
 
 import React, { useState, useRef } from 'react';
-import { LocalStorage } from '@blacklake-web/utils';
-
-const { BlLocalStorage, StorageLimitType } = LocalStorage;
+import { BlLocalStorage, StorageLimitType } from '@blacklake-web/utils';
 
 const blLocalStorage = BlLocalStorage.getInstance();
 blLocalStorage.setBaseInfo('111');

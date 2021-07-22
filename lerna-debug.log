@@ -1,21 +1,17 @@
 0 silly argv {
-0 silly argv   _: [ 'create' ],
+0 silly argv   _: [ 'add' ],
+0 silly argv   scope: '@blacklake-web/component',
+0 silly argv   globs: [],
 0 silly argv   lernaVersion: '4.0.0',
 0 silly argv   '$0': 'lerna',
-0 silly argv   name: 'layout'
+0 silly argv   pkg: 'react-resizable'
 0 silly argv }
 1 notice cli v4.0.0
 2 verbose rootPath /Users/apple/project/foundation
-3 error Error: canceled
-3 error     at Interface.<anonymous> (/Users/apple/project/foundation/node_modules/read/lib/read.js:66:13)
-3 error     at Interface.emit (events.js:376:20)
-3 error     at Interface._ttyWrite (readline.js:880:16)
-3 error     at ReadStream.onkeypress (readline.js:213:10)
-3 error     at ReadStream.emit (events.js:376:20)
-3 error     at emitKeys (internal/readline/utils.js:345:14)
-3 error     at emitKeys.next (<anonymous>)
-3 error     at ReadStream.onData (readline.js:1149:36)
-3 error     at ReadStream.emit (events.js:376:20)
-3 error     at addChunk (internal/streams/readable.js:309:12)
-3 error     at readableAddChunk (internal/streams/readable.js:284:9)
-3 error     at ReadStream.Readable.push (internal/streams/readable.js:223:10)
+3 error FetchError: request to https://registry.npmjs.org/react-resizable failed, reason: read ECONNRESET
+3 error     at ClientRequest.<anonymous> (/Users/apple/project/foundation/node_modules/minipass-fetch/lib/index.js:97:14)
+3 error     at ClientRequest.emit (events.js:376:20)
+3 error     at TLSSocket.socketErrorListener (_http_client.js:475:9)
+3 error     at TLSSocket.emit (events.js:388:22)
+3 error     at emitErrorNT (internal/streams/destroy.js:106:8)
+3 error     at emitErrorCloseNT (internal/streams/destroy.js:74:3)
