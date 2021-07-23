@@ -23,16 +23,21 @@
   "bugs": {
     "url": "https://github.com/blacklake-web/foundation/issues"
   },
-  "peerDependencies": {
-    "react": ">=17.0.0",
-    "react-dom": ">=17.0.0"
-  },
   "gitHead": "143d91ce1d948236dbaa00e37b4d627e1950fb2c",
   "publishConfig": {
     "access": "public"
   },
+  "peerDependencies": {
+    "antd": ">=4.10.0",
+    "react": ">=17.0.0",
+    "react-dom": ">=17.0.0"
+  },
   "devDependencies": {
+    "antd": "^4.16.8",
     "babel-plugin-import": "^1.13.3",
     "father": "^2.30.6"
+  },
+  "dependencies": {
+    "@blacklake-web/component": "^1.0.13-alpha.11"
   }
 }

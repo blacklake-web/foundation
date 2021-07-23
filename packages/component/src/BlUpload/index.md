@@ -1,12 +1,12 @@
 ---
-title: 上传文件 - attachment
+title: 上传文件 - BlUpload
 nav:
   title: 组件
   path: /component
   order: 1
 group:
-  title: component
-  path: /component
+  title: BlPro
+  path: /BlPro
 ---
 
 ```tsx
@@ -16,10 +16,10 @@ group:
  */
 
 import React from 'react';
-import { Attachment } from '@blacklake-web/component';
+import { BlUpload } from '@blacklake-web/component';
 
 export default () => (
-  <Attachment totalMaxSize={200} limit="attach" autoDelErrorFile draggable multiple canPreview>
+  <BlUpload totalMaxSize={200} limit="attach" autoDelErrorFile draggable multiple canPreview>
     <div
       style={{
         cursor: 'pointer',
@@ -34,7 +34,7 @@ export default () => (
         格式的文件；仅JPG/PNG/JPEG格式的文件支持预览；总文件大小限制不能超过200M.
       </p>
     </div>
-  </Attachment>
+  </BlUpload>
 );
 ```
 

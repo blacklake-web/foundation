@@ -1,7 +1,7 @@
 import { UploadFile, UploadProps } from 'antd/lib/upload/interface';
 import { ReactNode } from 'react';
 
-export interface AttachmentProps<T = any> {
+export interface BlUploadProps<T = any> {
   /**
    * [BL]默认文件
    */

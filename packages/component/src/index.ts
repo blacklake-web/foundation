@@ -1,14 +1,14 @@
 import { Button } from './Button';
-import { Attachment } from './Attachment';
+import { BlUpload } from './BlUpload';
 import { QRcode } from './Qrcode';
 import { TextToolTip } from './Tooltip';
-import { BlIcon } from './Icon';
-import { BlTable } from './Table';
+import { BlIcon } from './BlIcon';
+import { BlTable } from './BlTable';
 
 import type { ButtonProps } from './Button/index.type';
-import type { AttachmentProps } from './Attachment/index.type';
-import type { BlTableProps, BlColumnsType } from './Table';
+import type { BlUploadProps } from './BlUpload/index.type';
+import type { BlTableProps, BlColumnsType } from './BlTable';
 
-export { Button, Attachment, QRcode, TextToolTip, BlIcon, BlTable };
+export { Button, BlUpload, QRcode, TextToolTip, BlIcon, BlTable };
 
-export type { ButtonProps, AttachmentProps, BlTableProps, BlColumnsType };
+export type { ButtonProps, BlUploadProps, BlTableProps, BlColumnsType };

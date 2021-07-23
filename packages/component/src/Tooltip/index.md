@@ -5,8 +5,8 @@ nav:
   path: /component
   order: 1
 group:
-  title: component
-  path: /component
+  title: Bl
+  path: /Bl
 ---
 
 ```tsx

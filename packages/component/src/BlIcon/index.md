@@ -1,12 +1,12 @@
 ---
-title: 黑湖图标 - BlIcon
+title: 图标 - BlIcon
 nav:
   title: 组件
   path: /component
   order: 1
 group:
-  title: component
-  path: /component
+  title: BlPro
+  path: /BlPro
 ---
 
 ```tsx
@@ -42,4 +42,8 @@ export default () => {
 };
 ```
 
-<API />
+## API
+
+| 参数 | 说明      | 类型     | 默认值 |
+| ---- | --------- | -------- | ------ |
+| type | 图标 type | `string` | -      |

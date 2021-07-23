@@ -17,6 +17,7 @@
   "resolutions": {
     "@types/react": "^16.14.2"
   },
+  "sideEffects": [],
   "keywords": [],
   "author": "blacklake",
   "license": "ISC",

@@ -1,12 +1,12 @@
 ---
-title: 表格 - table
+title: 表格 - BlTable
 nav:
   title: 组件
   path: /component
   order: 1
 group:
-  title: component
-  path: /component
+  title: BlPro
+  path: /BlPro
 ---
 
 ```tsx

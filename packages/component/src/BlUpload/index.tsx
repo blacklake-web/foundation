@@ -4,10 +4,10 @@ import { UploadFile } from 'antd/lib/upload/interface';
 import _ from 'lodash';
 //
 import { getBase64 } from './utils';
-import { AttachmentProps } from './index.type';
+import { BlUploadProps } from './index.type';
 import './style.less';
 
-const Attachment: React.FC<AttachmentProps & UploadProps> = (props) => {
+const BlUpload: React.FC<BlUploadProps & UploadProps> = (props) => {
   const {
     defaultFiles,
     draggable = false,
@@ -198,4 +198,4 @@ const Attachment: React.FC<AttachmentProps & UploadProps> = (props) => {
   );
 };
 
-export { Attachment };
+export { BlUpload };
