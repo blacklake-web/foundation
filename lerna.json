@@ -1,14 +1,7 @@
 {
-  "packages": [
-    "packages/*"
-  ],
+  "packages": ["packages/*"],
   "version": "1.0.13-alpha.11",
   "publishConfig": {
     "directory": "dist"
-  },
-  "command": {
-    "bootstrap": {
-      "ignore": "component-*"
-    }
   }
 }
