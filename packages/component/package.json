@@ -1,6 +1,6 @@
 {
   "name": "@blacklake-web/component",
-  "version": "1.0.13-alpha.11",
+  "version": "1.0.13-alpha.12",
   "description": "blackalke component",
   "author": "zx <zhaoxin@blacklake.cn>",
   "homepage": "https://github.com/blacklake-web/foundation#readme",
@@ -62,7 +62,7 @@
     "yorkie": "^2.0.0"
   },
   "dependencies": {
-    "@blacklake-web/utils": "^1.0.13-alpha.11",
+    "@blacklake-web/utils": "^1.0.13-alpha.12",
     "array-move": "^3.0.1",
     "qrcode.react": "^1.0.1",
     "react-resizable": "^3.0.4",
