@@ -31,5 +31,9 @@
   },
   "peerDependencies": {
     "lodash": ">4.10.0"
+  },
+  "dependencies": {
+    "query-string": "^7.0.1",
+    "url-parse": "^1.5.3"
   }
 }

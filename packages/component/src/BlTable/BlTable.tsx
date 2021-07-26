@@ -301,7 +301,7 @@ const BlTable = <RecordType extends object = any>(props: BlTableProps<RecordType
 
   return (
     <div className="blTable">
-      {useColConfig && (
+      {useColConfig && colConfigValue.length >= 5 && (
         <Popover
           trigger="click"
           title="列配置"

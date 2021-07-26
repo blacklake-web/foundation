@@ -1,7 +1,7 @@
 import React from 'react';
 
-import DetailLayoutContent from './components/DetailLayoutContent';
-import DetailLayoutTitle from './components/DetailLayoutTitle';
+import { DetailLayoutContent } from './components/DetailLayoutContent';
+import { DetailLayoutTitle } from './components/DetailLayoutTitle';
 //
 import { DetailLayoutProps } from './DetailLayout.type';
 

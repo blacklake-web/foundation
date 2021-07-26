@@ -115,4 +115,4 @@ const DetailLayoutTitle = (props: DetailLayoutTitleProps) => {
   );
 };
 
-export default DetailLayoutTitle;
+export { DetailLayoutTitle };

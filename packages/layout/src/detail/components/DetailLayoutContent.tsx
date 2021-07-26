@@ -94,4 +94,4 @@ const DetailLayoutContent = (props: DetailLayoutContentProps) => {
   );
 };
 
-export default DetailLayoutContent;
+export { DetailLayoutContent };
