@@ -45,4 +45,5 @@ export interface DetailLayoutForModalProps {
   visible?: boolean;
   onClose?: (e?: any) => void;
   content: ReactElement;
+  width?: number;
 }

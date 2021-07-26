@@ -127,7 +127,8 @@ const BlTable = <RecordType extends object = any>(props: BlTableProps<RecordType
     if (tableConfigKey) {
       const resLocalStorageTableConfig: LocalStorageTableConfig[] =
         blLocalStorage.get(BL_TABLE_CONFIG) ?? [];
-      return resLocalStorageTableConfig.find((item) => item.tableConfigKey === tableConfigKey);
+      return resLocalStorageTableConfig.find((item) => item.tableConfigKey === tableConfigKey)
+        ?.colConfig;
     }
 
     return undefined;
@@ -249,32 +250,53 @@ const BlTable = <RecordType extends object = any>(props: BlTableProps<RecordType
     const _columns = [...(columns || [])];
 
     if (useColConfig) {
-      const originColumnConfig = _columns.map(({ dataIndex, defaultColConfig = {}, fixed }) => {
-        return {
-          dataIndex,
-          colConfig: getColConfig(defaultColConfig, fixed),
-        };
-      });
+      const originColumnConfig: ConfigColumn[] = _columns.map(
+        ({ dataIndex, defaultColConfig = {}, fixed }) => {
+          return {
+            dataIndex,
+            colConfig: getColConfig(defaultColConfig, fixed),
+          };
+        },
+      );
+      const cacheColConfig = getColConfigByLocalStorage() ?? [];
 
       originColumnConfigRef.current = cloneDeep(originColumnConfig);
 
-      const cacheColConfig = getColConfigByLocalStorage()?.colConfig;
+      if (!isEmpty(cacheColConfig)) {
+        /**
+         * 从缓存中取出的 cacheColConfig 的值与 originColumnConfig dataIndex 存在不一致时，
+         * 按照 originColumnConfig 顺序读取 cacheColConfig 存在的配置(display,fixed)
+         */
 
-      /**
-       * 从缓存中取出的cacheColConfig的值可能与配置有个不一致的情况
-       * 只从 cacheColConfig 中取出现存在 originColumnConfig 的值
-       */
+        const isEveryMetched = originColumnConfig.every(({ dataIndex }) => {
+          return (
+            cacheColConfig.findIndex(({ dataIndex: cacheDataIndex }) =>
+              isEqual(cacheDataIndex, dataIndex),
+            ) !== -1
+          );
+        });
 
-      const newColConfig = _.map(
-        originColumnConfig,
-        (config) => _.find(cacheColConfig, { dataIndex: config.dataIndex }) ?? config,
-      );
+        let resColConfig: ConfigColumn[] = [];
 
-      setColConfigValue(newColConfig);
-      setBlTableColumns(_columns);
-    } else {
-      setBlTableColumns(_columns);
+        if (isEveryMetched) {
+          // 全部匹配使用缓存
+          resColConfig = cacheColConfig;
+        } else {
+          // 存在不匹配时，使用 origin 顺序，如果缓存存在当前 dataIndex 配置，读取后显示，重新设置缓存
+          resColConfig = _.map(
+            originColumnConfig,
+            (config) => _.find(cacheColConfig, { dataIndex: config.dataIndex }) ?? config,
+          );
+          setColConfigByLocalStorage(resColConfig);
+        }
+
+        setColConfigValue(resColConfig);
+      } else {
+        setColConfigValue(originColumnConfig);
+      }
     }
+
+    setBlTableColumns(_columns);
   }, [columns, getColConfigByLocalStorage, useColConfig]);
 
   return (

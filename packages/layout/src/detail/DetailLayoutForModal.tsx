@@ -11,13 +11,13 @@ const bodyStyle = {
 };
 
 const DetailLayoutForModal = (props: DetailLayoutForModalProps) => {
-  const { visible, onClose, content } = props;
+  const { visible, onClose, content, width } = props;
 
   return (
     <Modal
       visible={visible}
       onCancel={onClose}
-      width={'90%'}
+      width={width ?? '90%'}
       bodyStyle={bodyStyle}
       centered
       destroyOnClose

@@ -37,7 +37,7 @@ export type BlColumnsType<RecordType = unknown> = (
 
 // 列配置
 export interface ConfigColumn {
-  dataIndex?: string | string[];
+  dataIndex?: string | number | readonly (string | number)[];
   colConfig: {
     fixed?: boolean; // 固定状态
     display?: boolean; // 展示状态
