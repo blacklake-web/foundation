@@ -24,7 +24,8 @@
   "devDependencies": {
     "babel-plugin-import": "^1.13.3",
     "father": "^2.30.6",
-    "lerna": "^4.0.0"
+    "lerna": "^4.0.0",
+    "rollup-plugin-commonjs": "^10.1.0"
   },
   "dependencies": {
     "dumi": "^1.1.18"

@@ -1,3 +1,5 @@
+import commonjs from 'rollup-plugin-commonjs';
+
 export default {
   esm: 'rollup',
   extractCSS: true,
@@ -11,6 +13,31 @@ export default {
         style: true,
       },
     ],
+  ],
+  extraRollupPlugins: [
+    commonjs({
+      // non-CommonJS modules will be ignored, but you can also
+      // specifically include/exclude files
+      include: 'node_modules/**', // Default: undefined
+
+      // search for files other than .js files (must already
+      // be transpiled by a previous plugin!)
+      extensions: ['.js'], // Default: [ '.js' ]
+
+      // if false then skip sourceMap generation for CommonJS modules
+      sourceMap: false, // Default: true
+
+      // explicitly specify unresolvable named exports
+      // (see below for more details)
+      namedExports: {
+        'node_modules/react-is/index.js': ['isValidElementType'],
+      },
+      // sometimes you have to leave require statements
+      // unconverted. Pass an array containing the IDs
+      // or a `id => boolean` function. Only use this
+      // option if you know what you're doing!
+      ignore: ['conditional-runtime-dependency'],
+    }),
   ],
   lessInRollupMode: {
     modifyVars: {
