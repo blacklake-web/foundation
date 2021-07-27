@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 
 import { Button, DatePicker, Form, Input, InputNumber, Select, Space, Drawer } from 'antd';
-import { FilterFieldType } from '../constants';
+import { FilterFieldType } from '../../constants';
 //
 import { RedoOutlined } from '@ant-design/icons';
 //
@@ -19,11 +19,6 @@ export interface FilterProps extends BlRecordListBaseProps {
    * 从url中获取到的数据会存在数据类型错误导致查询数据无法复写入form中需要转换（如form需要number类型的key,但是从url上取下来的数据key会是string）
    */
   formatDataToFormDisplay?: (filter: any) => any;
-  /**
-   * filter 抽屉挂载的 HTML 节点, false 为挂载在当前 dom，默认挂载在window上
-   * @default body
-   */
-  filterContaniner;
 }
 /**
  * FilterList table 组件的筛选框，table点击删选按钮显示

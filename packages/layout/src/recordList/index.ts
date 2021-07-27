@@ -1,8 +1,8 @@
 import RecordListLayout from './RecordListLayout';
-import { BL_SELECTED_ALL, FilterFieldType } from './constants';
+import { BL_SELECTED_ALL } from './constants';
 
 import { FormatDataToQueryData, FilterItem } from './recordListLayout.type';
 
-export { RecordListLayout, BL_SELECTED_ALL, FilterFieldType };
+export { RecordListLayout, BL_SELECTED_ALL };
 
 export type { FormatDataToQueryData, FilterItem };

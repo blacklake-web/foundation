@@ -1,6 +1,9 @@
+import { FilterFieldType } from './constants';
+
 import { DataFormLayout, DataFormLayoutForDrawer, DataFormLayoutForModal } from './dataForm';
 import { DetailLayout, DetailLayoutForDrawer, DetailLayoutForModal } from './detail';
-import { RecordListLayout, BL_SELECTED_ALL, FilterFieldType } from './recordList';
+import { RecordListLayout, BL_SELECTED_ALL } from './recordList';
+import { LogListLayout, LogDetailLayout, OperateRecordLayout } from './logList';
 
 import type {
   DataFormLayoutForModalProps,
@@ -26,6 +29,9 @@ export {
   DetailLayoutForDrawer,
   DetailLayoutForModal,
   RecordListLayout,
+  LogListLayout,
+  LogDetailLayout,
+  OperateRecordLayout,
   BL_SELECTED_ALL,
   FilterFieldType,
 };
@@ -34,6 +40,7 @@ export type {
   DataFormLayoutForModalProps,
   DataFormLayoutForDrawerProps,
   DataFormLayoutInfoBlock,
+  DataFormLayoutInfoItem,
   DetailLayoutProps,
   DetailLayoutForDrawerProps,
   DetailLayoutForModalProps,

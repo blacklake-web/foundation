@@ -1,5 +1,5 @@
 ---
-title: 列表查询 - RecordListLayout
+title: 查询列表布局 - RecordListLayout
 nav:
   title: 布局
   path: /layout

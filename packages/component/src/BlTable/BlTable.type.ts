@@ -19,21 +19,16 @@ export interface BlTableProps<RecordType> extends TableProps<RecordType> {
   columns: BlColumnsType<RecordType>;
 }
 
-interface BlColumnGroupType<RecordType> extends BlColumnType<RecordType> {
-  children: BlColumnType<RecordType>;
-}
 export interface BlColumnType<RecordType> extends ColumnType<RecordType> {
+  fixed?: any;
   renderStr?: (text: any, record: any, index) => string; // 返回string的render,用作导出或xxx(其他场景)
   defaultColConfig?: {
-    fixed?: boolean; // 默认固定列
+    fixed?: boolean; // 默认固定左侧列
     display?: boolean; // 默认列显示
   };
 }
 
-export type BlColumnsType<RecordType = unknown> = (
-  | BlColumnType<RecordType>
-  | BlColumnGroupType<RecordType>
-)[];
+export type BlColumnsType<RecordType = unknown> = BlColumnType<RecordType>[];
 
 // 列配置
 export interface ConfigColumn {
