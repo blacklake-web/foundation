@@ -5,7 +5,9 @@
   "author": "zx <zhaoxin@blacklake.cn>",
   "homepage": "https://github.com/blacklake-web/foundation#readme",
   "license": "ISC",
-  "main": "dist/layout.js",
+  "main": "dist/index.esm.js",
+  "module": "dist/index.esm.js",
+  "typings": "dist/index.d.ts",
   "directories": {
     "dist": "dist",
     "test": "__tests__"
