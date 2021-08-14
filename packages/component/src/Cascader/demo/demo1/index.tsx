@@ -1,3 +1,9 @@
+
+/**
+ * title: 关键属性
+ * desc: inputDisplayIsOnlyLeaf 、 getAllPathFn
+ *
+ */
 import React from 'react';
 import { Divider } from 'antd';
 import { BlCascader, cascaderOptions } from '@blacklake-web/component';

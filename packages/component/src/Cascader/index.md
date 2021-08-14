@@ -30,87 +30,13 @@ group:
 输入框的回显，默认显示全路径
 
 #### 代码演示
-
-```tsx
-/**
- * title: 关键属性
- * desc: inputDisplayIsOnlyLeaf 、 getAllPathFn
- */
-import React from 'react';
-import { Divider } from 'antd';
-import { BlCascader, cascaderOptions } from '@blacklake-web/component';
-import { CascaderValueType } from 'antd/lib/cascader';
-export default () => (
-  <>
-    <div>
-      <span
-        style={{
-          display: 'inline-block',
-          textAlign: 'right',
-          width: '200px',
-          paddingRight: '16px',
-        }}
-      >
-        默认:{' '}
-      </span>
-      <BlCascader
-        defaultValue={['zhejiang', 'hangzhou', 'xihu']}
-        options={cascaderOptions}
-        style={{ width: 300 }}
-      />
-    </div>
-    <Divider />
-    <div>
-      <span
-        style={{
-          display: 'inline-block',
-          textAlign: 'right',
-          width: '200px',
-          paddingRight: '16px',
-        }}
-      >
-        只显示叶子节点的label:{' '}
-      </span>
-      <BlCascader
-        inputDisplayIsOnlyLeaf={true}
-        getAllPathFn={(value: CascaderValueType) => {
-          /** 
-          发送请求获取该叶子节点的全路径
-          ...
-          返回数据如下
-          */
-          return ['zhejiang', 'hangzhou', 'xihu'];
-        }}
-        defaultValue={['xihu']}
-        options={cascaderOptions}
-        style={{ width: 300 }}
-      />
-    </div>
-  </>
-);
-```
+<code src="./demo/demo1/index.tsx"></code>
 
 ### 自定义显示
 
 自定义分隔符，默认用 `/` 分割
 
 #### 代码演示
-
-```tsx
-/**
- * title: 关键属性
- * desc: customDivider
- */
-import React from 'react';
-import { BlCascader, cascaderOptions } from '@blacklake-web/component';
-export default () => (
-  <BlCascader
-    customDivider={'、'}
-    defaultValue={['zhejiang', 'hangzhou', 'xihu']}
-    options={[]}
-    style={{ width: 300 }}
-  />
-);
-```
+<code src="./demo/demo2/index.tsx"></code>
 
 <API />

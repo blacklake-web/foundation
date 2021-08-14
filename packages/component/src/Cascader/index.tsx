@@ -6,7 +6,7 @@ import { CascaderValueType } from 'antd/lib/cascader';
 export const BlCascader = (props: BlCascaderProps) => {
   const { inputDisplayIsOnlyLeaf, getAllPathFn, customDivider, defaultValue, value } = props;
 
-  const handleOnChange = () => {};
+  const handleOnChange = () => { };
 
   const getDefaultValue = (value: CascaderValueType | undefined) => {
     if (value === undefined || value?.length === 0) {
@@ -34,8 +34,8 @@ export const BlCascader = (props: BlCascaderProps) => {
       }}
       {...props}
       defaultValue={getDefaultValue(defaultValue)}
-      // value={value}
-      // onChange={handleOnChange}
+    // value={value}
+    // onChange={handleOnChange}
     />
   );
 };
