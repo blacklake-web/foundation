@@ -40,6 +40,17 @@ interface BlRecordListLayoutProps {
    * @default false
    */
   useFilterWithUrl?: boolean;
+
+  /**
+   * talbe 的dataSource, 可以获取后封装内容，控制数据展示
+   */
+  customDataSource?: any[];
+  /**
+   * table 展示功能配置
+   */
+  expandable?: any;
+  isLoading?: boolean;
+
 }
 
 const listLayoutReducer = (
@@ -144,7 +155,20 @@ const ListLayout = <RecordType extends object = any>(
     selectedRowKeys, // 选中行key,全选时返回["BlSelectAll"]
     onSelectedRowKeys, // 选中行回调
     filterContaniner, // filter 抽屉挂载的 HTML 节点, false 为挂载在当前 dom，默认挂载在window上
-  } = props;
+    expandable,
+    customDataSource,
+    isLoading,
+} = props;
+
+  useEffect(() => {
+    if (customDataSource) {
+      setDataSource(customDataSource);
+    }
+  }, [customDataSource]);
+
+  useEffect(() => {
+    dispatch({ type: LIST_REDUCER_TYPE.ChangeLoading, payload: isLoading });
+  }, [isLoading])
 
   const [dataSource, setDataSource] = useState<RecordType[]>([]);
 
@@ -439,6 +463,7 @@ const ListLayout = <RecordType extends object = any>(
           selectedRowKeys={selectedRowKeys}
           onSelectedRowKeys={onSelectedRowKeys}
           onChangeFilter={handleTableChangeQuery}
+          expandable={expandable || {}}
         />
         <FilterList
           filterList={filterList}
