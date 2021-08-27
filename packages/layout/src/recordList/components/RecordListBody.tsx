@@ -28,6 +28,10 @@ export interface RecordListBodyProps<RecordType> extends BlRecordListBaseProps {
   dataSource?: RecordType[];
   /**内部状态 */
   onChangeFilter?: (filter: ListLayoutQueryParams, action: 'paginate' | 'sort') => void;
+  /**
+   * table的可扩展配置
+   */
+  expandable?: any;
 }
 
 const BL_LIST_LAYOUT_BODY = 'bl-list-layout-body';
@@ -58,6 +62,7 @@ const RecordListBody = <RecordType extends object = any>(
     onChangeFilter,
     useColConfig,
     configcacheKey,
+    expandable,
   } = props;
 
   const { listLayoutState, dispatch } = useContext(ListLayoutContext);
@@ -238,6 +243,7 @@ const RecordListBody = <RecordType extends object = any>(
           showTotal: (total) => `共 ${total} 条`,
         }}
         scroll={{ x: 'max-content', y: maxHeight }}
+        expandable={expandable || {}}
       />
     </div>
   );

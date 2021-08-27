@@ -12,12 +12,35 @@ group:
 ## 基础表现
 
 ```tsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button, message } from 'antd';
 import { RecordListLayout, FilterFieldType } from '@blacklake-web/layout';
 
 export default () => {
   const [selectedKeys, setSelectedKeys] = useState([]);
+  const [dataSource, setDataSource] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+
+
+   const data = () => {
+    const dataSource = [];
+    for (let i = 1; i < 50; i++) {
+      const item = {
+        name: `name_${i}`,
+        sex: `sex_${i}`,
+        old: `old_${i}`,
+        job: `job_${i}`,
+        school: `school_${i}`,
+        phone: `phone_${i}`,
+        qq: `qq_${i}`,
+        children: []
+      };
+      dataSource.push(item);
+    }
+    return dataSource;
+  };
+
+  const [customData, setCustomData] = useState(data());
 
   const columns = [
     { title: '姓名', dataIndex: 'name', width: 200 },
@@ -43,6 +66,15 @@ export default () => {
               school: `school_${i}`,
               phone: `phone_${i}`,
               qq: `qq_${i}`,
+              childredn: [{
+                 name: `name_${i}${i}`,
+                 sex: `sex_${i}${i}`,
+                 old: `old_${i}${i}`,
+                 job: `job_${i}${i}`,
+                 school: `school_${i}${i}`,
+                 phone: `phone_${i}${i}`,
+                 qq: `qq_${i}${i}`,
+              }]
             };
             dataSource.push(item);
           }
@@ -50,6 +82,14 @@ export default () => {
         };
 
         const list = data();
+
+        const data2 = {
+          data: {
+            list,
+            total: list.length,
+          },
+        };
+        setDataSource(data2);
         resolve({
           data: {
             list,
@@ -59,6 +99,11 @@ export default () => {
       }, 2000);
     });
   };
+
+
+  useEffect(() => {
+    requestFn();
+  }, [])
 
   const mainMenu = [
     {
@@ -133,8 +178,9 @@ export default () => {
   ];
 
   return (
-    <div style={{ height: 800, border: '1px solid #d8d8d8' }}>
-      <RecordListLayout
+    <div style={{ border: '1px solid #d8d8d8' }}>
+    <div style={{ height: 800}}>
+     <RecordListLayout
         columns={columns}
         requestFn={requestFn}
         mainMenu={mainMenu}
@@ -145,8 +191,44 @@ export default () => {
         filterContaniner={false}
         selectedRowKeys={selectedKeys}
         onSelectedRowKeys={onSelectedRowKeys}
+        dataSource={dataSource}
       />
     </div>
+     <div style={{ height: 800}}>
+       <p style={{ marginLeft: 20, fontSize: 20}}>{'可展开树形table'}</p>
+       <RecordListLayout
+        columns={columns}
+        mainMenu={mainMenu}
+        batchMenu={batchMenu}
+        filterList={filterList}
+        configcacheKey={'recordListLayout'}
+        rowKey="name"
+        filterContaniner={false}
+        selectedRowKeys={selectedKeys}
+        onSelectedRowKeys={onSelectedRowKeys}
+        dataSource={dataSource}
+        isLoading={isLoading}
+        customDataSource={customData}
+        expandable={{
+          onExpand: (expanded, record)=> {
+            if (expanded) {
+              setIsLoading(true);
+              setTimeout(() => {
+                const newcustomData = customData.map(item => {
+                  if (item.id === record.id) {
+                    item.children = data();
+                  }
+                  return item
+                });
+                setCustomData(newcustomData);
+                setIsLoading(false);
+              }, 9000);
+            }
+          }
+        }}
+      />
+    </div>
+  </div>
   );
 };
 ```
@@ -189,3 +271,9 @@ export default () => {
 | 参数              | 说明                                                        | 类型                                                                |
 | ----------------- | ----------------------------------------------------------- | ------------------------------------------------------------------- |
 | OnSelectedRowKeys | selectedRowKeys：选择的 rowKey 数组；selectRows：选择行数据 | `(selectedRowKeys: BlSelectedRowKeys, selectRows?: any[]) => void;` |
+
+## expandable 列表展开功能配置，可以搭配 customDataSource 修改dataSource （参考 antd 中表格的展开配置）
+
+| 参数              | 说明                                                        | 类型                                                                |
+| ----------------- | ----------------------------------------------------------- | ------------------------------------------------------------------- |
+| onExpand | 点击展开图标时触发 | `function(expanded, record)` |
