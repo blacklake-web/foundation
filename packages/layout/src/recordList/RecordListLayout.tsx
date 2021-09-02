@@ -114,6 +114,13 @@ const listLayoutReducer = (
       };
     }
 
+    case LIST_REDUCER_TYPE.setExpandedRow: {
+      return {
+        ...state,
+        expandedRowKeys: action?.payload,
+      };
+    }
+
     default:
       return state;
   }
@@ -165,6 +172,12 @@ const ListLayout = <RecordType extends object = any>(
       setDataSource(customDataSource);
     }
   }, [customDataSource]);
+
+  useEffect(() => {
+    if (expandable?.expandedRowKeys) {
+      dispatch({ type: LIST_REDUCER_TYPE.setExpandedRow, payload: expandable.expandedRowKeys });
+    }
+  }, [expandable?.expandedRowKeys]);
 
   useEffect(() => {
     dispatch({ type: LIST_REDUCER_TYPE.ChangeLoading, payload: isLoading });

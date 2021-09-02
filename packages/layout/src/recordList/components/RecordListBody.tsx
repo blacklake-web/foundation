@@ -243,7 +243,10 @@ const RecordListBody = <RecordType extends object = any>(
           showTotal: (total) => `共 ${total} 条`,
         }}
         scroll={{ x: 'max-content', y: maxHeight }}
-        expandable={expandable || {}}
+        expandable={{ 
+          ...expandable, 
+          expandedRowKeys: listLayoutState.expandedRowKeys 
+        }}
       />
     </div>
   );

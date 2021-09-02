@@ -11,6 +11,7 @@ export enum LIST_REDUCER_TYPE {
   SetQuickFilterData, // 改变快速搜索内容
   SetPagination, // 改变分页信息
   SetSorter, // 改变排序信息
+  setExpandedRow, // 设置树形结构的展开行
 }
 
 export const DEFAULT_PAGE = {

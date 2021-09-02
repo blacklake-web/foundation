@@ -66,6 +66,7 @@ export interface ListLayoutState {
   quickFilterData: QuickFilterData;
   pagination: { page: number; size: number; total: number };
   sorter?: FormatDataToQueryDataSorter[];
+  expandedRowKeys?: number | string [];
 }
 
 export interface ListLayoutContextType {
