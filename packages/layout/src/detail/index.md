@@ -17,11 +17,12 @@ group:
  * desc: 基础使用
  */
 import React from 'react';
+import { BlIcon } from '@blacklake-web/component';
 import { DetailLayout, DetailLayoutInfoBlock } from '@blacklake-web/layout';
 
 export default () => {
   const dataSource = {
-    warehouseName: 'warehouseName',
+    warehouseName: 'warehouseNametest超长的仓库名称释义的就是这样的长度',
     warehouseCode: 'warehouseCode',
     parentName: 'parentName',
     parentCode: 'parentCode',
@@ -33,18 +34,13 @@ export default () => {
     {
       key: 'edit',
       onClick: () => {},
-      title: '编辑',
+      icon: <BlIcon type="iconqiyong" />,
     },
     {
-      key: 'delate',
+      key: 'refresh',
       onClick: () => {},
-      title: '删除',
-    },
-    {
-      key: 'add',
-      onClick: () => {},
-      title: '新增',
-    },
+      icon: <BlIcon type="iconshuaxin" />
+    }
   ];
 
   const detailInfo: DetailLayoutInfoBlock = {
@@ -76,9 +72,45 @@ export default () => {
     column: 2,
   };
 
+  const materialInfo: DetailLayoutInfoBlock = {
+    title: '物料信息',
+    items: [
+      {
+        label: '投入物料',
+        dataIndex: 'warehouseName',
+        desc: '投入生产的物料',
+        render: (warehouseName) => warehouseName ?? '-',
+      },
+      {
+        label: '产出物料',
+        dataIndex: 'warehouseCode',
+        render: (warehouseCode) => warehouseCode ?? '-',
+      }
+    ],
+    column: 2,
+  };
+
+    const otherInfo: DetailLayoutInfoBlock = {
+    title: '其他信息',
+    items: [
+      {
+        label: '附件',
+        dataIndex: 'warehouseName',
+        isFullLine: true,
+        render: (warehouseName) => warehouseName ?? '-',
+      },
+      {
+        label: '备注',
+        dataIndex: 'warehouseCode',
+        render: (warehouseCode) => warehouseCode ?? '-',
+      }
+    ],
+    column: 2,
+  };
+
   return (
     <div style={{ border: '1px solid #d8d8d8' }}>
-      <DetailLayout title="详情" info={[detailInfo]} dataSource={dataSource} baseMenu={baseMenu} />
+      <DetailLayout title="详情" info={[detailInfo, materialInfo, otherInfo]} dataSource={dataSource} baseMenu={baseMenu} />
     </div>
   );
 };
@@ -117,18 +149,13 @@ export default () => {
     {
       key: 'edit',
       onClick: () => {},
-      title: '编辑',
+      title: '转移',
     },
     {
       key: 'delate',
       onClick: () => {},
-      title: '删除',
-    },
-    {
-      key: 'add',
-      onClick: () => {},
-      title: '新增',
-    },
+      title: '刷新',
+    }
   ];
 
   const detailInfo: DetailLayoutInfoBlock = {

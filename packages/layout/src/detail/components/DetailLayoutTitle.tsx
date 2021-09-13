@@ -21,8 +21,12 @@ const titleStyle = {
 const extraStyle = {
   display: 'flex',
   justifyContent: 'flex-end',
-  paddingRight: 35,
 };
+
+const baseButtonStyle = {
+  border: 'none',
+  background: '#f5f5f5'
+}
 
 const DetailLayoutTitle = (props: DetailLayoutTitleProps) => {
   const { title, extra, baseMenu = [], style } = props;
@@ -48,21 +52,6 @@ const DetailLayoutTitle = (props: DetailLayoutTitleProps) => {
   };
 
   /**
-   * 渲染baseMenu第一个主菜单按钮
-   */
-  const renderMainMenu = () => {
-    const mainMenuItem = baseMenu[0];
-
-    if (!mainMenuItem) return null;
-    return (
-      <Button type="primary" onClick={mainMenuItem.onClick}>
-        {mainMenuItem.icon}
-        {mainMenuItem.title}
-      </Button>
-    );
-  };
-
-  /**
    * 渲染baseMenu的其他菜单按钮(第二个及以后)
    * @returns reactNode
    */
@@ -71,7 +60,7 @@ const DetailLayoutTitle = (props: DetailLayoutTitleProps) => {
 
     if (isEmptyMenu) return null;
 
-    const isMoreMenu = baseMenu?.length > 2;
+    const isMoreMenu = baseMenu?.length > 5;
     const firstMenuItem = baseMenu[1];
 
     if (!firstMenuItem) return null;
@@ -90,10 +79,16 @@ const DetailLayoutTitle = (props: DetailLayoutTitleProps) => {
             {firstMenuItem.title}
           </Dropdown.Button>
         ) : (
-          <Button onClick={firstMenuItem.onClick}>
-            {firstMenuItem.icon}
-            {firstMenuItem.title}
-          </Button>
+          baseMenu.map((item) =>
+            item.buttonRender ? (
+              item.buttonRender
+            ) : (
+              <Button style={baseButtonStyle} onClick={item.onClick}>
+                {item.icon}
+                {item.title}
+              </Button>
+            ),
+          )
         )}
       </>
     );
@@ -107,7 +102,6 @@ const DetailLayoutTitle = (props: DetailLayoutTitleProps) => {
           <Space size={8} align="start">
             {extra}
             {renderBaseMenu()}
-            {renderMainMenu()}
           </Space>
         </Col>
       </Row>

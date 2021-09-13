@@ -74,20 +74,22 @@ const DataFormLayoutBody = (props: DataFormLayoutBodyProps) => {
           const colSpan = span * baseSpan;
 
           return (
-            <Form.Item
-              // eslint-disable-next-line react/no-array-index-key
-              key={`formItem_${itemIndex}`}
-              {...formItemProps}
-              style={{
-                padding: '12px 20px',
-                marginBottom: 0,
-                flex: `0 0 ${colSpan}%`,
-                maxWidth: `${colSpan}%`,
-                ...style,
-              }}
-            >
-              {render()}
-            </Form.Item>
+            <Col>
+              <Form.Item
+                // eslint-disable-next-line react/no-array-index-key
+                key={`formItem_${itemIndex}`}
+                {...formItemProps}
+                style={{
+                  padding: '12px 20px',
+                  marginBottom: 0,
+                  // flex: `0 0 ${colSpan}%`,
+                  // maxWidth: `${colSpan}%`,
+                  ...style,
+                }}
+              >
+                {render()}
+              </Form.Item>
+            </Col>
           );
         })}
       </Row>
