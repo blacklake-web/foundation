@@ -25,7 +25,7 @@ const BlDataFormLayout: React.FC<
   } = props;
 
   return (
-    <div style={{ ...detailContextStyle, flexDirection: 'column' }}>
+    <div style={{ ...detailContextStyle, flexDirection: 'column', position: 'relative' }}>
       <DataFormLayoutTitle title={title} />
       {info?.length ? (
         <DataFormLayoutBody

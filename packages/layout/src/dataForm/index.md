@@ -51,9 +51,38 @@ export default () => {
     ],
   };
 
+  const otherInfo: DataFormLayoutInfoBlock = {
+    title: '其他信息',
+    column: 1,
+    items: [
+      {
+        label: '名称',
+        name: 'name',
+        rules: [
+          { required: true, message: '特殊日名称必填' },
+          { max: 256, message: '不可超过255个字符' },
+        ],
+        render: () => <Input placeholder="请输入" allowClear />,
+      },
+      {
+        label: '操作人',
+        name: 'operator',
+        isFullLine: true,
+        render: () => <Select allowClear style={{ width: '100%' }} />,
+      },
+      {
+        label: '备注',
+        name: 'desc',
+        isFullLine: true,
+        render: () => <Input />,
+        tooltip: '备注的注视',
+      },
+    ],
+  };
+
   return (
     <div style={{ border: '1px solid #d8d8d8' }}>
-      <DataFormLayout form={modalForm} title="新建字段" info={[baseInfo]} />
+      <DataFormLayout form={modalForm} title="新建字段" info={[baseInfo, otherInfo]} />
     </div>
   );
 };

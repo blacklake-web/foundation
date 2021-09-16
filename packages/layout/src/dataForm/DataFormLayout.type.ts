@@ -14,6 +14,7 @@ export interface DataFormLayoutInfoBlock {
 export interface DataFormLayoutInfoItem extends FormItemProps {
   render: () => ReactNode;
   span?: number;
+  isFullLine?: boolean;
 }
 
 // drawer

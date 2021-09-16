@@ -1,8 +1,8 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useState } from 'react';
 import { Row, Col, Space, Form, FormInstance } from 'antd';
-//
+import { BlIcon } from '@blacklake-web/component';
 import { DataFormLayoutInfoBlock } from '../DataFormLayout.type';
-
+import '../../detail/components/DetailLayoutContent.less';
 export interface DataFormLayoutBodyProps {
   /**顶部拓展内容 */
   topContext?: ReactNode;
@@ -28,14 +28,13 @@ export interface DataFormLayoutBodyProps {
 const infoBlockStyle = {
   marginTop: 24,
   paddingBottom: 32,
-  borderBottom: '1px solid #b1b1b12e',
 };
 
 const DataFormLayoutBody = (props: DataFormLayoutBodyProps) => {
   const {
     info,
     form,
-    formLayout = 'horizontal',
+    formLayout = 'vertical',
     topContext,
     leftContext,
     rightContext,
@@ -44,37 +43,50 @@ const DataFormLayoutBody = (props: DataFormLayoutBodyProps) => {
     bodyStyle,
   } = props;
 
-  const renderTitle = (infoBlock: DataFormLayoutInfoBlock) => {
-    const { title, extra } = infoBlock;
+  const renderInfoBlock = (infoBlock: DataFormLayoutInfoBlock) => {
+  const [toggle, setToggle] = useState<boolean>(false); // 是否展开
 
-    return title || extra ? (
+  const renderTitle = (infoBlock: DataFormLayoutInfoBlock) => {
+    const { title } = infoBlock;
+
+    return title ? (
       <div style={{ paddingRight: 20 }}>
-        <Row justify={'space-between'}>
+        <Row justify={'space-between'} className="bl-descriptionTitle">
           <Col>
-            <h3>{title}</h3>
+            <p>{title}</p>
           </Col>
-          {extra ? (
-            <Col>
-              <Space size={'small'}>{extra}</Space>
-            </Col>
-          ) : null}
+          <Col>
+            <div className={'bl-toggleButon'} onClick={() => setToggle((prevState) => !prevState)}>
+              <BlIcon type={toggle ? 'iconshouqi' : 'iconzhankai'} />
+            </div>
+          </Col>
         </Row>
       </div>
     ) : null;
   };
 
   const renderItem = (infoBlock: DataFormLayoutInfoBlock) => {
-    const { items = [], column = 1 } = infoBlock;
-    const baseSpan = (1 / column) * 100;
+    const { items = [] } = infoBlock;
+
+    const layout = {
+      labelCol: { span: 8 },
+      wrapperCol: { span: 16 },
+    };
 
     return (
       <Row>
         {items.map((item, itemIndex) => {
-          const { span = 1, render, style, ...formItemProps } = item;
-          const colSpan = span * baseSpan;
+          const { isFullLine, render, style, ...formItemProps } = item;
 
           return (
-            <Col>
+            <Col
+              xs={24}
+              sm={24}
+              md={24}
+              lg={isFullLine ? 24 : 12}
+              xl={isFullLine ? 24 : 12}
+              xxl={isFullLine ? 24 : 8}
+            >
               <Form.Item
                 // eslint-disable-next-line react/no-array-index-key
                 key={`formItem_${itemIndex}`}
@@ -82,10 +94,9 @@ const DataFormLayoutBody = (props: DataFormLayoutBodyProps) => {
                 style={{
                   padding: '12px 20px',
                   marginBottom: 0,
-                  // flex: `0 0 ${colSpan}%`,
-                  // maxWidth: `${colSpan}%`,
                   ...style,
                 }}
+                wrapperCol={{ ...layout.wrapperCol }}
               >
                 {render()}
               </Form.Item>
@@ -96,14 +107,12 @@ const DataFormLayoutBody = (props: DataFormLayoutBodyProps) => {
     );
   };
 
-  const renderInfoBlock = () => {
-    return info?.map((infoBlock: DataFormLayoutInfoBlock, index) => (
-      // eslint-disable-next-line react/no-array-index-key
-      <div key={`block_${index}`} style={{ ...infoBlockStyle, ...infoBlockStyleProps }}>
+    return (
+      <div style={{ ...infoBlockStyle, ...infoBlockStyleProps }}>
         {renderTitle(infoBlock)}
-        {renderItem(infoBlock)}
+        {!toggle && renderItem(infoBlock)}
       </div>
-    ));
+    );
   };
 
   const renderTopContext = () => {
@@ -136,6 +145,7 @@ const DataFormLayoutBody = (props: DataFormLayoutBodyProps) => {
         height: '100%',
         padding: '0px 20px',
         overflowY: 'auto',
+        marginBottom: 50,
         ...bodyStyle,
       }}
     >
@@ -150,7 +160,7 @@ const DataFormLayoutBody = (props: DataFormLayoutBodyProps) => {
           labelCol={formLayout === 'vertical' ? undefined : { flex: '100px' }}
           layout={formLayout}
         >
-          {renderInfoBlock()}
+          {info?.map((infoBlock: DataFormLayoutInfoBlock) => renderInfoBlock(infoBlock))}
         </Form>
         {renderRightContext()}
       </Row>

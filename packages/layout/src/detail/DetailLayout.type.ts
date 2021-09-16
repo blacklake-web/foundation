@@ -12,6 +12,7 @@ export interface DetailLayoutProps {
 export interface DetailLayoutInfoBlock {
   title?: ReactNode;
   extra?: ReactNode;
+  column?: number;
   items: DetailLayoutInfoItem[];
 }
 
@@ -19,6 +20,7 @@ export interface DetailLayoutInfoItem {
   label?: ReactNode;
   dataIndex: string[] | string;
   render?: (text: any, record: any) => ReactNode;
+  span?: number;
   toggle?: boolean; // 支持展开、收起
   desc?: string;
   isFullLine?: boolean;
