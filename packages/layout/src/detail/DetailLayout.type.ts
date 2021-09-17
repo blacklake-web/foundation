@@ -22,6 +22,8 @@ export interface DetailLayoutInfoItem {
   render?: (text: any, record: any) => ReactNode;
   span?: number;
   toggle?: boolean; // 支持展开、收起
+  desc?: string;
+  isFullLine?: boolean;
 }
 
 export interface DetailLayoutMenuItem {
@@ -29,6 +31,7 @@ export interface DetailLayoutMenuItem {
   icon?: ReactElement;
   key: string;
   title: string;
+  buttonRender?: ReactNode;
   onClick?: () => void;
 }
 

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import _ from 'lodash';
-import { Descriptions } from 'antd';
+import { Descriptions, Tooltip } from 'antd';
 //
 import { DetailLayoutInfoBlock } from '../DetailLayout.type';
 import { BlIcon } from '@blacklake-web/component';
@@ -13,17 +13,8 @@ interface DetailLayoutContentProps {
   dataSource: any;
 }
 
-const infoBlockStyle = {
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  marginBottom: 20,
-  borderBottom: '1px solid #b1b1b12e',
-};
-
 const infoBlockStyleNoFlex = {
-  marginBottom: 20,
-  borderBottom: '1px solid #b1b1b12e',
+  marginBottom: 24,
 };
 
 const RenderInfoBlock: React.FC<{ infoBlock: DetailLayoutInfoBlock; dataSource: any }> = (
@@ -35,49 +26,50 @@ const RenderInfoBlock: React.FC<{ infoBlock: DetailLayoutInfoBlock; dataSource: 
   const getInfoItem = (dataIndex: string | string[], record: any) => {
     return _.get(record, dataIndex, null);
   };
-
-  const { title, extra, column = 3, items } = infoBlock;
-  const enableToggle = _.some(items, (item) => item?.toggle);
-  const _items = _.filter(items, (item) => {
-    if (enableToggle) {
-      if (toggle) {
-        return true;
-      } else {
-        return item?.toggle !== true;
-      }
-    } else {
-      return true;
-    }
-  });
+  const { title, extra, items } = infoBlock;
 
   return (
     <div>
       <Descriptions
-        title={title}
+        title={
+          <div className="bl-descriptionTitle">
+            <p>{title}</p>
+            <div className={'bl-toggleButon'} onClick={() => setToggle((prevState) => !prevState)}>
+              <BlIcon type={toggle ? 'iconshouqi' : 'iconzhankai'} />
+            </div>
+          </div>
+        }
         labelStyle={{ paddingLeft: 20 }}
-        style={enableToggle ? {} : infoBlockStyleNoFlex}
-        column={column}
+        style={infoBlockStyleNoFlex}
+        column={{ xs: 1, sm: 1, md: 1, lg: 1, xl: 2, xxl: 3 }}
         extra={extra}
       >
-        {_items.map((item: any, index: number) => {
-          const itemValue = getInfoItem(item.dataIndex, dataSource);
+        {!toggle &&
+          items.map((item: any, index: number) => {
+            const itemValue = getInfoItem(item.dataIndex, dataSource);
 
-          return (
-            <Descriptions.Item
-              key={`${item.dataIndex}_${index}`}
-              label={item.label}
-              span={item?.span}
-            >
-              {item.render ? item.render(itemValue, dataSource) : itemValue}
-            </Descriptions.Item>
-          );
-        })}
+            return (
+              <Descriptions.Item
+                key={`${item.dataIndex}_${index}`}
+                label={
+                  item.desc ? (
+                    <span>
+                      {item.label}
+                      <Tooltip title={item.desc}>
+                        <BlIcon type="iconwentizhiyinbangzhu" className="bl-title-icon"/>
+                      </Tooltip>
+                    </span>
+                  ) : (
+                    item.label
+                  )
+                }
+                span={item?.isFullLine ? 24: 0}
+              >
+                {item.render ? item.render(itemValue, dataSource) : <span className={'detail-text'}>{itemValue}</span>}
+              </Descriptions.Item>
+            );
+          })}
       </Descriptions>
-      {enableToggle && (
-        <div style={infoBlockStyle} onClick={() => setToggle((prevState) => !prevState)}>
-          <BlIcon className={'bl-toggleStyle'} type={toggle ? 'iconshouqi' : 'iconzhankai'} />
-        </div>
-      )}
     </div>
   );
 };
