@@ -1,7 +1,7 @@
 import { UploadFile, UploadProps } from 'antd/lib/upload/interface';
 import { ReactNode } from 'react';
 
-export interface BlUploadProps<T = any> {
+export interface BlUploadBaseProps<T = any> {
   /**
    * [BL]默认文件
    */
@@ -40,3 +40,7 @@ export interface BlUploadProps<T = any> {
   /**[BL]文件上传完毕的回调 */
   onUploaded?: (files: Array<UploadFile<T>>) => void;
 }
+
+type UploadPropsOmit<T> = Omit<UploadProps, 'onChange'>;
+
+export type BlUploadProps<T = any> = BlUploadBaseProps<T> & UploadPropsOmit<T>;

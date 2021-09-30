@@ -14,6 +14,11 @@ export interface BlTableProps<RecordType> extends TableProps<RecordType> {
    */
   useColConfig?: boolean;
   /**
+   * 是否默认展示序号列
+   * @default false
+   */
+  useIndex?: boolean;
+  /**
    * [BL]列
    */
   columns: BlColumnsType<RecordType>;

@@ -7,9 +7,7 @@ import { getBase64 } from './utils';
 import { BlUploadProps } from './index.type';
 import './style.less';
 
-type UploadPropsOmit = Omit<UploadProps, 'onChange'>
-
-const BlUpload: React.FC<BlUploadProps & UploadPropsOmit> = (props) => {
+const BlUpload: React.FC<BlUploadProps> = (props) => {
   const {
     defaultFiles,
     draggable = false,
@@ -193,10 +191,7 @@ const BlUpload: React.FC<BlUploadProps & UploadPropsOmit> = (props) => {
   if (draggable) {
     return (
       <>
-        <Upload.Dragger
-          style={{ display: node ? 'block' : 'none' }}
-          {...option}
-        >
+        <Upload.Dragger style={{ display: node ? 'block' : 'none' }} {...option}>
           {node}
         </Upload.Dragger>
         {renderPreview()}

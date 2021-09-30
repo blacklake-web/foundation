@@ -50,7 +50,6 @@ interface BlRecordListLayoutProps {
    */
   expandable?: any;
   isLoading?: boolean;
-
 }
 
 const listLayoutReducer = (
@@ -147,6 +146,7 @@ const ListLayout = <RecordType extends object = any>(
     // table
     columns, // table columns
     rowKey = 'id', // 行选择key,默认'id'
+    useIndex = true, // 列表序号列是否展示，默认启用
     useColConfig = true, // 列配置开关，默认启用
     configcacheKey, // 配置缓存Key,用于table和filter配置缓存标识
     // base
@@ -158,7 +158,7 @@ const ListLayout = <RecordType extends object = any>(
     expandable,
     customDataSource,
     isLoading,
-} = props;
+  } = props;
 
   useEffect(() => {
     if (customDataSource) {
@@ -168,7 +168,7 @@ const ListLayout = <RecordType extends object = any>(
 
   useEffect(() => {
     dispatch({ type: LIST_REDUCER_TYPE.ChangeLoading, payload: isLoading });
-  }, [isLoading])
+  }, [isLoading]);
 
   const [dataSource, setDataSource] = useState<RecordType[]>([]);
 
@@ -449,14 +449,15 @@ const ListLayout = <RecordType extends object = any>(
             if (type === 'refresh') handleRefresh();
           }}
         />
-        <RecordListInfo
+        {/* <RecordListInfo
           filterList={filterList}
           onChangeFilter={handleFilterQuery}
           formatDataToDisplay={formatDataToDisplay}
-        />
+        /> */}
         <RecordListBody
           rowKey={rowKey}
           columns={columns}
+          useIndex={useIndex}
           dataSource={dataSource}
           useColConfig={useColConfig}
           configcacheKey={configcacheKey}

@@ -3,12 +3,21 @@
   display: flex;
   flex-direction: column;
   height: 100%;
-  padding: 16px 16px 0px 16px;
   overflow: hidden;
   background-color: white;
+
+  .bl-listLayout-head {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+    border-bottom: 1px solid #eaecf1;
+    padding: 16px;
+    margin-bottom: 16px;
+  }
 
   .bl-listLayout-body {
     height: 100%;
     overflow-y: auto;
+    padding: 0px 16px 0px;
   }
 }

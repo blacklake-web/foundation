@@ -1,16 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react';
 import _ from 'lodash';
-import { Button, Menu, Input, Space, Dropdown } from 'antd';
-import {
-  FilterOutlined,
-  RollbackOutlined,
-  SearchOutlined,
-  EllipsisOutlined,
-} from '@ant-design/icons';
+import { Button, Menu, Input, Space, Dropdown, Divider } from 'antd';
+import { FilterOutlined, DownOutlined, SearchOutlined, EllipsisOutlined } from '@ant-design/icons';
 //
 import { BL_SELECTED_ALL, ListLayoutContext, LIST_REDUCER_TYPE } from '../constants';
 import { BlRecordListBaseProps } from '../recordListLayout.type';
 import { AfterFormatData, objToKeyValueAry } from './RecordListInfo';
+import '../styles.less';
 // 列表头button
 interface RecordListHeaderButtonType {
   title: string;
@@ -130,7 +126,7 @@ const RecordListHeader = (props: RecordListHeaderProps) => {
       <Button
         key={item.title}
         loading={isLoading === item.title}
-        type={index === 0 ? 'primary' : 'default'}
+        type={'text'}
         disabled={(item?.disabled ?? false) || !!isLoading}
         onClick={() => {
           item.onClick();
@@ -151,6 +147,8 @@ const RecordListHeader = (props: RecordListHeaderProps) => {
 
     return (
       <Button
+        type={'text'}
+        style={{ paddingLeft: 0, paddingRight: 0 }}
         key={item.title}
         loading={isLoading === item.title}
         disabled={disabled}
@@ -159,7 +157,7 @@ const RecordListHeader = (props: RecordListHeaderProps) => {
         }}
       >
         {item?.icon}
-        {item.title}
+        {item.title?.split('').join('  ')}
       </Button>
     );
   };
@@ -191,12 +189,13 @@ const RecordListHeader = (props: RecordListHeaderProps) => {
 
     return (
       <Dropdown.Button
+        type={'primary'}
         key={menu.title}
         onClick={() => {
           menu?.onClick();
         }}
         overlay={menuComponents}
-        icon={isMoreMenu ? <EllipsisOutlined /> : ''}
+        icon={isMoreMenu ? <DownOutlined /> : ''}
       >
         {menu.icon}
         {menu.title}
@@ -212,28 +211,23 @@ const RecordListHeader = (props: RecordListHeaderProps) => {
     const isSelectAll = selectedRowKeys[0] === BL_SELECTED_ALL;
 
     return (
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          marginBottom: 16,
-        }}
-      >
-        <Space size={16} wrap>
-          <span>
-            已选{isSelectAll ? listLayoutState.pagination.total : selectedRowKeys.length}条
-          </span>
-          {batchMenu?.map((item) => renderBatchButton(item))}
-        </Space>
+      <div className={'bl-listLayout-head'}>
         <Button
+          type={'link'}
+          style={{ paddingLeft: 0, paddingRight: 0 }}
           disabled={!!isLoading}
-          icon={<RollbackOutlined />}
           onClick={() => {
             endSelectMode();
           }}
         >
-          返回
+          清 空
         </Button>
+        <Space wrap split={<Divider type="vertical" />}>
+          <span>
+            已选择{isSelectAll ? listLayoutState.pagination.total : selectedRowKeys.length}项
+          </span>
+          {batchMenu?.map(renderBatchButton)}
+        </Space>
       </div>
     );
   };
@@ -256,14 +250,15 @@ const RecordListHeader = (props: RecordListHeaderProps) => {
     const isNeedFilterButton = !_.isEmpty(filterList);
 
     return (
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'row-reverse',
-          justifyContent: 'space-between',
-          marginBottom: 16,
-        }}
-      >
+      <div className={'bl-listLayout-head'}>
+        <Space size={16}>
+          {mainMenu?.map((item, index) => {
+            if (_.has(item, 'items')) {
+              return renderMenu(item);
+            }
+            return renerButton(item, index);
+          })}
+        </Space>
         <Space size={16}>
           {useQuickFilter && (
             <Input
@@ -287,17 +282,10 @@ const RecordListHeader = (props: RecordListHeaderProps) => {
                 dispatch?.({ type: LIST_REDUCER_TYPE.ChangeFilter, payload: true });
               }}
             >
-              {filterDataCount ? `(${filterDataCount})` : ''}
+              <span>筛选</span>
+              {filterDataCount ? <span>({filterDataCount})</span> : null}
             </Button>
           )}
-        </Space>
-        <Space size={16}>
-          {mainMenu?.map((item, index) => {
-            if (_.has(item, 'items')) {
-              return renderMenu(item);
-            }
-            return renerButton(item, index);
-          })}
         </Space>
       </div>
     );

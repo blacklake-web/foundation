@@ -22,6 +22,11 @@ export interface RecordListBodyProps<RecordType> extends BlRecordListBaseProps {
    * @default true
    */
   useColConfig?: boolean;
+  /**
+   * 是否启用table 默认序号
+   * @default true
+   */
+  useIndex?: boolean;
   /** 缓存时相关标识 */
   configcacheKey?: string;
   /**内部状态 */
@@ -61,6 +66,7 @@ const RecordListBody = <RecordType extends object = any>(
     rowKey = 'id',
     onChangeFilter,
     useColConfig,
+    useIndex = true,
     configcacheKey,
     expandable,
   } = props;
@@ -244,6 +250,7 @@ const RecordListBody = <RecordType extends object = any>(
         }}
         scroll={{ x: 'max-content', y: maxHeight }}
         expandable={expandable || {}}
+        useIndex={useIndex}
       />
     </div>
   );

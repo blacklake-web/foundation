@@ -80,6 +80,7 @@ const BlTable = <RecordType extends object = any>(props: BlTableProps<RecordType
     resizableCol,
     tableConfigKey,
     useColConfig,
+    useIndex = false,
     ...resProps
   } = props;
 
@@ -242,6 +243,16 @@ const BlTable = <RecordType extends object = any>(props: BlTableProps<RecordType
 
       return itemCol;
     });
+
+    if (useIndex) {
+      retColumns.unshift({
+        title: '序号',
+        dataIndex: ['BlTableIndex'],
+        fixed: 'left',
+        width: 60,
+        render: (_params, _reocrd, index) => index + 1,
+      });
+    }
 
     return retColumns;
   };
