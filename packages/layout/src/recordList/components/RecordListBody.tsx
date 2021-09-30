@@ -201,17 +201,18 @@ const RecordListBody = <RecordType extends object = any>(
           name: (record as any).title,
           disabled: isCheckboxDisabled,
         }),
-        selections: [
-          {
-            key: 'selectAll',
-            text: isSelectAll ? `取消全部${total}条` : `选择全部${total}条`,
-            onSelect: () => {
-              isSelectAll
-                ? handleSelectRowKeys([], [])
-                : handleSelectRowKeys([BL_SELECTED_ALL], [BL_SELECTED_ALL]);
-            },
-          },
-        ],
+        // 暂不需要支持
+        // selections: [
+        //   {
+        //     key: 'selectAll',
+        //     text: isSelectAll ? `取消全部${total}条` : `选择全部${total}条`,
+        //     onSelect: () => {
+        //       isSelectAll
+        //         ? handleSelectRowKeys([], [])
+        //         : handleSelectRowKeys([BL_SELECTED_ALL], [BL_SELECTED_ALL]);
+        //     },
+        //   },
+        // ],
       };
     }
     return undefined;

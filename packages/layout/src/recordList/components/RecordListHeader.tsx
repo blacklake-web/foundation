@@ -212,6 +212,12 @@ const RecordListHeader = (props: RecordListHeaderProps) => {
 
     return (
       <div className={'bl-listLayout-head'}>
+        <Space wrap split={<Divider type="vertical" />}>
+          <span>
+            已选择{isSelectAll ? listLayoutState.pagination.total : selectedRowKeys.length}项
+          </span>
+          {batchMenu?.map(renderBatchButton)}
+        </Space>
         <Button
           type={'link'}
           style={{ paddingLeft: 0, paddingRight: 0 }}
@@ -222,12 +228,6 @@ const RecordListHeader = (props: RecordListHeaderProps) => {
         >
           清 空
         </Button>
-        <Space wrap split={<Divider type="vertical" />}>
-          <span>
-            已选择{isSelectAll ? listLayoutState.pagination.total : selectedRowKeys.length}项
-          </span>
-          {batchMenu?.map(renderBatchButton)}
-        </Space>
       </div>
     );
   };
@@ -251,14 +251,6 @@ const RecordListHeader = (props: RecordListHeaderProps) => {
 
     return (
       <div className={'bl-listLayout-head'}>
-        <Space size={16}>
-          {mainMenu?.map((item, index) => {
-            if (_.has(item, 'items')) {
-              return renderMenu(item);
-            }
-            return renerButton(item, index);
-          })}
-        </Space>
         <Space size={16}>
           {useQuickFilter && (
             <Input
@@ -286,6 +278,14 @@ const RecordListHeader = (props: RecordListHeaderProps) => {
               {filterDataCount ? <span>({filterDataCount})</span> : null}
             </Button>
           )}
+        </Space>
+        <Space size={16}>
+          {mainMenu?.map((item, index) => {
+            if (_.has(item, 'items')) {
+              return renderMenu(item);
+            }
+            return renerButton(item, index);
+          })}
         </Space>
       </div>
     );

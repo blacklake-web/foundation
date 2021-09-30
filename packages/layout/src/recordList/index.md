@@ -183,7 +183,7 @@ export default () => {
         <RecordListLayout
           columns={columns}
           requestFn={requestFn}
-          mainMenu={mainMenu}
+          // mainMenu={mainMenu}
           batchMenu={batchMenu}
           filterList={filterList}
           configcacheKey={'recordListLayout'}
