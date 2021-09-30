@@ -7,7 +7,9 @@ import { getBase64 } from './utils';
 import { BlUploadProps } from './index.type';
 import './style.less';
 
-const BlUpload: React.FC<BlUploadProps & UploadProps> = (props) => {
+type UploadPropsOmit = Omit<UploadProps, 'onChange'>
+
+const BlUpload: React.FC<BlUploadProps & UploadPropsOmit> = (props) => {
   const {
     defaultFiles,
     draggable = false,
@@ -77,6 +79,12 @@ const BlUpload: React.FC<BlUploadProps & UploadProps> = (props) => {
     if (limit === 'doc' && !isDoc) {
       return {
         message: '附件只支持.doc/.docx类型',
+        res: false,
+      };
+    }
+    if (limit === 'xlsx' && !isXLSX) {
+      return {
+        message: '附件只支持.xlsx类型',
         res: false,
       };
     }
@@ -185,7 +193,12 @@ const BlUpload: React.FC<BlUploadProps & UploadProps> = (props) => {
   if (draggable) {
     return (
       <>
-        <Upload.Dragger {...option}>{node}</Upload.Dragger>
+        <Upload.Dragger
+          style={{ display: node ? 'block' : 'none' }}
+          {...option}
+        >
+          {node}
+        </Upload.Dragger>
         {renderPreview()}
       </>
     );

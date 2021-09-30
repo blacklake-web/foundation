@@ -14,7 +14,7 @@ export interface BlUploadProps<T = any> {
   /**
    * [BL]文件格式限制
    */
-  limit?: 'image' | 'pdf' | 'doc' | 'attach';
+  limit?: 'image' | 'pdf' | 'doc' | 'xlsx' | 'attach';
   /**
    * [BL]总文件大小限制（主要针对文件多选）
    */

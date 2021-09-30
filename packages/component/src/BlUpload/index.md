@@ -19,7 +19,7 @@ import React from 'react';
 import { BlUpload } from '@blacklake-web/component';
 
 export default () => (
-  <BlUpload totalMaxSize={200} limit="attach" autoDelErrorFile draggable multiple canPreview>
+  <BlUpload totalMaxSize={200} draggable limit="attach" multiple canPreview>
     <div
       style={{
         cursor: 'pointer',
