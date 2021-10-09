@@ -1,5 +1,5 @@
 ---
-title: 多选级联 - MultiCascader
+title: 多选级联 - BlMultiCascader
 nav:
   title: 组件
   path: /component
@@ -45,7 +45,7 @@ group:
 
 ### 搜索
 
-默认 searchable 为 true。搜索都是动态搜索，需要添加onSearch方法
+默认 searchable 为 true。搜索都是动态搜索，需要添加 onSearch 方法
 
 <code src="./demo/demo4/index.tsx"></code>
 

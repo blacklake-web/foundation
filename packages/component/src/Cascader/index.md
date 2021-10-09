@@ -1,12 +1,12 @@
 ---
-title: 单选级联 - Cascader
+title: 单选级联 - BlCascader
 nav:
   title: 组件
   path: /component
   order: 1
 group:
-  title: Bl
-  path: /Bl
+  title: BlPro
+  path: /BlPro
 ---
 
 # Cascader

@@ -4,6 +4,7 @@
   "description": "blacklake web",
   "main": "index.js",
   "scripts": {
+    "init": "lerna bootstrap --hoist",
     "build": "father build",
     "build:component": "PACKAGE=component father build",
     "build:layout": "PACKAGE=layout father build",

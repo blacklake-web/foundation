@@ -3,7 +3,8 @@ import React, { ReactNode, useState } from 'react';
 import MultiCascader from 'gc-rsuite/lib/MultiCascader';
 import { BlMultiCascaderProps, DataItemType } from './index.type';
 import Icon from '@ant-design/icons';
-require('gc-rsuite/styles/less/index.less');
+// require('gc-rsuite/styles/less/index.less');
+import 'gc-rsuite/styles/less/index.less';
 import './index.less';
 
 export const BlMultiCascader: React.FC<BlMultiCascaderProps> = (props) => {
