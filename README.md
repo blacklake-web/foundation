@@ -19,9 +19,9 @@ npm run docs:deploy
 ## 发版
 
 ```
-npm run build && npm run publish
+npm run publish
 
-// 小版本号更新 选择custom version
+// 小版本号更新 选择Custom Version
 // 输入版本号以此类推
 1.0.14-alpha.1
 1.0.14-alpha.2
