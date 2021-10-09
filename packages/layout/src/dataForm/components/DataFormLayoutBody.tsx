@@ -1,6 +1,8 @@
-import React, { ReactNode, useState } from 'react';
+import React, { ReactNode, useCallback, useState } from 'react';
 import { Row, Col, Space, Form, FormInstance } from 'antd';
+import useResizeObserver from '@react-hook/resize-observer';
 import { BlIcon } from '@blacklake-web/component';
+import { useVisible } from '@blacklake-web/hooks';
 import { DataFormLayoutInfoBlock } from '../DataFormLayout.type';
 import '../../detail/components/DetailLayoutContent.less';
 export interface DataFormLayoutBodyProps {
@@ -30,6 +32,8 @@ const infoBlockStyle = {
   paddingBottom: 32,
 };
 
+const defaultCenterItemWidth = '500px';
+
 const DataFormLayoutBody = (props: DataFormLayoutBodyProps) => {
   const {
     info,
@@ -42,75 +46,113 @@ const DataFormLayoutBody = (props: DataFormLayoutBodyProps) => {
     infoBlockStyleProps,
     bodyStyle,
   } = props;
+  const formItemRef = React.useRef(null);
+  const { judgeVisible, addVisible, deleteVisible } = useVisible();
+  const dataCount = info
+    ?.map((i) => i.items.length)
+    .reduce((previousValue, currentValue) => previousValue + currentValue);
 
-  const renderInfoBlock = (infoBlock: DataFormLayoutInfoBlock) => {
-  const [toggle, setToggle] = useState<boolean>(false); // 是否展开
-
-  const renderTitle = (infoBlock: DataFormLayoutInfoBlock) => {
-    const { title } = infoBlock;
-
-    return title ? (
-      <div style={{ paddingRight: 20 }}>
-        <Row justify={'space-between'} className="bl-descriptionTitle">
-          <Col>
-            <p>{title}</p>
-          </Col>
-          <Col>
-            <div className={'bl-toggleButon'} onClick={() => setToggle((prevState) => !prevState)}>
-              <BlIcon type={toggle ? 'iconshouqi' : 'iconzhankai'} />
-            </div>
-          </Col>
-        </Row>
-      </div>
-    ) : null;
+  const getColumn = (windowSize, itemCount) => {
+    if (itemCount <= 12) {
+      return 1;
+    }
+    if (windowSize >= 1920 || (windowSize <= 1920 && windowSize >= 1440)) {
+      return 3;
+    }
+    if (windowSize >= 1280 && windowSize <= 1440) {
+      return 2;
+    }
+    if (windowSize < 1280) {
+      return 1;
+    }
+    return 1;
   };
 
-  const renderItem = (infoBlock: DataFormLayoutInfoBlock) => {
-    const { items = [] } = infoBlock;
+  const useSize = (target) => {
+    const [rowWidth, setRowWidth] = React.useState(0);
 
-    const layout = {
-      labelCol: { span: 8 },
-      wrapperCol: { span: 16 },
+    React.useLayoutEffect(() => {
+      setRowWidth(target.current.getBoundingClientRect());
+    }, [target]);
+
+    useResizeObserver(target, (entry) => setRowWidth(entry.contentRect.width));
+    return rowWidth;
+  };
+
+  const baseSpan = (1 / getColumn(useSize(formItemRef), dataCount)) * 100;
+  const isSingleColumn = getColumn(useSize(formItemRef), dataCount) === 1;
+
+  const renderInfoBlock = (infoBlock: DataFormLayoutInfoBlock, infoIndex) => {
+    const renderTitle = (infoBlock: DataFormLayoutInfoBlock) => {
+      const { title } = infoBlock;
+
+      return title ? (
+        <div style={{ paddingRight: 20 }}>
+          <Row justify={'space-between'} className="bl-descriptionTitle">
+            <Col>
+              <p>{title}</p>
+            </Col>
+            <Col>
+              <div
+                className={'bl-toggleButon'}
+                onClick={() => judgeVisible(infoIndex) ? deleteVisible(infoIndex): addVisible(infoIndex)}
+              >
+                <BlIcon type={judgeVisible(infoIndex) ? 'iconshouqi' : 'iconzhankai'} />
+              </div>
+            </Col>
+          </Row>
+        </div>
+      ) : null;
     };
 
-    return (
-      <Row>
-        {items.map((item, itemIndex) => {
-          const { isFullLine, render, style, ...formItemProps } = item;
-
-          return (
-            <Col
-              xs={24}
-              sm={24}
-              md={24}
-              lg={isFullLine ? 24 : 12}
-              xl={isFullLine ? 24 : 12}
-              xxl={isFullLine ? 24 : 8}
-            >
-              <Form.Item
-                // eslint-disable-next-line react/no-array-index-key
-                key={`formItem_${itemIndex}`}
-                {...formItemProps}
+    const renderItem = (infoBlock: DataFormLayoutInfoBlock) => {
+      const { items = [], column, align = 'left' } = infoBlock;
+      return (
+        <Row ref={formItemRef}>
+          {items.map((item, itemIndex) => {
+            const { span, render, style, ...formItemProps } = item;
+            const isfullline = item.isFullLine ?? (column && span && column === span);
+            const colSpan = isfullline ? 100 : baseSpan;
+            let formItemWidth = '100%';
+            if (isSingleColumn && !isfullline) {
+              formItemWidth = defaultCenterItemWidth;
+            }
+            return (
+              <Col
+                key={`col_${itemIndex}`}
                 style={{
                   padding: '12px 20px',
                   marginBottom: 0,
-                  ...style,
+                  flex: `0 0 ${colSpan}%`,
+                  maxWidth: `${colSpan}%`,
+                  display: 'flex',
+                  justifyContent: align,
                 }}
-                wrapperCol={{ ...layout.wrapperCol }}
               >
-                {render()}
-              </Form.Item>
-            </Col>
-          );
-        })}
-      </Row>
-    );
-  };
+                <Form.Item
+                  key={`formItem_${itemIndex}`}
+                  {...formItemProps}
+                  style={{
+                    width: formItemWidth,
+                    ...style,
+                  }}
+                >
+                  {render()}
+                </Form.Item>
+              </Col>
+            );
+          })}
+        </Row>
+      );
+    };
 
     return (
-      <div style={{ ...infoBlockStyle, ...infoBlockStyleProps }}>
+      <div
+        key={`${infoBlock.title}_${infoBlock.items?.length}`}
+        style={{ ...infoBlockStyle, ...infoBlockStyleProps }}
+      >
         {renderTitle(infoBlock)}
-        {!toggle && renderItem(infoBlock)}
+        {!judgeVisible(infoIndex) && renderItem(infoBlock)}
       </div>
     );
   };
@@ -157,10 +199,11 @@ const DataFormLayoutBody = (props: DataFormLayoutBodyProps) => {
           name="dataFormInfo"
           preserve={false}
           style={{ width: '100%' }}
-          labelCol={formLayout === 'vertical' ? undefined : { flex: '100px' }}
-          layout={formLayout}
+          labelCol={isSingleColumn ? { flex: '120px' } : {}}
+          layout={isSingleColumn ? 'horizontal' : formLayout}
+
         >
-          {info?.map((infoBlock: DataFormLayoutInfoBlock) => renderInfoBlock(infoBlock))}
+          {info?.map((infoBlock: DataFormLayoutInfoBlock, infoIndex) => renderInfoBlock(infoBlock, infoIndex))}
         </Form>
         {renderRightContext()}
       </Row>

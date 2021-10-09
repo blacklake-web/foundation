@@ -83,7 +83,7 @@ const DetailLayoutTitle = (props: DetailLayoutTitleProps) => {
             item.buttonRender ? (
               item.buttonRender
             ) : (
-              <Button style={baseButtonStyle} onClick={item.onClick}>
+              <Button key={item.key} style={baseButtonStyle} onClick={item.onClick}>
                 {item.icon}
                 {item.title}
               </Button>

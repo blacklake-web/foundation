@@ -57,6 +57,21 @@ export default () => {
         render: (warehouseCode) => warehouseCode ?? '-',
       },
       {
+        label: '仓库编号',
+        dataIndex: 'warehouseCode',
+        render: (warehouseCode) => warehouseCode ?? '-',
+      },
+      {
+        label: '仓库编号',
+        dataIndex: 'warehouseCode',
+        render: (warehouseCode) => warehouseCode ?? '-',
+      },
+      {
+        label: '仓库编号',
+        dataIndex: 'warehouseCode',
+        render: (warehouseCode) => warehouseCode ?? '-',
+      },
+      {
         label: '上级区域名称',
         dataIndex: 'parentName',
         render: (parentName) => parentName ?? '-',
