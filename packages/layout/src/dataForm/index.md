@@ -17,7 +17,7 @@ group:
  * desc: 基础使用
  */
 import React from 'react';
-import { Form, Checkbox, Input, DatePicker, Select } from 'antd';
+import { Form, Checkbox, Input, DatePicker, Select, Table } from 'antd';
 import { DataFormLayout, DataFormLayoutInfoBlock } from '@blacklake-web/layout';
 
 export default () => {
@@ -25,10 +25,78 @@ export default () => {
 
   const baseInfo: DataFormLayoutInfoBlock = {
     title: '基本信息',
-    column: 1,
+    align: 'left',
     items: [
       {
         label: '名称',
+        name: 'name',
+        rules: [
+          { required: true, message: '特殊日名称必填' },
+          { max: 256, message: '不可超过255个字符' },
+        ],
+        render: () => <Input placeholder="请输入" allowClear />,
+      },
+      {
+        label: '编号',
+        name: 'name',
+        rules: [
+          { required: true, message: '特殊日名称必填' },
+          { max: 256, message: '不可超过255个字符' },
+        ],
+        render: () => <Input placeholder="请输入" allowClear />,
+      },
+      {
+        label: '关联对象1',
+        name: 'name',
+        rules: [
+          { required: true, message: '特殊日名称必填' },
+          { max: 256, message: '不可超过255个字符' },
+        ],
+        render: () => <Input placeholder="请输入" allowClear />,
+      },
+      {
+        label: '关联对象2',
+        name: 'name',
+        rules: [
+          { required: true, message: '特殊日名称必填' },
+          { max: 256, message: '不可超过255个字符' },
+        ],
+        render: () => <Input placeholder="请输入" allowClear />,
+      },
+      {
+        label: '关联对象3',
+        name: 'name',
+        rules: [
+          { required: true, message: '特殊日名称必填' },
+          { max: 256, message: '不可超过255个字符' },
+        ],
+        isFullLine: true,
+        render: () => (
+          <Table
+            columns={[
+              {
+                title: '对象编号',
+                dataIndex: 'objectCode',
+                width: 150,
+                sorter: true,
+              },
+              {
+                title: '对象名称',
+                dataIndex: 'objectName',
+                width: 150,
+                sorter: true,
+              },
+              {
+                title: '对象描述',
+                dataIndex: 'objectDesc',
+                width: 150,
+              },
+            ]}
+          />
+        ),
+      },
+      {
+        label: '关联对象4',
         name: 'name',
         rules: [
           { required: true, message: '特殊日名称必填' },
@@ -53,7 +121,8 @@ export default () => {
 
   const otherInfo: DataFormLayoutInfoBlock = {
     title: '其他信息',
-    column: 1,
+    column: 2,
+    align: 'center',
     items: [
       {
         label: '名称',
@@ -67,13 +136,22 @@ export default () => {
       {
         label: '操作人',
         name: 'operator',
-        isFullLine: true,
+        render: () => <Select allowClear style={{ width: '100%' }} />,
+      },
+      {
+        label: '操作时间',
+        name: 'operatTime',
+        render: () => <Select allowClear style={{ width: '100%' }} />,
+      },
+      {
+        label: '状态',
+        name: 'status',
         render: () => <Select allowClear style={{ width: '100%' }} />,
       },
       {
         label: '备注',
         name: 'desc',
-        isFullLine: true,
+        span: 2,
         render: () => <Input />,
         tooltip: '备注的注视',
       },
@@ -111,7 +189,6 @@ export default () => {
 
   const baseInfo: DataFormLayoutInfoBlock = {
     title: '基本信息',
-    column: 1,
     items: [
       {
         label: '名称',
@@ -184,6 +261,8 @@ export default () => {
 | extra  | 标题右边拓展内容， | `ReactNode`                | -      |
 | column | 每行的列数量       | `number`                   | 1      |
 | items  | 当前标题下内容     | `DataFormLayoutInfoItem[]` |        |
+| align  | 表单的对齐方式     | `left` `center` `right`    |        |
+
 
 ## DataFormLayoutInfoItem
 

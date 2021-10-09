@@ -6,6 +6,7 @@ import DataFormLayoutFooter, { DataFormLayoutFooterProps } from './components/Da
 const detailContextStyle = {
   display: 'flex',
   width: '100%',
+  height: '100%',
 };
 
 const BlDataFormLayout: React.FC<

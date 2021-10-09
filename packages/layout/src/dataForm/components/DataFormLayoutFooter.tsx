@@ -101,6 +101,7 @@ const DataFormLayoutFooter = (props: DataFormLayoutFooterProps) => {
         position: 'absolute',
         bottom: 0,
         boxShadow: '0px -5px 5px -5px #b9b6b6',
+        background: '#ffffff',
         ...footerStyle,
       }}
     >
