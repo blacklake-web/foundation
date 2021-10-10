@@ -1,4 +1,4 @@
-import React, { ReactNode, useState } from 'react';
+import React, { ReactNode, useEffect, useState } from 'react';
 // import { MultiCascader } from 'rsuite';
 import MultiCascader from 'gc-rsuite/lib/MultiCascader';
 import { BlMultiCascaderProps, DataItemType } from './index.type';
@@ -19,9 +19,10 @@ export const BlMultiCascader: React.FC<BlMultiCascaderProps> = (props) => {
     // noResultsText = '没查询到结果',
     // checkAllText = '全部',
     loadData,
+    loading = false
   } = props;
   const [blvalue, setBlvalue] = useState(value);
-  const [loading, setLoading] = useState(false);
+  const [blloading, setBlloading] = useState(loading);
   const [blData, setBlData] = useState<DataItemType[]>(options);
 
   const handleChange = (value, event) => {
@@ -39,25 +40,26 @@ export const BlMultiCascader: React.FC<BlMultiCascaderProps> = (props) => {
   };
   // 搜索
   const handleOnSearch = async (inputValue, e) => {
+    // TODO 如果value有值，则应在options列表置顶
     // TODO 可以加个防抖
     if (typeof onSearch === 'function') {
-      setLoading(true);
+      setBlloading(true);
       const data = await onSearch(inputValue, e);
       setBlData(data);
-      setLoading(false);
+      setBlloading(false);
     }
   };
   // 渲染菜单栏
   const renderMenu = (children, menu) => {
-    if (children.length === 0) {
-      return <p style={{ padding: 4, textAlign: 'center' }}>加载中...</p>;
-    }
-    if (loading || children.length === 0) {
+    if (blloading) {
       return (
         <p style={{ padding: 4, textAlign: 'center' }}>
           <Icon style={{ marginRight: 4 }} type="loading" /> 加载中...
         </p>
       );
+    }
+    if (children.length === 0) {
+      return <p style={{ padding: 4, textAlign: 'center' }}>暂无数据</p>;
     }
     return menu;
   };
@@ -88,6 +90,13 @@ export const BlMultiCascader: React.FC<BlMultiCascaderProps> = (props) => {
       }
     }
   };
+
+  useEffect(() => {
+    setBlData(options);
+  }, [options])
+  useEffect(() => {
+    setBlloading(loading);
+  }, [loading])
 
   return (
     <div>

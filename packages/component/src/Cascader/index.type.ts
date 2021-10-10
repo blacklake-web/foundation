@@ -21,10 +21,15 @@ export interface BlCascaderProps extends CascaderProps {
    * [BL] 动态加载选项时，使用该搜索方式
    * @default
    */
-  onSearch?: (value) => CascaderOptionType[];
+  onSearch?: (value) => Promise<CascaderOptionType[]>;
   /**
    * [BL] 搜索输入框占位文本
    * @default "请输入..."
    */
   searchPlaceholder?: string;
+  /**
+  * [BL] 为 true 时显示notFoundContent内容
+  * @default false
+  */
+  loading?: boolean
 }

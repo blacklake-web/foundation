@@ -4,10 +4,10 @@
  *
  */
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { BlCascader, cascaderOptions } from '@blacklake-web/component';
 import { Divider } from 'antd';
-import { CascaderValueType } from 'antd/lib/cascader';
+import { CascaderOptionType, CascaderValueType } from 'antd/lib/cascader';
 
 const optionLists = [
   {
@@ -26,18 +26,40 @@ const optionLists = [
     isLeaf: true,
   },
 ];
-
 const App = () => {
-  const [value1, setvalue1] = useState();
-  const [value2, setvalue2] = useState();
-  const [options, setOptions] = useState(optionLists);
+  const [value1, setvalue1] = useState<CascaderValueType>();
+  const [value11, setvalue11] = useState<CascaderValueType>(['zhejiang1', 'hangzhou1', 'xihu1']);
+  const [value2, setvalue2] = useState<CascaderValueType>();
+  const [value22, setvalue22] = useState<CascaderValueType>(['zhejiang']);
+  const [options1, setOptions1] = useState<CascaderOptionType[]>();
+  const [options11, setOptions11] = useState<CascaderOptionType[]>(cascaderOptions);
+  const [options2, setOptions2] = useState<CascaderOptionType[]>([]);
+  const [options22, setOptions22] = useState<CascaderOptionType[]>([
+    {
+      value: 'zhejiang',
+      label: '浙江',
+      isLeaf: false,
+    },
+  ]);
+  const [loading, setLoading] = useState(false)
 
-  const fetchData = () => {
+  const fetchData1 = async () => {
+    setLoading(true);
     return new Promise((resove) => {
       setTimeout(() => {
-        resove({
-          data: cascaderOptions,
-        });
+        setOptions1(cascaderOptions);
+        setLoading(false);
+        resove(true);
+      }, 3000);
+    });
+  };
+  const fetchData2 = async () => {
+    setLoading(true);
+    return new Promise((resove) => {
+      setTimeout(() => {
+        setOptions2(optionLists);
+        setLoading(false);
+        resove(true);
       }, 3000);
     });
   };
@@ -63,7 +85,7 @@ const App = () => {
           value: 'dynamic2',
         },
       ];
-      setOptions([...options]);
+      setOptions2([...options2]);
     }, 1000);
   };
   const searchData = (value) => {
@@ -85,6 +107,7 @@ const App = () => {
       }, 3000);
     });
   };
+
   return (
     <>
       <div>
@@ -105,8 +128,37 @@ const App = () => {
             console.log('value1: ', value);
           }}
           style={{ width: 300 }}
-          options={cascaderOptions}
+          options={options1}
           showSearch
+          onPopupVisibleChange={(popupVisible) => {
+            console.log('onPopupVisibleChange')
+            fetchData1();
+          }}
+          loading={loading}
+        />
+      </div>
+      <Divider />
+      <div>
+        <span
+          style={{
+            display: 'inline-block',
+            textAlign: 'right',
+            width: '200px',
+            paddingRight: '16px',
+          }}
+        >
+          全量加载:存在默认值
+        </span>
+        <BlCascader
+          value={value11}
+          onChange={(value) => {
+            setvalue11(value);
+            console.log('value11: ', value);
+          }}
+          style={{ width: 300 }}
+          options={options11}
+          showSearch
+          loading={loading}
         />
       </div>
       <Divider />
@@ -125,12 +177,45 @@ const App = () => {
           value={value2}
           onChange={onChange}
           style={{ width: 300 }}
-          options={options}
+          options={options2}
           loadData={loadData}
           onSearch={(value) => {
             // 模拟 发送后端请求
             return searchData(value);
           }}
+          onPopupVisibleChange={(popupVisible) => {
+            console.log('onPopupVisibleChange')
+            fetchData2();
+          }}
+          loading={loading}
+        />
+      </div>
+      <Divider />
+      <div>
+        <span
+          style={{
+            display: 'inline-block',
+            textAlign: 'right',
+            width: '200px',
+            paddingRight: '16px',
+          }}
+        >
+          动态加载选项:存在默认值
+        </span>
+        <BlCascader
+          value={value22}
+          onChange={(value) => {
+            setvalue22(value);
+            console.log('value22: ', value);
+          }}
+          style={{ width: 300 }}
+          options={options22}
+          loadData={loadData}
+          onSearch={(value) => {
+            // 模拟 发送后端请求
+            return searchData(value);
+          }}
+          loading={loading}
         />
       </div>
     </>
