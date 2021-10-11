@@ -17,7 +17,7 @@ group:
  * desc: 基础使用
  */
 import React from 'react';
-import { Form, Checkbox, Input, DatePicker, Select, Table } from 'antd';
+import { Form, Checkbox, Input, DatePicker, Select, Table, Radio } from 'antd';
 import { DataFormLayout, DataFormLayoutInfoBlock } from '@blacklake-web/layout';
 
 export default () => {
@@ -111,10 +111,14 @@ export default () => {
         render: () => <DatePicker allowClear style={{ width: '100%' }} />,
       },
       {
-        label: '结束日期',
-        name: 'endTime',
-        rules: [{ required: true, message: '结束日期必选' }],
-        render: () => <DatePicker allowClear style={{ width: '100%' }} />,
+        label: '是否使用',
+        name: 'user',
+        render: () => (
+          <Radio.Group>
+            <Radio value={0}>是</Radio>
+            <Radio value={1}>否</Radio>
+          </Radio.Group>
+        ),
       },
     ],
   };
@@ -159,7 +163,7 @@ export default () => {
   };
 
   return (
-    <div style={{ border: '1px solid #d8d8d8'}}>
+    <div style={{ border: '1px solid #d8d8d8', position: 'relative' }}>
       <DataFormLayout form={modalForm} title="新建字段" info={[baseInfo, otherInfo]} />
     </div>
   );
@@ -312,7 +316,13 @@ export default () => {
         visible={visibleType === 'modal'}
         onClose={onCancel}
         width={800}
-        content={<DataFormLayout form={modalForm} title="新建字段" info={[baseInfo, otherInfo, extarInfo]} />}
+        content={
+          <DataFormLayout
+            form={modalForm}
+            title="新建字段"
+            info={[baseInfo, otherInfo, extarInfo]}
+          />
+        }
       />
       <DataFormLayoutForDrawer
         visible={visibleType === 'drawer'}
@@ -336,7 +346,6 @@ export default () => {
 | column | 每行的列数量       | `number`                   | 1      |
 | items  | 当前标题下内容     | `DataFormLayoutInfoItem[]` |        |
 | align  | 表单的对齐方式     | `left` `center` `right`    |        |
-
 
 ## DataFormLayoutInfoItem
 

@@ -31,8 +31,6 @@ const infoBlockStyle = {
   marginTop: 24,
 };
 
-const defaultCenterItemWidth = '500px';
-
 const DataFormLayoutBody = (props: DataFormLayoutBodyProps) => {
   const {
     info,
@@ -48,21 +46,21 @@ const DataFormLayoutBody = (props: DataFormLayoutBodyProps) => {
   const formItemRef = React.useRef(null);
   const { judgeVisible, addVisible, deleteVisible } = useVisible();
   const dataCount = info
-    ?.map((i) => i.items.length)
+    ?.map((i) => i.items?.length || 0)
     .reduce((previousValue, currentValue) => previousValue + currentValue);
 
   const getColumn = (windowSize, itemCount) => {
     if (itemCount <= 12) {
       return 1;
     }
-    if (windowSize >= 1920 || (windowSize <= 1920 && windowSize >= 1440)) {
-      return 3;
+    if (windowSize < 1280) {
+      return 1;
     }
     if (windowSize >= 1280 && windowSize <= 1440) {
       return 2;
     }
-    if (windowSize < 1280) {
-      return 1;
+    if (windowSize >= 1440) {
+      return 3;
     }
     return 1;
   };
@@ -94,7 +92,9 @@ const DataFormLayoutBody = (props: DataFormLayoutBodyProps) => {
             <Col>
               <div
                 className={'bl-toggleButon'}
-                onClick={() => judgeVisible(infoIndex) ? deleteVisible(infoIndex): addVisible(infoIndex)}
+                onClick={() =>
+                  judgeVisible(infoIndex) ? deleteVisible(infoIndex) : addVisible(infoIndex)
+                }
               >
                 <BlIcon type={judgeVisible(infoIndex) ? 'iconshouqi' : 'iconzhankai'} />
               </div>
@@ -107,39 +107,27 @@ const DataFormLayoutBody = (props: DataFormLayoutBodyProps) => {
     const renderItem = (infoBlock: DataFormLayoutInfoBlock) => {
       const { items = [], column, align = 'left' } = infoBlock;
       return (
-        <Row ref={formItemRef}>
+        <Row ref={formItemRef} style={{ paddingTop: 24 }}>
           {items.map((item, itemIndex) => {
             const { span, render, style, ...formItemProps } = item;
             const isfullline = item.isFullLine ?? (column && span && column === span);
             const colSpan = isfullline ? 100 : baseSpan;
-            let formItemWidth = '100%';
-            if (isSingleColumn && !isfullline) {
-              formItemWidth = defaultCenterItemWidth;
-            }
             return (
-              <Col
-                key={`col_${itemIndex}`}
+              <Form.Item
+                key={`formItem_${itemIndex}`}
+                className="bl-form-item"
+                {...formItemProps}
                 style={{
-                  padding: '12px 20px',
-                  marginBottom: 0,
+                  padding: '0 12px',
                   flex: `0 0 ${colSpan}%`,
                   maxWidth: `${colSpan}%`,
                   display: 'flex',
                   justifyContent: align,
+                  ...style,
                 }}
               >
-                <Form.Item
-                  key={`formItem_${itemIndex}`}
-                  {...formItemProps}
-                  style={{
-                    width: formItemWidth,
-                    alignItems: 'center',
-                    ...style,
-                  }}
-                >
-                  {render()}
-                </Form.Item>
-              </Col>
+                {render()}
+              </Form.Item>
             );
           })}
         </Row>
@@ -201,9 +189,10 @@ const DataFormLayoutBody = (props: DataFormLayoutBodyProps) => {
           style={{ width: '100%' }}
           labelCol={isSingleColumn ? { flex: '120px' } : {}}
           layout={isSingleColumn ? 'horizontal' : formLayout}
-
         >
-          {info?.map((infoBlock: DataFormLayoutInfoBlock, infoIndex) => renderInfoBlock(infoBlock, infoIndex))}
+          {info?.map((infoBlock: DataFormLayoutInfoBlock, infoIndex) =>
+            renderInfoBlock(infoBlock, infoIndex),
+          )}
         </Form>
         {renderRightContext()}
       </Row>
