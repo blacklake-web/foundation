@@ -29,7 +29,6 @@ export interface DataFormLayoutBodyProps {
 
 const infoBlockStyle = {
   marginTop: 24,
-  paddingBottom: 32,
 };
 
 const defaultCenterItemWidth = '500px';
@@ -134,6 +133,7 @@ const DataFormLayoutBody = (props: DataFormLayoutBodyProps) => {
                   {...formItemProps}
                   style={{
                     width: formItemWidth,
+                    alignItems: 'center',
                     ...style,
                   }}
                 >

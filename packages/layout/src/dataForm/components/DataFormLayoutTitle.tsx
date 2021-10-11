@@ -18,7 +18,7 @@ const DataFormLayoutTitle = (props: DataFormLayoutTitleProps) => {
   const renderTitle = () => {
     const isNodeTitle = typeof title === 'object';
 
-    return isNodeTitle ? title : <h2 style={{ marginBottom: 0 }}>{title}</h2>;
+    return isNodeTitle ? title : <h2 style={{ marginBottom: 0, fontSize: 18 }}>{title}</h2>;
   };
 
   return title ? (

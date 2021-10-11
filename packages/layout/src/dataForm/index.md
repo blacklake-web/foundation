@@ -159,7 +159,7 @@ export default () => {
   };
 
   return (
-    <div style={{ border: '1px solid #d8d8d8' }}>
+    <div style={{ border: '1px solid #d8d8d8'}}>
       <DataFormLayout form={modalForm} title="新建字段" info={[baseInfo, otherInfo]} />
     </div>
   );
@@ -214,6 +214,80 @@ export default () => {
     ],
   };
 
+  const otherInfo: DataFormLayoutInfoBlock = {
+    title: '其他信息',
+    align: 'left',
+    items: [
+      {
+        label: '名称',
+        name: 'name',
+        rules: [
+          { required: true, message: '特殊日名称必填' },
+          { max: 256, message: '不可超过255个字符' },
+        ],
+        render: () => <Input placeholder="请输入" allowClear />,
+      },
+      {
+        label: '操作人',
+        name: 'operator',
+        render: () => <Select allowClear style={{ width: '100%' }} />,
+      },
+      {
+        label: '操作时间',
+        name: 'operatTime',
+        render: () => <Select allowClear style={{ width: '100%' }} />,
+      },
+      {
+        label: '状态',
+        name: 'status',
+        render: () => <Select allowClear style={{ width: '100%' }} />,
+      },
+      {
+        label: '备注',
+        name: 'desc',
+        render: () => <Input />,
+        tooltip: '备注的注视',
+      },
+    ],
+  };
+
+  const extarInfo: DataFormLayoutInfoBlock = {
+    title: '额外信息',
+    align: 'left',
+    items: [
+      {
+        label: '名称',
+        name: 'name',
+        rules: [
+          { required: true, message: '特殊日名称必填' },
+          { max: 256, message: '不可超过255个字符' },
+        ],
+        render: () => <Input placeholder="请输入" allowClear />,
+      },
+      {
+        label: '操作人',
+        name: 'operator',
+        render: () => <Select allowClear style={{ width: '100%' }} />,
+      },
+      {
+        label: '操作时间',
+        name: 'operatTime',
+        render: () => <Select allowClear style={{ width: '100%' }} />,
+      },
+      {
+        label: '状态',
+        name: 'status',
+        render: () => <Select allowClear style={{ width: '100%' }} />,
+      },
+      {
+        label: '备注',
+        name: 'desc',
+        render: () => <Input />,
+        tooltip: '备注的注视',
+      },
+    ],
+  };
+
   const onCancel = () => {
     setVisibleType('');
   };
@@ -238,7 +312,7 @@ export default () => {
         visible={visibleType === 'modal'}
         onClose={onCancel}
         width={800}
-        content={<DataFormLayout form={modalForm} title="新建字段" info={[baseInfo]} />}
+        content={<DataFormLayout form={modalForm} title="新建字段" info={[baseInfo, otherInfo, extarInfo]} />}
       />
       <DataFormLayoutForDrawer
         visible={visibleType === 'drawer'}
