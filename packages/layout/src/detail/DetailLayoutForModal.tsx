@@ -8,7 +8,7 @@ const bodyStyle = {
   padding: 0,
   maxHeight: document.body.clientHeight - 100,
   display: 'flex',
-  overflowY: 'auto',
+  'overflow-y': 'auto',
 };
 
 const DetailLayoutForModal = (props: DetailLayoutForModalProps) => {

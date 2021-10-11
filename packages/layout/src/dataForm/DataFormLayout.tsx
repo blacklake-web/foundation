@@ -7,6 +7,7 @@ const detailContextStyle = {
   display: 'flex',
   width: '100%',
   height: '100%',
+  background: '#ffffff',
 };
 
 const BlDataFormLayout: React.FC<

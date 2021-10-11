@@ -15,7 +15,8 @@ interface DetailLayoutContentProps {
 }
 
 const infoBlockStyleNoFlex = {
-  marginBottom: 24,
+  margin: 24,
+  background: '#ffffff',
 };
 
 const RenderInfoBlock: React.FC<{ infoBlock: DetailLayoutInfoBlock; dataSource: any; baseColumn: number }> =
@@ -32,7 +33,7 @@ const RenderInfoBlock: React.FC<{ infoBlock: DetailLayoutInfoBlock; dataSource: 
       <div>
         <Descriptions
           title={
-            <div className="bl-descriptionTitle">
+            title ? <div className="bl-descriptionTitle">
               <p>{title}</p>
               <div
                 className={'bl-toggleButon'}
@@ -40,7 +41,7 @@ const RenderInfoBlock: React.FC<{ infoBlock: DetailLayoutInfoBlock; dataSource: 
               >
                 <BlIcon type={toggle ? 'iconshouqi' : 'iconzhankai'} />
               </div>
-            </div>
+            </div> : null
           }
           labelStyle={{ paddingLeft: 20 }}
           style={infoBlockStyleNoFlex}
@@ -86,7 +87,6 @@ const DetailLayoutContent = (props: DetailLayoutContentProps) => {
   const dataCount = info
     ?.map((i) => i.items.length)
     .reduce((previousValue, currentValue) => previousValue + currentValue);
-
   const useSize = (target) => {
     const [rowWidth, setRowWidth] = React.useState(0);
 
@@ -114,7 +114,7 @@ const DetailLayoutContent = (props: DetailLayoutContentProps) => {
     return 1;
   };
   return (
-    <div ref={detailContentRef} style={{ height: '100%', padding: 20, overflowY: 'auto' }}>
+    <div ref={detailContentRef} className="detail-content">
       {info?.map((item, index) => (
         <RenderInfoBlock
           key={`${item.title}_${index}`}
