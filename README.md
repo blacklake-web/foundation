@@ -27,4 +27,6 @@ npm run publish
 1.0.14-alpha.2
 1.0.14-alpha.3
 
+发版成功之后到 https://github.com/blacklake-web/foundation/releases 对应的tag写上更新的内容
+
 ```

@@ -12,6 +12,10 @@ export default defineConfig({
   navs: [
     null,
     {
+      title: '更新日志',
+      path: 'https://github.com/blacklake-web/foundation/releases',
+    },
+    {
       title: 'Github',
       path: 'https://github.com/blacklake-web/foundation#readme',
     },
