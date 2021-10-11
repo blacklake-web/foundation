@@ -159,7 +159,7 @@ export default () => {
   };
 
   return (
-    <div style={{ border: '1px solid #d8d8d8'}}>
+    <div style={{ border: '1px solid #d8d8d8', position: 'relative' }}>
       <DataFormLayout form={modalForm} title="新建字段" info={[baseInfo, otherInfo]} />
     </div>
   );
