@@ -52,7 +52,11 @@ export interface BlMultiCascaderProps extends MultiCascaderProps {
    * @default ','
    */
   customDivider: "string"
-
+  /**
+  * [BL] 为 true 时显示 '加载中...'，为 false 显示'暂无数据'
+  * @default false
+  */
+  loading?: boolean
 
   // /**
   //  * [BL] 未查询到结果占位符

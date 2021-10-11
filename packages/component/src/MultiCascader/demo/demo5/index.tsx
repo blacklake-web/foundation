@@ -6,6 +6,7 @@
 
 import React, { useState } from 'react';
 import { BlMultiCascader, multiCascaderOptions } from '@blacklake-web/component';
+import { DataItemType } from 'src/MultiCascader/index.type';
 import { Divider } from 'antd';
 
 import './index.less';
@@ -13,6 +14,10 @@ import './index.less';
 export default () => {
   const [value1, setValue1] = useState(['1-1', '2']);
   const [value2, setValue2] = useState(['1-1']);
+  const [options1, setOptions1] = useState<DataItemType[]>(multiCascaderOptions);
+  const [options2, setOptions2] = useState<any>(multiCascaderOptions);
+  const [loading, setLoading] = useState(false)
+
 
   function createNode() {
     const hasChildren = Math.random() > 0.2;
@@ -45,14 +50,35 @@ export default () => {
       }, 1000);
     });
   };
-  const defaultData = multiCascaderOptions;
 
+  const fetchData1 = async () => {
+    setLoading(true);
+    return new Promise((resove) => {
+      setTimeout(() => {
+        setOptions1(multiCascaderOptions);
+        setLoading(false);
+        resove(true);
+      }, 3000);
+    });
+  };
+  const fetchData2 = async () => {
+    setLoading(true);
+    return new Promise((resove) => {
+      setTimeout(() => {
+        const options = createNode();
+        console.log('options', [options])
+        setOptions2([options]);
+        setLoading(false);
+        resove(true);
+      }, 3000);
+    });
+  };
   return (
     <>
       <div className="box">
         <p>全量加载+搜索：</p>
         <BlMultiCascader
-          options={multiCascaderOptions}
+          options={options1}
           style={{ width: 300 }}
           value={value1}
           onChange={(value) => {
@@ -63,13 +89,15 @@ export default () => {
             console.log(`搜索：${value}`);
             return fetchSearch(value);
           }}
+          onOpen={fetchData1}
+          loading={loading}
         />
       </div>
       <Divider />
       <div className="box">
         <p>动态加载+搜索：</p>
         <BlMultiCascader
-          options={defaultData}
+          options={options2}
           style={{ width: 300 }}
           value={value2}
           onChange={(value) => {
@@ -80,6 +108,8 @@ export default () => {
             return fetchNodes(node.id);
           }}
           onSearch={fetchSearch}
+          onOpen={fetchData2}
+          loading={loading}
         />
       </div>
     </>
