@@ -42,7 +42,7 @@
     "father": "^2.30.6"
   },
   "dependencies": {
-    "@blacklake-web/component": "^1.0.13-alpha.14",
+    "@blacklake-web/component": "^1.0.14-alpha.5",
     "@blacklake-web/utils": "^1.0.13-alpha.12",
     "@blacklake-web/hooks": "1.0.13-alpha.12",
     "@react-hook/resize-observer": "^1.2.4"
