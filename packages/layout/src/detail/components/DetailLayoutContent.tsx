@@ -55,6 +55,7 @@ const RenderInfoBlock: React.FC<{ infoBlock: DetailLayoutInfoBlock; dataSource: 
                 <Descriptions.Item
                   key={`${item.dataIndex}_${index}`}
                   span={item.isFullLine ? baseColumn : 1}
+                  contentStyle={{ width: '100%', display: 'inline-block' }}
                   label={
                     item.desc ? (
                       <span>
