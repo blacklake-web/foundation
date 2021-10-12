@@ -43,16 +43,13 @@ const DataFormLayoutBody = (props: DataFormLayoutBodyProps) => {
     infoBlockStyleProps,
     bodyStyle,
   } = props;
-  const formItemRef = React.useRef(null);
+  const contentRef = React.useRef(null);
   const { judgeVisible, addVisible, deleteVisible } = useVisible();
-  const dataCount = info
-    ?.map((i) => i.items?.length || 0)
-    .reduce((previousValue, currentValue) => previousValue + currentValue);
+  // const dataCount = info
+  //   ?.map((i) => i.items?.length || 0)
+  //   .reduce((previousValue, currentValue) => previousValue + currentValue);
 
-  const getColumn = (windowSize, itemCount) => {
-    if (itemCount <= 12) {
-      return 1;
-    }
+  const getColumn = (windowSize) => {
     if (windowSize < 1280) {
       return 1;
     }
@@ -69,25 +66,25 @@ const DataFormLayoutBody = (props: DataFormLayoutBodyProps) => {
     const [rowWidth, setRowWidth] = React.useState(0);
 
     React.useLayoutEffect(() => {
-      setRowWidth(target.current.getBoundingClientRect());
+      setRowWidth(target.current.getBoundingClientRect().width);
     }, [target]);
 
     useResizeObserver(target, (entry) => setRowWidth(entry.contentRect.width));
     return rowWidth;
   };
 
-  const baseSpan = (1 / getColumn(useSize(formItemRef), dataCount)) * 100;
-  const isSingleColumn = getColumn(useSize(formItemRef), dataCount) === 1;
+  const baseSpan = (1 / getColumn(useSize(contentRef))) * 100;
+  const isSingleColumn = getColumn(useSize(contentRef)) === 1;
 
   const renderInfoBlock = (infoBlock: DataFormLayoutInfoBlock, infoIndex) => {
     const renderTitle = (infoBlock: DataFormLayoutInfoBlock) => {
       const { title } = infoBlock;
 
       return title ? (
-        <div style={{ paddingRight: 20 }}>
+        <div style={{ paddingRight: 20 }} key={`info_${infoIndex}`}>
           <Row justify={'space-between'} className="bl-descriptionTitle">
             <Col>
-              <p>{title}</p>
+              <span className="title-left">{title}</span>
             </Col>
             <Col>
               <div
@@ -107,15 +104,14 @@ const DataFormLayoutBody = (props: DataFormLayoutBodyProps) => {
     const renderItem = (infoBlock: DataFormLayoutInfoBlock) => {
       const { items = [], column, align = 'left' } = infoBlock;
       return (
-        <Row ref={formItemRef} style={{ paddingTop: 24 }}>
+        <Row style={{ paddingTop: 24 }}>
           {items.map((item, itemIndex) => {
             const { span, render, style, ...formItemProps } = item;
-            const isfullline = item.isFullLine ?? (column && span && column === span);
-            const colSpan = isfullline ? 100 : baseSpan;
+            const colSpan = item.isFullLine || item.isFullLine ? 100 : baseSpan;
             return (
               <Form.Item
                 key={`formItem_${itemIndex}`}
-                className="bl-form-item"
+                className={item.isFullLine ? 'bl-form-item' : 'bl-form-item-single'}
                 {...formItemProps}
                 style={{
                   padding: '0 12px',
@@ -123,6 +119,7 @@ const DataFormLayoutBody = (props: DataFormLayoutBodyProps) => {
                   maxWidth: `${colSpan}%`,
                   display: 'flex',
                   justifyContent: align,
+                  alignItems: 'center',
                   ...style,
                 }}
               >
@@ -178,6 +175,7 @@ const DataFormLayoutBody = (props: DataFormLayoutBodyProps) => {
         marginBottom: 50,
         ...bodyStyle,
       }}
+      ref={contentRef}
     >
       {renderTopContext()}
       <Row wrap={false}>
@@ -186,7 +184,7 @@ const DataFormLayoutBody = (props: DataFormLayoutBodyProps) => {
           form={form}
           name="dataFormInfo"
           preserve={false}
-          style={{ width: '100%' }}
+          style={{ width: '100%', marginBottom: 24 }}
           labelCol={isSingleColumn ? { flex: '120px' } : {}}
           layout={isSingleColumn ? 'horizontal' : formLayout}
         >

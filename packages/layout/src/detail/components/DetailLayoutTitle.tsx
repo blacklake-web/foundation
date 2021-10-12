@@ -96,7 +96,7 @@ const DetailLayoutTitle = (props: DetailLayoutTitleProps) => {
 
   return (
     <div style={{ ...titleStyle, ...style }}>
-      <Row justify={'space-between'}>
+      <Row justify={'space-between'} style={{ alignItems: 'center' }}>
         <Col span={14}>{renderTitle()}</Col>
         <Col span={10} style={extraStyle}>
           <Space size={8} align="start">

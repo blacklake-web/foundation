@@ -16,7 +16,6 @@ interface DetailLayoutContentProps {
 
 const infoBlockStyleNoFlex = {
   margin: 24,
-  background: '#ffffff',
 };
 
 const RenderInfoBlock: React.FC<{ infoBlock: DetailLayoutInfoBlock; dataSource: any; baseColumn: number }> =
@@ -34,7 +33,7 @@ const RenderInfoBlock: React.FC<{ infoBlock: DetailLayoutInfoBlock; dataSource: 
         <Descriptions
           title={
             title ? <div className="bl-descriptionTitle">
-              <p>{title}</p>
+              <span className="title-left">{title}</span>
               <div
                 className={'bl-toggleButon'}
                 onClick={() => setToggle((prevState) => !prevState)}
@@ -55,6 +54,7 @@ const RenderInfoBlock: React.FC<{ infoBlock: DetailLayoutInfoBlock; dataSource: 
               return (
                 <Descriptions.Item
                   key={`${item.dataIndex}_${index}`}
+                  span={item.isFullLine ? baseColumn : 1}
                   label={
                     item.desc ? (
                       <span>
@@ -84,9 +84,9 @@ const RenderInfoBlock: React.FC<{ infoBlock: DetailLayoutInfoBlock; dataSource: 
 const DetailLayoutContent = (props: DetailLayoutContentProps) => {
   const { info, dataSource } = props;
   const detailContentRef = useRef(null);
-  const dataCount = info
-    ?.map((i) => i.items.length)
-    .reduce((previousValue, currentValue) => previousValue + currentValue);
+  // const dataCount = info
+  //   ?.map((i) => i.items.length)
+  //   .reduce((previousValue, currentValue) => previousValue + currentValue);
   const useSize = (target) => {
     const [rowWidth, setRowWidth] = React.useState(0);
 
@@ -98,10 +98,7 @@ const DetailLayoutContent = (props: DetailLayoutContentProps) => {
     return rowWidth;
   };
 
-  const getColumn = (windowSize, itemCount) => {
-    if (itemCount <= 12) {
-      return 1;
-    }
+  const getColumn = (windowSize) => {
     if (windowSize >= 1920 || (windowSize <= 1920 && windowSize >= 1440)) {
       return 3;
     }
@@ -120,7 +117,7 @@ const DetailLayoutContent = (props: DetailLayoutContentProps) => {
           key={`${item.title}_${index}`}
           infoBlock={item}
           dataSource={dataSource}
-          baseColumn={getColumn(useSize(detailContentRef), dataCount)}
+          baseColumn={getColumn(useSize(detailContentRef))}
         />
       ))}
     </div>
