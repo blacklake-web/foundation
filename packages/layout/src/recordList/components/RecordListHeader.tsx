@@ -117,16 +117,15 @@ const RecordListHeader = (props: RecordListHeaderProps) => {
   };
 
   /**
-   * mainMenu的 button式操作，当index在第一个时,type='primary'
-   * @param index
-   * @returns
+   * mainMenu的 button式操作
    */
-  const renerButton = (item: RecordListHeaderButtonType, index: number) => {
+  const renerButton = (item: RecordListHeaderButtonType) => {
     return (
       <Button
         key={item.title}
         loading={isLoading === item.title}
         type={'text'}
+        style={{ paddingLeft: 0, paddingRight: 0 }}
         disabled={(item?.disabled ?? false) || !!isLoading}
         onClick={() => {
           item.onClick();
@@ -279,12 +278,12 @@ const RecordListHeader = (props: RecordListHeaderProps) => {
             </Button>
           )}
         </Space>
-        <Space size={16}>
-          {mainMenu?.map((item, index) => {
+        <Space split={<Divider type="vertical" />}>
+          {mainMenu?.map((item) => {
             if (_.has(item, 'items')) {
               return renderMenu(item);
             }
-            return renerButton(item, index);
+            return renerButton(item);
           })}
         </Space>
       </div>

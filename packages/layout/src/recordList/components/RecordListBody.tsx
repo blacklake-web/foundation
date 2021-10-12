@@ -93,6 +93,8 @@ const RecordListBody = <RecordType extends object = any>(
   const handleSelectRowKeys = (selectedKeys: BlSelectedRowKeys, selectedRows: any[]) => {
     if (!listLayoutState.isSelectMode) {
       dispatch?.({ type: LIST_REDUCER_TYPE.ChangeSelectMode, payload: true });
+    } else if (listLayoutState.isSelectMode && isEmpty(selectedKeys)) {
+      dispatch?.({ type: LIST_REDUCER_TYPE.ChangeSelectMode, payload: false });
     }
 
     selectedRowsRef.current = selectedRows;
