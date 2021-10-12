@@ -119,7 +119,6 @@ const DataFormLayoutBody = (props: DataFormLayoutBodyProps) => {
                   maxWidth: `${colSpan}%`,
                   display: 'flex',
                   justifyContent: align,
-                  alignItems: 'center',
                   ...style,
                 }}
               >
