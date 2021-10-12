@@ -2,13 +2,7 @@ import React from 'react';
 import DataFormLayoutBody, { DataFormLayoutBodyProps } from './components/DataFormLayoutBody';
 import DataFormLayoutTitle, { DataFormLayoutTitleProps } from './components/DataFormLayoutTitle';
 import DataFormLayoutFooter, { DataFormLayoutFooterProps } from './components/DataFormLayoutFooter';
-
-const detailContextStyle = {
-  display: 'flex',
-  width: '100%',
-  height: '100%',
-  background: '#ffffff',
-};
+import './DataFormLayout.less';
 
 const BlDataFormLayout: React.FC<
   DataFormLayoutTitleProps & DataFormLayoutBodyProps & DataFormLayoutFooterProps
@@ -27,7 +21,7 @@ const BlDataFormLayout: React.FC<
   } = props;
 
   return (
-    <div style={{ ...detailContextStyle, flexDirection: 'column' }}>
+    <div className="data-layout-context">
       <DataFormLayoutTitle title={title} />
       {info?.length ? (
         <DataFormLayoutBody
