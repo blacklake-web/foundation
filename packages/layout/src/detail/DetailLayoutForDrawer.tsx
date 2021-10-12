@@ -25,6 +25,7 @@ const DetailLayoutForDrawer = (props: DetailLayoutForDrawerProps) => {
       bodyStyle={bodyStyle}
       getContainer={'body'}
       keyboard={false}
+      closable={false}
     >
       {content}
     </Drawer>
