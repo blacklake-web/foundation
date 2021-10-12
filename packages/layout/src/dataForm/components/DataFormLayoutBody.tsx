@@ -5,6 +5,7 @@ import { BlIcon } from '@blacklake-web/component';
 import { useVisible } from '@blacklake-web/hooks';
 import { DataFormLayoutInfoBlock } from '../DataFormLayout.type';
 import '../../detail/components/DetailLayoutContent.less';
+import '../DataFormLayout.less';
 export interface DataFormLayoutBodyProps {
   /**顶部拓展内容 */
   topContext?: ReactNode;
@@ -114,10 +115,8 @@ const DataFormLayoutBody = (props: DataFormLayoutBodyProps) => {
                 className={item.isFullLine ? 'bl-form-item' : 'bl-form-item-single'}
                 {...formItemProps}
                 style={{
-                  padding: '0 12px',
                   flex: `0 0 ${colSpan}%`,
                   maxWidth: `${colSpan}%`,
-                  display: 'flex',
                   justifyContent: align,
                   ...style,
                 }}
