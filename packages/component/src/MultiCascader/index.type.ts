@@ -25,22 +25,22 @@ export interface DataItemType {
    */
   loading?: boolean;
 }
-
-export interface BlMultiCascaderProps extends MultiCascaderProps {
+type _MultiCascaderProps = Omit<MultiCascaderProps, 'data'>;
+export interface BlMultiCascaderProps extends _MultiCascaderProps {
   /**
    * 	[BL] 级联组件数据源
    * @default ‘[]’
    */
-  options: DataItemType[]
+  options: DataItemType[];
   /**
    * [BL] 动态加载选项
-   * @default	
+   * @default
    */
   loadData?: (item: DataItemType) => DataItemType[];
   /**
-    * [BL] 搜索的回调函数
-    * @default 
-    */
+   * [BL] 搜索的回调函数
+   * @default
+   */
   onSearch?: (searchKeyword: string, event) => DataItemType[];
   /**
    * [BL] 搜索框占位符
@@ -51,12 +51,12 @@ export interface BlMultiCascaderProps extends MultiCascaderProps {
    * [BL] 自定义分隔符
    * @default ','
    */
-  customDivider: "string"
+  customDivider?: 'string';
   /**
-  * [BL] 为 true 时显示 '加载中...'，为 false 显示'暂无数据'
-  * @default false
-  */
-  loading?: boolean
+   * [BL] 为 true 时显示 '加载中...'，为 false 显示'暂无数据'
+   * @default false
+   */
+  loading?: boolean;
 
   // /**
   //  * [BL] 未查询到结果占位符
@@ -68,5 +68,4 @@ export interface BlMultiCascaderProps extends MultiCascaderProps {
   //   * @default	'全部'
   //   */
   //  checkAllText?: string;
-
 }
