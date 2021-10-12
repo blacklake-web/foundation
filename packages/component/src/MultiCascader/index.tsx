@@ -3,7 +3,7 @@ import React, { ReactNode, useEffect, useState } from 'react';
 import MultiCascader from 'gc-rsuite/lib/MultiCascader';
 import { BlMultiCascaderProps, DataItemType } from './index.type';
 import Icon from '@ant-design/icons';
-// require('gc-rsuite/styles/less/index.less');
+// import 'rsuite/dist/styles/rsuite-default.css';
 import './index.less';
 
 export const BlMultiCascader: React.FC<BlMultiCascaderProps> = (props) => {
@@ -19,7 +19,7 @@ export const BlMultiCascader: React.FC<BlMultiCascaderProps> = (props) => {
     // noResultsText = '没查询到结果',
     // checkAllText = '全部',
     loadData,
-    loading = false
+    loading = false,
   } = props;
   const [blvalue, setBlvalue] = useState(value);
   const [blloading, setBlloading] = useState(loading);
@@ -58,7 +58,7 @@ export const BlMultiCascader: React.FC<BlMultiCascaderProps> = (props) => {
         </p>
       );
     }
-    if (children.length === 0) {
+    if (children?.length === 0) {
       return <p style={{ padding: 4, textAlign: 'center' }}>暂无数据</p>;
     }
     return menu;
@@ -81,7 +81,7 @@ export const BlMultiCascader: React.FC<BlMultiCascaderProps> = (props) => {
   };
   // select
   const onSelect = async (item: DataItemType, selectedPaths: DataItemType[], event) => {
-    const targetOption = selectedPaths[selectedPaths.length - 1];
+    const targetOption = selectedPaths[selectedPaths?.length - 1];
     if (targetOption?.children) {
       if (typeof loadData === 'function') {
         const data = await loadData(item);
@@ -93,13 +93,13 @@ export const BlMultiCascader: React.FC<BlMultiCascaderProps> = (props) => {
 
   useEffect(() => {
     setBlData(options);
-  }, [options])
+  }, [options]);
   useEffect(() => {
     setBlloading(loading);
-  }, [loading])
+  }, [loading]);
 
   return (
-    <div>
+    <div id="bl-multiCascader-wrapper">
       <MultiCascader
         cascade={false}
         countable={false}

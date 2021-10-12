@@ -1,11 +1,11 @@
 @import '../../../../node_modules/gc-rsuite/styles/less/index.less';
-.rs-picker-menu {
-  // z-index: 1000 !important;
-}
+
 @primary: #02b980;
 @black: rgba(0, 0, 0, 0.85);
+
 // :global {
 //   body {
+
 .ant-select-dropdown {
   max-height: 300px;
 }
@@ -22,11 +22,12 @@ div .rs-picker-disabled {
     color: rgba(0, 0, 0, 0.25);
   }
 }
-.rs-picker-toggle-wrapper {
+#bl-multiCascader-wrapper .rs-picker-cascader {
   background: #fff;
   line-height: 18px;
+  width: 100%;
 }
-.rs-picker-default .rs-picker-toggle {
+#bl-multiCascader-wrapper .rs-picker-default .rs-picker-toggle {
   padding: 5px 11px;
   transition: 0.3s;
   height: 100%;
@@ -50,14 +51,10 @@ div .rs-picker-disabled {
 .rs-picker-toggle .rs-picker-toggle-placeholder {
   color: #b8bfcf;
 }
-.rs-picker-menu {
-  z-index: 1000;
-}
 .rs-picker-menu .rs-picker-search-bar::after {
   top: 15px;
 }
-.rs-picker-default:not(.rs-picker-disabled) .rs-picker-toggle:hover,
-.rs-picker-default:not(.rs-picker-disabled) .rs-picker-toggle.active {
+.rs-picker-default:not(.rs-picker-disabled) .rs-picker-toggle:hover,.rs-picker-default:not(.rs-picker-disabled) .rs-picker-toggle.active {
   border-color: @primary;
   transition: 0.3s;
 }
@@ -101,7 +98,6 @@ div .rs-picker-disabled {
   border-color: @primary;
   background-color: @primary;
 }
-
 .rs-picker-check-menu-item-indeterminate
   .rs-picker-check-menu-item-wrapper
   .rs-picker-check-menu-item-inner::before {
@@ -114,15 +110,22 @@ div .rs-picker-disabled {
 .rs-picker-menu .rs-picker-search-bar .rs-picker-search-bar-input:focus {
   border-color: @primary;
 }
-.rs-picker-menu .rs-picker-search-bar .rs-picker-search-bar-input{
+
+#bl-multiCascader-wrapper .rs-picker-menu .rs-picker-search-bar .rs-picker-search-bar-input {
   border-radius: 2px;
 }
-// .rs-picker-value-item,
-// .rs-picker-value-separator {
-//   color: @black;
-// }
-.rs-picker-value-count {
+#bl-multiCascader-wrapper .rs-picker-value-count {
   background-color: @primary;
+}
+.rs-picker-default:not(.rs-picker-disabled) .rs-btn:hover,
+.rs-picker-default:not(.rs-picker-disabled) .rs-picker-toggle:hover,
+.rs-picker-default:not(.rs-picker-disabled) .rs-btn.active,
+.rs-picker-default:not(.rs-picker-disabled) .rs-picker-toggle.active {
+  border-color: @primary !important;
+  transition: 0.3s;
+}
+.rs-picker-menu {
+  z-index: 1000 !important;
 }
 //   }
 // }
