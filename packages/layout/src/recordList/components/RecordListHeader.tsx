@@ -236,16 +236,15 @@ const RecordListHeader = (props: RecordListHeaderProps) => {
    * @returns
    */
   const renderMainMenu = () => {
-    let filterDataCount = 0;
+    let afterFormatData = {};
 
     if (typeof formatDataToDisplay === 'function') {
-      const afterFormatData = formatDataToDisplay(listLayoutState.filterData);
-
-      filterDataCount = objToKeyValueAry(afterFormatData).length;
+      afterFormatData = formatDataToDisplay(listLayoutState.filterData);
     } else {
-      filterDataCount = _.size(listLayoutState.filterData);
+      afterFormatData = listLayoutState.filterData;
     }
 
+    const filterDataCount = objToKeyValueAry(afterFormatData).length;
     const isNeedFilterButton = !_.isEmpty(filterList);
 
     return (

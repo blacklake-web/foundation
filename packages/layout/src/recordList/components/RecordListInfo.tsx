@@ -20,15 +20,13 @@ export interface RecordListInfoProps extends BlRecordListBaseProps {
 }
 
 export const objToKeyValueAry = (obj: AfterFormatData): DisplayDatas => {
-  const names = Object.keys(obj);
+  const names = _.toPairs(_.omitBy(obj, _.isEmpty)) ?? [];
 
   if (_.isEmpty(names)) return [];
 
-  return names
-    .filter((name) => !_.isUndefined(obj[name]) && !_.isNull(obj[name]))
-    .map((name) => {
-      return { name, value: `${obj[name]}` };
-    });
+  return names.map((ary) => {
+    return { name: ary[0], value: ary[1] };
+  });
 };
 
 const RecordListInfo = (props: RecordListInfoProps) => {
