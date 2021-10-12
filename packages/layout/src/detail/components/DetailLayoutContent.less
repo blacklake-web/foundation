@@ -23,18 +23,20 @@
 
 .bl-descriptionTitle {
   background: #fafafa;
-  padding: 6px 16px 6px 16px;
+  padding: 16px;
   display: flex;
-  p {
+  align-items: center;
+  .title-left {
     border-left: solid 2px #02b980;
-    margin-top: 6px;
     padding-left: 8px;
     line-height: 20px;
+    font-size: 18px;
     flex: 1;
   }
   .bl-toggleButon {
     font-size: 20px;
     color: #595959;
+    line-height: 20px;
   }
 };
 
@@ -48,18 +50,15 @@
   overflow: hidden;
 }
 
-.detail-content {
-  height: 100%;
-  padding: 20;
-  overflow-y: auto;
-  background-color: #ffffff;
-}
-
-.bl-form-item {
-  .ant-form-item-control-input {
-    align-items: center;
-  }
-  .ant-form-item-control-input-content {
-    max-width: 600px;
+.detail-layout {
+  display: flex;
+  background: #ffffff;
+  margin: 20;
+  flex-direction: column;
+  .detail-content {
+    height: 100%;
+    padding: 20;
+    overflow-y: auto;
+    background-color: #ffffff;
   }
 }
