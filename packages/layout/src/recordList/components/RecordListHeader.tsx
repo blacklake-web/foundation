@@ -112,8 +112,11 @@ const RecordListHeader = (props: RecordListHeaderProps) => {
    */
   const handleQuickPress: React.KeyboardEventHandler<HTMLInputElement> = (e) => {
     e.stopPropagation();
-    typeof onChangeFilter === 'function' &&
-      onChangeFilter({ type: 'quickSearch', filter: quickSearch });
+    handleQuickSearch(quickSearch);
+  };
+
+  const handleQuickSearch = (value) => {
+    typeof onChangeFilter === 'function' && onChangeFilter({ type: 'quickSearch', filter: value });
   };
 
   /**
@@ -251,7 +254,7 @@ const RecordListHeader = (props: RecordListHeaderProps) => {
       <div className={'bl-listLayout-head'}>
         <Space size={16}>
           {useQuickFilter && (
-            <Input
+            <Input.Search
               style={{ width: 240 }}
               placeholder={placeholder}
               value={quickSearch}
@@ -259,7 +262,7 @@ const RecordListHeader = (props: RecordListHeaderProps) => {
                 setQuickSearch(e.target.value);
               }}
               onPressEnter={handleQuickPress}
-              suffix={<SearchOutlined />}
+              onSearch={handleQuickSearch}
             />
           )}
           {isNeedFilterButton && (
