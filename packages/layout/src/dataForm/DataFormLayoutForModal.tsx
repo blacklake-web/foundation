@@ -3,12 +3,6 @@ import { Modal } from 'antd';
 //
 import { DataFormLayoutForModalProps } from './DataFormLayout.type';
 
-const bodyStyle = {
-  padding: 0,
-  maxHeight: document.body.clientHeight - 100,
-  display: 'flex',
-  "overflow-y": 'auto',
-};
 
 const DataFormLayoutForModal = (props: DataFormLayoutForModalProps) => {
   const { visible, onClose, width, content, closable } = props;
@@ -20,7 +14,12 @@ const DataFormLayoutForModal = (props: DataFormLayoutForModalProps) => {
       visible={visible}
       onCancel={onClose}
       width={width ?? '85%'}
-      bodyStyle={bodyStyle}
+      bodyStyle={{
+        padding: 0,
+        maxHeight: document.body.clientHeight - 100,
+        display: 'flex',
+        overflowY: 'auto',
+      }}
       destroyOnClose
       getContainer={'body'}
       keyboard={false}

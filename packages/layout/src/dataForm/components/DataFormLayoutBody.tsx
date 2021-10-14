@@ -107,12 +107,12 @@ const DataFormLayoutBody = (props: DataFormLayoutBodyProps) => {
       return (
         <Row style={{ paddingTop: 24 }}>
           {items.map((item, itemIndex) => {
-            const { span, render, style, ...formItemProps } = item;
-            const colSpan = item.isFullLine || item.isFullLine ? 100 : baseSpan;
+            const { span, render, style, isFullLine, ...formItemProps } = item;
+            const colSpan = isFullLine || isFullLine ? 100 : baseSpan;
             return (
               <Form.Item
                 key={`formItem_${itemIndex}`}
-                className={item.isFullLine ? 'bl-form-item' : 'bl-form-item-single'}
+                className={isFullLine ? 'bl-form-item' : 'bl-form-item-single'}
                 {...formItemProps}
                 style={{
                   flex: `0 0 ${colSpan}%`,
