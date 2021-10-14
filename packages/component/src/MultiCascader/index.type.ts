@@ -36,12 +36,12 @@ export interface BlMultiCascaderProps extends _MultiCascaderProps {
    * [BL] 动态加载选项
    * @default
    */
-  loadData?: (item: DataItemType) => DataItemType[];
+  loadData?: (item: DataItemType) => Promise<DataItemType[]>;
   /**
    * [BL] 搜索的回调函数
    * @default
    */
-  onSearch?: (searchKeyword: string, event) => DataItemType[];
+  onSearch?: (searchKeyword: string, event) => Promise<DataItemType[]>;
   /**
    * [BL] 搜索框占位符
    * @default	 '请输入...'

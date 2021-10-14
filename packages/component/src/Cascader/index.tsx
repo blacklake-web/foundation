@@ -22,17 +22,14 @@ export const BlCascader = (props: BlCascaderProps) => {
     value,
     onChange,
     onPopupVisibleChange,
-    options,
+    options = [],
     onSearch,
     placeholder = '请选择...',
     searchPlaceholder = '请输入...',
-    loading = false
+    loading = false,
   } = props;
   // 处理默认值
   const getDefaultValue = (value: CascaderValueType | undefined) => {
-    if (value === undefined || value?.length === 0) {
-      return;
-    }
     if (inputDisplayIsOnlyLeaf && typeof getAllPathFn === 'function') {
       // 获取该叶子节点的全路径
       return getAllPathFn(value as CascaderValueType);
@@ -86,8 +83,8 @@ export const BlCascader = (props: BlCascaderProps) => {
     throw new Error('onSearch function required!');
   };
   const handleOnPopupVisibleChange = async (popupVisible) => {
-    onPopupVisibleChange && await onPopupVisibleChange(popupVisible);
-  }
+    onPopupVisibleChange && (await onPopupVisibleChange(popupVisible));
+  };
   function dropdownRender(menus) {
     if (typeof onSearch === 'function') {
       return (
@@ -122,10 +119,14 @@ export const BlCascader = (props: BlCascaderProps) => {
   }
   useEffect(() => {
     setBloptions(options);
-  }, [options])
+  }, [options]);
+  useEffect(() => {
+    const v = getDefaultValue(defaultValue) || getDefaultValue(value);
+    setBlvalue(v);
+  }, [value, defaultValue]);
   useEffect(() => {
     setBlloading(loading);
-  }, [loading])
+  }, [loading]);
 
   return (
     <AntdCascader
@@ -135,9 +136,9 @@ export const BlCascader = (props: BlCascaderProps) => {
           return label[length - 1];
         }
         if (customDivider) {
-          return label.join(customDivider);
+          return label?.join(customDivider);
         }
-        return label.join(' / ');
+        return label?.join(' / ');
       }}
       {...props}
       options={bloptions}

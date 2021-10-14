@@ -28,8 +28,8 @@ export interface BlCascaderProps extends CascaderProps {
    */
   searchPlaceholder?: string;
   /**
-  * [BL] 为 true 时显示notFoundContent内容
-  * @default false
-  */
-  loading?: boolean
+   * [BL] 为 true 时显示notFoundContent内容
+   * @default false
+   */
+  loading?: boolean;
 }
