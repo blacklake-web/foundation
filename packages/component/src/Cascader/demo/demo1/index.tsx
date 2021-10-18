@@ -8,6 +8,23 @@ import { Divider } from 'antd';
 import { BlCascader, cascaderOptions } from '@blacklake-web/component';
 import { CascaderValueType } from 'antd/lib/cascader';
 
+const findIndexArray = (data, id: number | string, indexArray) => {
+  let arr = Array.from(indexArray);
+  for (let i = 0, len = data.length; i < len; i++) {
+    arr.push(data[i].value);
+    if (data[i].value === id) {
+      return arr;
+    }
+    let children = data[i].children;
+    if (children && children.length) {
+      let result = findIndexArray(children, id, arr);
+      if (result) return result;
+    }
+    arr.pop();
+  }
+  return false;
+};
+
 const App = () => {
   const [value1, setvalue1] = useState();
   const [value2, setvalue2] = useState();
@@ -55,10 +72,13 @@ const App = () => {
           ...
           返回数据如下
           */
-            return ['zhejiang1', 'hangzhou1', 'xihu1'];
+            // ['zhejiang1', 'hangzhou1', 'xihu1'];
+            if (value) {
+              return findIndexArray(cascaderOptions, value[0], []);
+            }
           }}
           options={cascaderOptions}
-          defaultValue={['xihu1']}
+          defaultValue={['zhonghuamen1']}
           value={value2}
           onChange={(value) => {
             console.log('value2: ', value);

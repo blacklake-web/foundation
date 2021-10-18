@@ -33,7 +33,7 @@ const App = () => {
 
   return (
     <>
-      <div>
+      {/* <div>
         <span
           style={{
             display: 'inline-block',
@@ -79,7 +79,7 @@ const App = () => {
           changeOnSelect={true}
         />
       </div>
-      <Divider />
+      <Divider /> */}
       <div>
         <span
           style={{
@@ -108,7 +108,9 @@ const App = () => {
           ...
           返回数据如下  return ['zhejiang', 'hangzhou'];
           */
-            return findIndexArray(cascaderOptions, value[0], []);
+            if (value) {
+              return findIndexArray(cascaderOptions, value[0], []);
+            }
           }}
         />
       </div>

@@ -30,15 +30,16 @@ export const BlCascader = (props: BlCascaderProps) => {
   } = props;
   // 处理默认值
   const getDefaultValue = (value: CascaderValueType | undefined) => {
-    if (inputDisplayIsOnlyLeaf && typeof getAllPathFn === 'function') {
+    if (value === undefined || value?.length === 0) {
+      return;
+    }
+    if (inputDisplayIsOnlyLeaf && typeof getAllPathFn === 'function' && value.length === 1) {
       // 获取该叶子节点的全路径
       return getAllPathFn(value as CascaderValueType);
     }
     return value;
   };
-  const [blvalue, setBlvalue] = useState<CascaderValueType | undefined>(
-    getDefaultValue(defaultValue) || getDefaultValue(value),
-  );
+  const [blvalue, setBlvalue] = useState<CascaderValueType | undefined>();
   const [bloptions, setBloptions] = useState<CascaderOptionType[]>(options);
   const [blloading, setBlloading] = useState(loading);
   const [searchLoading, setSearchLoaing] = useState(false);
@@ -117,11 +118,12 @@ export const BlCascader = (props: BlCascaderProps) => {
     }, []);
     return arrlist;
   }
+
   useEffect(() => {
     setBloptions(options);
   }, [options]);
   useEffect(() => {
-    const v = getDefaultValue(defaultValue) || getDefaultValue(value);
+    const v = getDefaultValue(value);
     setBlvalue(v);
   }, [value, defaultValue]);
   useEffect(() => {
