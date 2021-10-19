@@ -1,5 +1,5 @@
 import React, { ReactNode, useCallback, useState } from 'react';
-import { Row, Col, Space, Form, FormInstance } from 'antd';
+import { Row, Col, FormProps, Form, FormInstance } from 'antd';
 import useResizeObserver from '@react-hook/resize-observer';
 import { BlIcon } from '@blacklake-web/component';
 import { useVisible } from '@blacklake-web/hooks';
@@ -26,6 +26,7 @@ export interface DataFormLayoutBodyProps {
    * @default horizontal
    */
   formLayout?: 'horizontal' | 'vertical';
+  formProps: FormProps;
 }
 
 const infoBlockStyle = {
@@ -43,6 +44,7 @@ const DataFormLayoutBody = (props: DataFormLayoutBodyProps) => {
     bottomContext,
     infoBlockStyleProps,
     bodyStyle,
+    formProps,
   } = props;
   const contentRef = React.useRef(null);
   const { judgeVisible, addVisible, deleteVisible } = useVisible();
@@ -185,6 +187,7 @@ const DataFormLayoutBody = (props: DataFormLayoutBodyProps) => {
           style={{ width: '100%', marginBottom: 24 }}
           labelCol={isSingleColumn ? { flex: '120px' } : {}}
           layout={isSingleColumn ? 'horizontal' : formLayout}
+          {...formProps}
         >
           {info?.map((infoBlock: DataFormLayoutInfoBlock, infoIndex) =>
             renderInfoBlock(infoBlock, infoIndex),
