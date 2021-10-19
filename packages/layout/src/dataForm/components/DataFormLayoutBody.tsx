@@ -44,7 +44,7 @@ const DataFormLayoutBody = (props: DataFormLayoutBodyProps) => {
     bottomContext,
     infoBlockStyleProps,
     bodyStyle,
-    formProps,
+    formProps = {},
   } = props;
   const contentRef = React.useRef(null);
   const { judgeVisible, addVisible, deleteVisible } = useVisible();
