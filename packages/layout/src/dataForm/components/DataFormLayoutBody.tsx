@@ -26,7 +26,7 @@ export interface DataFormLayoutBodyProps {
    * @default horizontal
    */
   formLayout?: 'horizontal' | 'vertical';
-  formProps: FormProps;
+  formProps?: FormProps;
 }
 
 const infoBlockStyle = {
