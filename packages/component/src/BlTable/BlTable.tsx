@@ -205,10 +205,11 @@ const BlTable = <RecordType extends object = any>(props: BlTableProps<RecordType
     return (e: any, { size }: { size: { width: number } }) => {
       setBlTableColumns((preColumns) => {
         const nextColumns = [...preColumns];
+        const minWidth = Number(nextColumns[index]?.width ?? 120);
 
         nextColumns[index] = {
           ...nextColumns[index],
-          width: size.width,
+          width: size.width < minWidth ? minWidth : size.width,
         };
         return nextColumns;
       });

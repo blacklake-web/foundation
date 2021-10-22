@@ -47,7 +47,13 @@ export default () => {
   ];
 
   return (
-    <BlTable columns={columns} dataSource={data()} useColConfig tableConfigKey="dumi-blTable" />
+    <BlTable
+      columns={columns}
+      dataSource={data()}
+      resizableCol
+      useColConfig
+      tableConfigKey="dumi-blTable"
+    />
   );
 };
 ```

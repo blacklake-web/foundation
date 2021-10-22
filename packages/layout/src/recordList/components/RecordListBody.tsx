@@ -233,7 +233,7 @@ const RecordListBody = <RecordType extends object = any>(
   return (
     <div className={'bl-listLayout-body'} id={BL_LIST_LAYOUT_BODY}>
       <BlTable<RecordType>
-        // resizableCol
+        resizableCol
         loading={listLayoutState.isLoading}
         dataSource={dataSource}
         columns={getColumns()}
