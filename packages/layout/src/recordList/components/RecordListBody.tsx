@@ -27,6 +27,11 @@ export interface RecordListBodyProps<RecordType> extends BlRecordListBaseProps {
    * @default true
    */
   useIndex?: boolean;
+  /**
+   * 是否启用列伸缩
+   * @default true
+   */
+  resizableCol?: boolean;
   /** 缓存时相关标识 */
   configcacheKey?: string;
   /**内部状态 */
@@ -67,6 +72,7 @@ const RecordListBody = <RecordType extends object = any>(
     onChangeFilter,
     useColConfig,
     useIndex = true,
+    resizableCol = true,
     configcacheKey,
     expandable,
   } = props;
@@ -233,7 +239,7 @@ const RecordListBody = <RecordType extends object = any>(
   return (
     <div className={'bl-listLayout-body'} id={BL_LIST_LAYOUT_BODY}>
       <BlTable<RecordType>
-        resizableCol
+        resizableCol={resizableCol}
         loading={listLayoutState.isLoading}
         dataSource={dataSource}
         columns={getColumns()}

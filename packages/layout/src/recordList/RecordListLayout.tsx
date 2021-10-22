@@ -147,6 +147,7 @@ const ListLayout = <RecordType extends object = any>(
     columns, // table columns
     rowKey = 'id', // 行选择key,默认'id'
     useIndex = true, // 列表序号列是否展示，默认启用
+    resizableCol = true, // 列表伸缩，默认启用
     useColConfig = true, // 列配置开关，默认启用
     configcacheKey, // 配置缓存Key,用于table和filter配置缓存标识
     // base
@@ -459,6 +460,7 @@ const ListLayout = <RecordType extends object = any>(
           columns={columns}
           useIndex={useIndex}
           dataSource={dataSource}
+          resizableCol={resizableCol}
           useColConfig={useColConfig}
           configcacheKey={configcacheKey}
           selectedRowKeys={selectedRowKeys}
