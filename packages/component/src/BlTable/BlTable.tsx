@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import _, { isEqual, cloneDeep, isEmpty } from 'lodash';
+import _, { isEqual, cloneDeep, isEmpty, get } from 'lodash';
 import { Table, Popover } from 'antd';
 import { TableComponents } from 'rc-table/lib/interface';
 import { SettingFilled } from '@ant-design/icons';
@@ -205,10 +205,11 @@ const BlTable = <RecordType extends object = any>(props: BlTableProps<RecordType
     return (e: any, { size }: { size: { width: number } }) => {
       setBlTableColumns((preColumns) => {
         const nextColumns = [...preColumns];
-        const minWidth = Number(nextColumns[index]?.width ?? 120);
+        const minWidth = get(nextColumns[index], 'minWidth', 120);
 
         nextColumns[index] = {
           ...nextColumns[index],
+          minWidth,
           width: size.width < minWidth ? minWidth : size.width,
         };
         return nextColumns;

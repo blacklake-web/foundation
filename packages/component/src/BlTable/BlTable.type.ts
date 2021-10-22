@@ -25,6 +25,7 @@ export interface BlTableProps<RecordType> extends TableProps<RecordType> {
 }
 
 export interface BlColumnType<RecordType> extends ColumnType<RecordType> {
+  minWidth?: number;
   fixed?: any;
   renderStr?: (text: any, record: any, index) => string; // 返回string的render,用作导出或xxx(其他场景)
   defaultColConfig?: {

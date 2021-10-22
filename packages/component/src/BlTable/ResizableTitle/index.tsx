@@ -14,7 +14,7 @@ const ResizableTitle = (props: { [x: string]: any; onResize: any; width?: any; f
       height={0}
       handle={
         <span
-          className="react-resizable-handle"
+          className="blTable-resizable-handle"
           onClick={(e) => {
             e.stopPropagation();
           }}
