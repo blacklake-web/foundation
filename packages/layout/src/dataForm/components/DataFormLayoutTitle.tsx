@@ -1,16 +1,11 @@
 import React, { ReactNode } from 'react';
 import { Row, Col } from 'antd';
 //
-
+import '../DataFormLayout.less';
 export interface DataFormLayoutTitleProps {
   /**标题 */
   title?: ReactNode;
 }
-
-const titleStyle = {
-  padding: '10px 20px',
-  borderBottom: '1px solid #b1b1b12e',
-};
 
 const DataFormLayoutTitle = (props: DataFormLayoutTitleProps) => {
   const { title } = props;
@@ -22,7 +17,7 @@ const DataFormLayoutTitle = (props: DataFormLayoutTitleProps) => {
   };
 
   return title ? (
-    <div style={{ ...titleStyle }}>
+    <div className="data-layout-title">
       <Row justify={'space-between'}>
         <Col span={14}>{renderTitle()}</Col>
       </Row>

@@ -177,7 +177,6 @@ const DataFormLayoutBody = (props: DataFormLayoutBodyProps) => {
         height: '100%',
         padding: '0px 20px',
         overflowY: 'auto',
-        marginBottom: 50,
         ...bodyStyle,
       }}
       ref={contentRef}

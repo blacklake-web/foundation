@@ -1,5 +1,7 @@
 import React, { ReactNode } from 'react';
 import { Button, Space } from 'antd';
+//
+import '../DataFormLayout.less';
 
 export interface DataFormLayoutFooterProps {
   /**
@@ -95,15 +97,10 @@ const DataFormLayoutFooter = (props: DataFormLayoutFooterProps) => {
       align={'center'}
       size={'large'}
       style={{
-        padding: 10,
         justifyContent: footerPositionType[footerPosition],
-        width: '100%',
-        position: 'absolute',
-        bottom: 0,
-        boxShadow: '0px -3px 5px -3px #b9b6b6',
-        background: '#ffffff',
         ...footerStyle,
       }}
+      className="data-layout-footer"
     >
       {renderFooter()}
       {extra}
