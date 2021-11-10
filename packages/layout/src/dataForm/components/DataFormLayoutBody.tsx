@@ -83,8 +83,10 @@ const DataFormLayoutBody = (props: DataFormLayoutBodyProps) => {
     const renderTitle = (infoBlock: DataFormLayoutInfoBlock) => {
       const { title } = infoBlock;
 
-      return title ? (
-        <div style={{ paddingRight: 20 }} key={`info_${infoIndex}`}>
+      if (!title) return null;
+
+      return (
+        <div key={`info_${infoIndex}`}>
           <Row justify={'space-between'} className="bl-descriptionTitle">
             <Col>
               <span className="title-left">{title}</span>
@@ -101,11 +103,14 @@ const DataFormLayoutBody = (props: DataFormLayoutBodyProps) => {
             </Col>
           </Row>
         </div>
-      ) : null;
+      );
     };
 
     const renderItem = (infoBlock: DataFormLayoutInfoBlock) => {
       const { items = [], column, align = 'left' } = infoBlock;
+
+      if (items.length === 0) return null;
+
       return (
         <Row style={{ paddingTop: 24 }}>
           {items.map((item, itemIndex) => {

@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Select as AntSelect, Spin } from 'antd';
 import { SelectValue } from 'antd/lib/select';
 import { debounce, isEmpty, get } from 'lodash';
@@ -23,8 +23,12 @@ const BlSearchSelect = <VT extends SelectValue = SelectValue>(props: BlSearchSel
   const [options, setOptions] = useState<OptionsType | any[]>([]);
   const [loading, setLoading] = useState(false);
 
+  useEffect(() => {
+    setOptions([]);
+  }, [propsParmas]);
+
   const searchParamsRef = useRef('');
-  const pageRef = useRef(0);
+  const pageRef = useRef(1);
   const totalRef = useRef(0);
 
   const fetchData = async (
@@ -47,7 +51,7 @@ const BlSearchSelect = <VT extends SelectValue = SelectValue>(props: BlSearchSel
   const resetSearchInfo = (searchParams: string) => {
     setOptions([]);
     searchParamsRef.current = searchParams;
-    pageRef.current = 0;
+    pageRef.current = 1;
     totalRef.current = 0;
   };
 

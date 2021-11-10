@@ -26,7 +26,7 @@ export default () => {
       setTimeout(() => {
         const newData: any[] = [];
         for (let i = 1; i <= parms.size; i++) {
-          const index = parms.page * parms.size + i;
+          const index = (parms.page - 1) * parms.size + i;
           const item = {
             label: `${parms.searchParams}_${index}`,
             value: index,
