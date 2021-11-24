@@ -32,6 +32,7 @@ export interface FilterItem {
   selectProps?: SelectProps<any>;
   inputProps?: InputProps;
   datePickerProps?: DatePickerProps;
+  props?: any;
   dateFormat?: string | undefined;
   precision?: string | number;
 }

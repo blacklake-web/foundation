@@ -18,15 +18,42 @@ const infoBlockStyleNoFlex = {
   margin: 24,
 };
 
-const RenderInfoBlock: React.FC<{ infoBlock: DetailLayoutInfoBlock; dataSource: any; baseColumn: number }> =
+const RenderInfoBlock: React.FC<{ infoBlock: DetailLayoutInfoBlock; dataSource: any; }> =
   (props) => {
     const [toggle, setToggle] = useState<boolean>(false); // 是否展开
-    const { infoBlock, dataSource, baseColumn } = props;
+    const { infoBlock, dataSource } = props;
+
+    const useSize = (target) => {
+      const [rowWidth, setRowWidth] = React.useState(0);
+  
+      React.useLayoutEffect(() => {
+        if (target.current) {
+          setRowWidth(target.current.getBoundingClientRect());
+        }
+      }, [target]);
+  
+      useResizeObserver(target, (entry) => setRowWidth(entry.contentRect.width));
+      return rowWidth;
+    };
+  
+    const getColumn = (windowSize) => {
+      if (windowSize >= 1920 || (windowSize <= 1920 && windowSize >= 1440)) {
+        return 3;
+      }
+      if (windowSize >= 1280 && windowSize <= 1440) {
+        return 2;
+      }
+      if (windowSize < 1280) {
+        return 1;
+      }
+      return 1;
+    };
 
     const getInfoItem = (dataIndex: string | string[], record: any) => {
       return _.get(record, dataIndex, null);
     };
     const { title, extra, items } = infoBlock;
+    const baseColumn = getColumn(useSize(document.body));
 
     return (
       <div>
@@ -88,29 +115,7 @@ const DetailLayoutContent = (props: DetailLayoutContentProps) => {
   // const dataCount = info
   //   ?.map((i) => i.items.length)
   //   .reduce((previousValue, currentValue) => previousValue + currentValue);
-  const useSize = (target) => {
-    const [rowWidth, setRowWidth] = React.useState(0);
 
-    React.useLayoutEffect(() => {
-      setRowWidth(target.current.getBoundingClientRect());
-    }, [target]);
-
-    useResizeObserver(target, (entry) => setRowWidth(entry.contentRect.width));
-    return rowWidth;
-  };
-
-  const getColumn = (windowSize) => {
-    if (windowSize >= 1920 || (windowSize <= 1920 && windowSize >= 1440)) {
-      return 3;
-    }
-    if (windowSize >= 1280 && windowSize <= 1440) {
-      return 2;
-    }
-    if (windowSize < 1280) {
-      return 1;
-    }
-    return 1;
-  };
   return (
     <div ref={detailContentRef} className="detail-content">
       {info?.map((item, index) => (
@@ -118,7 +123,7 @@ const DetailLayoutContent = (props: DetailLayoutContentProps) => {
           key={`${item.title}_${index}`}
           infoBlock={item}
           dataSource={dataSource}
-          baseColumn={getColumn(useSize(detailContentRef))}
+          // baseColumn={getColumn(useSize(detailContentRef))}
         />
       ))}
     </div>

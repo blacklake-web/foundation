@@ -6,6 +6,7 @@ import { FilterFieldType } from '../../constants';
 import { RedoOutlined } from '@ant-design/icons';
 //
 import { BlRecordListBaseProps, FilterItem } from '../recordListLayout.type';
+import { BlIcon } from '@blacklake-web/component';
 
 export interface FilterProps extends BlRecordListBaseProps {
   defaultFilterValue?: any;
@@ -67,14 +68,20 @@ const FilterList = (props: FilterProps) => {
   };
 
   const getFormItem = (filter: FilterItem): React.ReactNode => {
-    const { type, selectProps, inputProps, dateFormat, precision, name } = filter;
+    const { type, props, selectProps, inputProps, dateFormat, precision, name, label } = filter;
+  
+    const customProps = {
+      ...inputProps,
+      ...selectProps,
+      ...props,
+    }
 
     switch (type) {
       case FilterFieldType.text:
-        return <Input {...inputProps} maxLength={255} />;
+        return <Input {...customProps} maxLength={255} placeholder={`请输入${label}`} />;
 
       case FilterFieldType.textArea:
-        return <Input {...inputProps} maxLength={1000} />;
+        return <Input {...customProps} maxLength={1000} placeholder={`请输入${label}`} />;
 
       case FilterFieldType.integer:
         return (
@@ -83,6 +90,7 @@ const FilterList = (props: FilterProps) => {
               <InputNumber
                 max={1000000000}
                 formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                placeholder={`请输入${label}的最小值`}
               />
             </Form.Item>
             <span style={{ margin: '0 6px' }}> ~ </span>
@@ -90,6 +98,7 @@ const FilterList = (props: FilterProps) => {
               <InputNumber
                 max={1000000000}
                 formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                placeholder={`请输入${label}的最大值`}
               />
             </Form.Item>
           </>
@@ -103,6 +112,7 @@ const FilterList = (props: FilterProps) => {
                 max={1000000000}
                 formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                 precision={Number(precision) || 8}
+                placeholder={`请输入${label}的最小值`}
               />
             </Form.Item>
             <span style={{ margin: '0 6px' }}> ~ </span>
@@ -111,16 +121,25 @@ const FilterList = (props: FilterProps) => {
                 max={1000000000}
                 formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                 precision={Number(precision) || 8}
+                placeholder={`请输入${label}的最大值`}
               />
             </Form.Item>
           </Input.Group>
         );
 
       case FilterFieldType.select:
-        return <Select {...selectProps} allowClear showArrow />;
+        return <Select {...customProps} allowClear showArrow placeholder={`请选择${label}`} />;
 
       case FilterFieldType.multiSelect:
-        return <Select {...selectProps} mode="multiple" allowClear showArrow />;
+        return (
+          <Select
+            {...selectProps}
+            mode="multiple"
+            allowClear
+            showArrow
+            placeholder={`请选择${label}`}
+          />
+        );
 
       case FilterFieldType.boolean:
         return (
@@ -132,6 +151,7 @@ const FilterList = (props: FilterProps) => {
             ]}
             mode="multiple"
             showArrow
+            placeholder={`请选择${label}`}
           />
         );
 
@@ -140,11 +160,19 @@ const FilterList = (props: FilterProps) => {
           dateFormat && (dateFormat.includes('hh') || dateFormat.includes('HH')),
         );
 
-        return <DatePicker.RangePicker format={dateFormat} showTime={isShowTime} />;
+        return (
+          <DatePicker.RangePicker
+            format={dateFormat}
+            showTime={isShowTime}
+            placeholder={['开始时间', '结束时间']}
+            separator={<BlIcon type="iconzhixiangyou" />}
+            suffixIcon={<BlIcon type={isShowTime ? 'iconshijian' : 'iconrili'} />}
+          />
+        );
       }
 
       default:
-        return <Input {...inputProps} />;
+        return <Input {...inputProps} placeholder={`请输入${label}`} />;
     }
   };
 

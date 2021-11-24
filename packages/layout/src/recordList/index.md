@@ -173,7 +173,15 @@ export default () => {
     {
       label: '姓名',
       name: 'name',
-      type: FilterFieldType.text,
+      type: FilterFieldType.select,
+      props: { options: [{ label: 'test', value: 123 }] },
+    },
+    {
+      label: '姓名2',
+      name: 'name2',
+      type: FilterFieldType.date,
+      dateFormat: 'YYYY-MM-DD HH:mm:ss',
+      props: { width: 200 },
     },
   ];
 
@@ -364,6 +372,7 @@ export default () => {
       label: '姓名',
       name: 'name',
       type: FilterFieldType.text,
+      props: { width: 200 },
     },
   ];
 
@@ -424,6 +433,7 @@ export default () => {
 | datePickerProps |                 | `RecordListHeaderButtonType[]` |        |
 | dateFormat      | 日期格式化      | `string `                      |        |
 | precision       | 小数精度        | `string / number`              |        |
+| props           | 输入空间的属性，替代selectProps inputProps  | `any`              |        |
 
 ## RecordListHeaderButtonType 操作按钮
 
