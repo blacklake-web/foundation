@@ -169,8 +169,8 @@ const RecordListHeader = (props: RecordListHeaderProps) => {
    * @returns
    */
   const renderMenu = (menu: RecordListHeaderMenuType) => {
-    const isMoreMenu = !_.isEmpty(menu?.items);
-    const menuComponents = isMoreMenu ? (
+    const hasMenuItem = !_.isEmpty(menu?.items);
+    const menuComponents = hasMenuItem ? (
       <Menu style={{ width: 113 }}>
         {(menu.items ?? []).map((subItem) => (
           <Menu.Item
@@ -189,7 +189,7 @@ const RecordListHeader = (props: RecordListHeaderProps) => {
       <span />
     );
 
-    return (
+    return hasMenuItem ? (
       <Dropdown.Button
         type={'primary'}
         key={menu.title}
@@ -197,11 +197,22 @@ const RecordListHeader = (props: RecordListHeaderProps) => {
           menu?.onClick();
         }}
         overlay={menuComponents}
-        icon={isMoreMenu ? <DownOutlined /> : ''}
+        icon={<DownOutlined />}
       >
         {menu.icon}
         {menu.title}
       </Dropdown.Button>
+    ) : (
+      <Button
+        type={'primary'}
+        key={menu.title}
+        onClick={() => {
+          menu?.onClick();
+        }}
+      >
+        {menu.icon}
+        {menu.title}
+      </Button>
     );
   };
 

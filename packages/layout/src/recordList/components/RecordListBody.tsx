@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useRef } from 'react';
 import _, { isEmpty, get, remove, uniq, uniqWith, isEqual, isUndefined, isNumber } from 'lodash';
 //
 import { BlColumnsType, BlTable } from '@blacklake-web/component';
+import { SortOrder } from 'antd/lib/table/interface';
 //
 import { BL_SELECTED_ALL, ListLayoutContext, LIST_REDUCER_TYPE } from '../constants';
 import '../styles.less';
@@ -11,6 +12,18 @@ import {
   ListLayoutQueryParams,
   FormatDataToQueryDataSorter,
 } from '../recordListLayout.type';
+
+type BlSortOrder = 'asc' | 'desc';
+
+const toBlOrderMap = new Map<SortOrder, BlSortOrder>([
+  ['ascend', 'asc'],
+  ['descend', 'desc'],
+]);
+
+const toAntdOrderMap = new Map<BlSortOrder, SortOrder>([
+  ['asc', 'ascend'],
+  ['desc', 'descend'],
+]);
 
 export interface RecordListBodyProps<RecordType> extends BlRecordListBaseProps {
   /** 开启列表勾选功能时必传，勾选列表的key值 */
@@ -124,14 +137,14 @@ const RecordListBody = <RecordType extends object = any>(
         if (Array.isArray(sorter)) {
           newTableData.sorter = sorter.map(({ field, order }) => ({
             field,
-            order,
+            order: toBlOrderMap.get(order) ?? 'asc',
           }));
         } else if (sorter.order) {
           // 单列排序，可能没有排序状态
           newTableData.sorter = [
             {
               field: sorter.field,
-              order: sorter.order,
+              order: toBlOrderMap.get(sorter.order) ?? 'asc',
             },
           ];
         }
@@ -228,8 +241,9 @@ const RecordListBody = <RecordType extends object = any>(
   const getColumns = () => {
     return columns.map((item) => {
       if (item?.sorter) {
+        const blOrder = getSorterInfo(item.dataIndex, listLayoutState?.sorter)?.order;
         // eslint-disable-next-line no-param-reassign
-        item.sortOrder = getSorterInfo(item.dataIndex, listLayoutState?.sorter)?.order ?? null;
+        item.sortOrder = blOrder ? toAntdOrderMap.get(blOrder) : null;
       }
       return item;
     });

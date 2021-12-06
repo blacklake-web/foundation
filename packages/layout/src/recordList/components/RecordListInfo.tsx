@@ -14,13 +14,26 @@ export type AfterFormatData = {
 
 type DisplayDatas = { name: string; value: string }[];
 export interface RecordListInfoProps extends BlRecordListBaseProps {
-  formatDataToDisplay?: (formData: any) => AfterFormatData; // 格式化数据做展示
-  /**内部状态 */
+  /**
+   * 格式化数据做展示
+   */
+  formatDataToDisplay?: (formData: any) => AfterFormatData;
+  /**
+   * 内部状态
+   */
   onChangeFilter?: (filterData: any) => void;
 }
 
 export const objToKeyValueAry = (obj: AfterFormatData): DisplayDatas => {
-  const names = _.toPairs(_.omitBy(obj, _.isEmpty)) ?? [];
+  const names =
+    _.toPairs(
+      _.omitBy(obj, (item) => {
+        if (typeof item === 'number') return false;
+        if (typeof item === 'boolean') return false;
+        if (typeof item === 'undefined') return true;
+        return _.isEmpty(item);
+      }),
+    ) ?? [];
 
   if (_.isEmpty(names)) return [];
 

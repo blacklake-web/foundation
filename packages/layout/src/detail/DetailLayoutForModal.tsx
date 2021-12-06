@@ -8,7 +8,6 @@ const bodyStyle = {
   padding: 0,
   maxHeight: document.body.clientHeight - 100,
   display: 'flex',
-  'overflow-y': 'auto',
 };
 
 const DetailLayoutForModal = (props: DetailLayoutForModalProps) => {
@@ -19,7 +18,7 @@ const DetailLayoutForModal = (props: DetailLayoutForModalProps) => {
       visible={visible}
       onCancel={onClose}
       width={width ?? '90%'}
-      bodyStyle={bodyStyle}
+      bodyStyle={{ ...bodyStyle, overflowY: 'auto' }}
       centered
       destroyOnClose
       footer={null}

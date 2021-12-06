@@ -69,12 +69,11 @@ const FilterList = (props: FilterProps) => {
 
   const getFormItem = (filter: FilterItem): React.ReactNode => {
     const { type, props, selectProps, inputProps, dateFormat, precision, name, label } = filter;
-  
     const customProps = {
       ...inputProps,
       ...selectProps,
       ...props,
-    }
+    };
 
     switch (type) {
       case FilterFieldType.text:
@@ -162,6 +161,7 @@ const FilterList = (props: FilterProps) => {
 
         return (
           <DatePicker.RangePicker
+            style={{ width: '100%' }}
             format={dateFormat}
             showTime={isShowTime}
             placeholder={['开始时间', '结束时间']}

@@ -25,8 +25,8 @@ const extraStyle = {
 
 const baseButtonStyle = {
   border: 'none',
-  background: '#f5f5f5'
-}
+  background: '#f5f5f5',
+};
 
 const DetailLayoutTitle = (props: DetailLayoutTitleProps) => {
   const { title, extra, baseMenu = [], style } = props;
