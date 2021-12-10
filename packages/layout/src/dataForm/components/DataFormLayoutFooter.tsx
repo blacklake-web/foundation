@@ -63,36 +63,28 @@ const DataFormLayoutFooter = (props: DataFormLayoutFooterProps) => {
     footerStyle = {},
   } = props;
 
-  const renderFooter = () => {
-    if (footer === false) return null;
+  const renderFooter = () => (
+    <>
+      <Button
+        onClick={() => {
+          if (typeof onCancel === 'function') onCancel();
+        }}
+      >
+        {cancelText}
+      </Button>
+      <Button
+        loading={confirmLoading}
+        type={'primary'}
+        onClick={() => {
+          if (typeof onFinish === 'function') onFinish();
+        }}
+      >
+        {okText}
+      </Button>
+    </>
+  );
 
-    if (footer === true) {
-      return (
-        <>
-          <Button
-            onClick={() => {
-              if (typeof onCancel === 'function') onCancel();
-            }}
-          >
-            {cancelText}
-          </Button>
-          <Button
-            loading={confirmLoading}
-            type={'primary'}
-            onClick={() => {
-              if (typeof onFinish === 'function') onFinish();
-            }}
-          >
-            {okText}
-          </Button>
-        </>
-      );
-    }
-
-    return footer;
-  };
-
-  return (
+  return footer === false ? null : (
     <Space
       align={'center'}
       size={'large'}

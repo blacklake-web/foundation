@@ -61,7 +61,7 @@ const DetailLayoutTitle = (props: DetailLayoutTitleProps) => {
     if (isEmptyMenu) return null;
 
     const isMoreMenu = baseMenu?.length > 5;
-    const firstMenuItem = baseMenu[1];
+    const firstMenuItem = baseMenu[0];
 
     if (!firstMenuItem) return null;
 
@@ -71,7 +71,7 @@ const DetailLayoutTitle = (props: DetailLayoutTitleProps) => {
           <Dropdown.Button
             onClick={firstMenuItem.onClick}
             overlay={
-              isMoreMenu ? renderMenu(baseMenu.filter((item, index) => index > 1)) : <span />
+              isMoreMenu ? renderMenu(baseMenu.filter((item, index) => index > 0)) : <span />
             }
             icon={isMoreMenu ? <EllipsisOutlined /> : ''}
           >
