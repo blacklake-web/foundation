@@ -35,7 +35,6 @@ export interface FilterItem {
   props?: any;
   dateFormat?: string | undefined;
   precision?: string | number;
-  props?: any;
 }
 
 export interface ListLayoutQueryParams {

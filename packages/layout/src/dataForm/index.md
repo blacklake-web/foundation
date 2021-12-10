@@ -34,11 +34,20 @@ export default () => {
           { required: true, message: '特殊日名称必填' },
           { max: 256, message: '不可超过255个字符' },
         ],
-        render: () => <Input placeholder="请输入" allowClear />,
+        render: () => (
+          <Select
+            placeholder="请输入"
+            allowClear
+            options={[
+              { label: 'name1', value: '1' },
+              { label: 'name2', value: '2' },
+            ]}
+          />
+        ),
       },
       {
         label: '编号',
-        name: 'name',
+        name: 'code',
         rules: [
           { required: true, message: '特殊日名称必填' },
           { max: 256, message: '不可超过255个字符' },
@@ -46,17 +55,43 @@ export default () => {
         render: () => <Input placeholder="请输入" allowClear />,
       },
       {
-        label: '关联对象1',
-        name: 'name',
-        rules: [
-          { required: true, message: '特殊日名称必填' },
-          { max: 256, message: '不可超过255个字符' },
-        ],
-        render: () => <Input placeholder="请输入" allowClear />,
+        noStyle: true,
+        dependencies: [['name']],
+        render: (formItemConfig) => () => {
+          if (modalForm.getFieldValue('name') === '1') {
+            return (
+              <Form.Item
+                {...formItemConfig}
+                label="关联对象11111"
+                name="name1"
+                rules={[
+                  { required: true, message: '特殊日名称必填' },
+                  { max: 256, message: '不可超过255个字符' },
+                ]}
+              >
+                <Input placeholder="请输入" allowClear />
+              </Form.Item>
+            );
+          }
+
+          return (
+            <Form.Item
+              {...formItemConfig}
+              label="关联对象22222"
+              name="name1"
+              rules={[
+                { required: true, message: '特殊日名称必填' },
+                { max: 256, message: '不可超过255个字符' },
+              ]}
+            >
+              <Input placeholder="请输入" allowClear />
+            </Form.Item>
+          );
+        },
       },
       {
         label: '关联对象2',
-        name: 'name',
+        name: 'name2',
         rules: [
           { required: true, message: '特殊日名称必填' },
           { max: 256, message: '不可超过255个字符' },
@@ -65,7 +100,7 @@ export default () => {
       },
       {
         label: '关联对象3',
-        name: 'name',
+        name: 'name3',
         rules: [
           { required: true, message: '特殊日名称必填' },
           { max: 256, message: '不可超过255个字符' },
@@ -97,7 +132,7 @@ export default () => {
       },
       {
         label: '关联对象4',
-        name: 'name',
+        name: 'name4',
         rules: [
           { required: true, message: '特殊日名称必填' },
           { max: 256, message: '不可超过255个字符' },
@@ -351,9 +386,9 @@ export default () => {
 
 - DataFormLayoutInfoItem.render 返回自定义组件时，DataFormLayoutInfoItem.name 不需传。
 
-| 参数            | 说明                          | 类型              | 默认值 |
-| --------------- | ----------------------------- | ----------------- | ------ |
-| name            | 名称 label                    | `string`          | -      |
-| span            | 当前占几列                    | `number`          | 1      |
-| render          | FormItem 内的输入组件         | `() => ReactNode` | -      |
-| (...otherProps) | 其余参数与 antd.FormItem 一致 |
+| 参数            | 说明                                                                                                                                | 类型                           | 默认值 |
+| --------------- | ----------------------------------------------------------------------------------------------------------------------------------- | ------------------------------ | ------ |
+| name            | 名称 label                                                                                                                          | `string`                       | -      |
+| span            | 当前占几列                                                                                                                          | `number`                       | 1      |
+| render          | FormItem 内的输入组件,如果需要 dependencies 或 shouldUpdate 时， 外层 FormItem 传入 noStyle,内层 FormItem 使用 FormItemProps 的配置 | `(FormItemProps) => ReactNode` | -      |
+| (...otherProps) | 其余参数与 antd.FormItem 一致                                                                                                       |

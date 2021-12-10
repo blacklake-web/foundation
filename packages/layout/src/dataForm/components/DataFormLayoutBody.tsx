@@ -116,20 +116,23 @@ const DataFormLayoutBody = (props: DataFormLayoutBodyProps) => {
           {items.map((item, itemIndex) => {
             const { span, render, style, isFullLine, ...formItemProps } = item;
             const colSpan = isFullLine || isFullLine ? 100 : baseSpan;
+
+            const baseFormItemProps = {
+              key: `formItem_${itemIndex}`,
+              className: isFullLine ? 'bl-form-item' : 'bl-form-item-single',
+              style: {
+                flex: `0 0 ${colSpan}%`,
+                maxWidth: `${colSpan}%`,
+                justifyContent: align,
+                paddingRight: 10,
+                ...style,
+              },
+            };
+
             return (
-              <Form.Item
-                key={`formItem_${itemIndex}`}
-                className={isFullLine ? 'bl-form-item' : 'bl-form-item-single'}
-                {...formItemProps}
-                style={{
-                  flex: `0 0 ${colSpan}%`,
-                  maxWidth: `${colSpan}%`,
-                  paddingRight: 10,
-                  justifyContent: align,
-                  ...style,
-                }}
-              >
-                {render()}
+              <Form.Item {...formItemProps} {...baseFormItemProps}>
+                {/* 把基础的 fotmItemProps 传下去，适配dependencies 或 shouldUpdate的两层formItem情况 */}
+                {render(baseFormItemProps)}
               </Form.Item>
             );
           })}
