@@ -13,7 +13,7 @@ export interface DataFormLayoutInfoBlock {
  * DataFormLayoutInfoItem 在只做布局，DataFormLayoutInfoItem.render返回自定义组件时，DataFormLayoutInfoItem.name不传。
  */
 export interface DataFormLayoutInfoItem extends FormItemProps {
-  render: (formItemProps: { [index: string]: any }) => ReactNode;
+  render: (formItemStyles: { [index: string]: any }) => (() => ReactNode) | ReactNode;
   span?: number;
   isFullLine?: boolean;
   style?: any;

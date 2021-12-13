@@ -386,9 +386,9 @@ export default () => {
 
 - DataFormLayoutInfoItem.render 返回自定义组件时，DataFormLayoutInfoItem.name 不需传。
 
-| 参数            | 说明                                                                                                                                | 类型                           | 默认值 |
-| --------------- | ----------------------------------------------------------------------------------------------------------------------------------- | ------------------------------ | ------ |
-| name            | 名称 label                                                                                                                          | `string`                       | -      |
-| span            | 当前占几列                                                                                                                          | `number`                       | 1      |
-| render          | FormItem 内的输入组件,如果需要 dependencies 或 shouldUpdate 时， 外层 FormItem 传入 noStyle,内层 FormItem 使用 FormItemProps 的配置 | `(FormItemProps) => ReactNode` | -      |
-| (...otherProps) | 其余参数与 antd.FormItem 一致                                                                                                       |
+| 参数            | 说明                                                                                                                                                     | 类型                            | 默认值 |
+| --------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------- | ------ |
+| name            | 名称 label                                                                                                                                               | `string`                        | -      |
+| span            | 当前占几列                                                                                                                                               | `number`                        | 1      |
+| render          | 返回输入组件的函数,会自动包装一个 Form.Item 组件。如果需要 dependencies 或 shouldUpdate,外层 Form.Item 传入 noStyle,FormItemStyles 给内层 Form.Item 使用 | `(FormItemStyles) => ReactNode` | -      |
+| (...otherProps) | 其余参数与 antd.FormItem 一致                                                                                                                            |                                 |        |

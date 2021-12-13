@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import _ from 'lodash';
 import { Button, Menu, Input, Space, Dropdown, Divider } from 'antd';
-import { FilterOutlined, DownOutlined, SearchOutlined, EllipsisOutlined } from '@ant-design/icons';
+import { FilterOutlined, DownOutlined } from '@ant-design/icons';
 //
 import { BL_SELECTED_ALL, ListLayoutContext, LIST_REDUCER_TYPE } from '../constants';
 import { BlRecordListBaseProps } from '../recordListLayout.type';
@@ -12,13 +12,20 @@ interface RecordListHeaderButtonType {
   title: string;
   disabled?: boolean;
   // 批量操作时，1. onClick return Promise自动做后续处理  2.onClick 用success,fail回调函数手动做后续处理
-  onClick: (success?: () => void, fail?: () => void) => void | Promise<any>;
+  onClick?: (success?: () => void, fail?: () => void) => void | Promise<any>;
   icon?: React.ReactNode;
 }
 
 // 列表头menu
 interface RecordListHeaderMenuType extends RecordListHeaderButtonType {
+  /**
+   * 存在时作为主操作按钮显示
+   */
   items?: RecordListHeaderButtonType[];
+  /**
+   * 只有在items存在时，才会用到此属性，开启时主按钮不再具有单独功能，只有展示功能
+   */
+  isPureDropdown?: boolean;
 }
 
 export interface RecordListHeaderProps extends BlRecordListBaseProps {
@@ -93,7 +100,7 @@ const RecordListHeader = (props: RecordListHeaderProps) => {
    */
   const handleBatchButtonClick = (buttonItem: RecordListHeaderButtonType) => {
     setIsLoading(buttonItem.title);
-    const result = buttonItem.onClick(onSuccess, onFail);
+    const result = buttonItem?.onClick?.(onSuccess, onFail);
 
     if (result instanceof Promise) {
       result
@@ -120,31 +127,10 @@ const RecordListHeader = (props: RecordListHeaderProps) => {
   };
 
   /**
-   * mainMenu的 button式操作
-   */
-  const renerButton = (item: RecordListHeaderButtonType) => {
-    return (
-      <Button
-        key={item.title}
-        loading={isLoading === item.title}
-        type={'text'}
-        style={{ paddingLeft: 0, paddingRight: 0 }}
-        disabled={(item?.disabled ?? false) || !!isLoading}
-        onClick={() => {
-          item.onClick();
-        }}
-      >
-        {item?.icon}
-        {item.title}
-      </Button>
-    );
-  };
-
-  /**
    * batchMenu 的 Button操作
    * @returns
    */
-  const renderBatchButton = (item: RecordListHeaderButtonType) => {
+  const renderBatchMenuButton = (item: RecordListHeaderButtonType) => {
     const disabled = (item?.disabled ?? false) || !!isLoading || selectedRowKeys.length === 0;
 
     return (
@@ -165,11 +151,33 @@ const RecordListHeader = (props: RecordListHeaderProps) => {
   };
 
   /**
-   * menu式操作
+   * mainMenu的 button式操作
+   */
+  const renerMainMenuButton = (item: RecordListHeaderButtonType) => {
+    return (
+      <Button
+        key={item.title}
+        loading={isLoading === item.title}
+        type={'text'}
+        style={{ paddingLeft: 0, paddingRight: 0 }}
+        disabled={(item?.disabled ?? false) || !!isLoading}
+        onClick={() => {
+          item?.onClick?.();
+        }}
+      >
+        {item?.icon}
+        {item.title}
+      </Button>
+    );
+  };
+
+  /**
+   *  mainMenu的 menu式操作
    * @returns
    */
-  const renderMenu = (menu: RecordListHeaderMenuType) => {
+  const renderMainMenuMenu = (menu: RecordListHeaderMenuType) => {
     const hasMenuItem = !_.isEmpty(menu?.items);
+    const isPureDropdown = _.get(menu, 'isPureDropdown', false);
     const menuComponents = hasMenuItem ? (
       <Menu style={{ width: 113 }}>
         {(menu.items ?? []).map((subItem) => (
@@ -177,7 +185,7 @@ const RecordListHeader = (props: RecordListHeaderProps) => {
             key={subItem.title}
             disabled={(subItem?.disabled ?? false) || !!isLoading}
             onClick={() => {
-              subItem.onClick();
+              subItem.onClick?.();
             }}
           >
             {subItem?.icon}
@@ -189,25 +197,39 @@ const RecordListHeader = (props: RecordListHeaderProps) => {
       <span />
     );
 
-    return hasMenuItem ? (
-      <Dropdown.Button
-        type={'primary'}
-        key={menu.title}
-        onClick={() => {
-          menu?.onClick();
-        }}
-        overlay={menuComponents}
-        icon={<DownOutlined />}
-      >
-        {menu.icon}
-        {menu.title}
-      </Dropdown.Button>
-    ) : (
+    if (hasMenuItem) {
+      if (isPureDropdown) {
+        return (
+          <Dropdown key={menu.title} overlay={menuComponents}>
+            <Button type={'primary'} icon={menu.icon}>
+              {menu.title}
+            </Button>
+          </Dropdown>
+        );
+      }
+
+      return (
+        <Dropdown.Button
+          type={'primary'}
+          key={menu.title}
+          onClick={() => {
+            menu?.onClick?.();
+          }}
+          overlay={menuComponents}
+          icon={<DownOutlined />}
+        >
+          {menu.icon}
+          {menu.title}
+        </Dropdown.Button>
+      );
+    }
+
+    return (
       <Button
         type={'primary'}
         key={menu.title}
         onClick={() => {
-          menu?.onClick();
+          menu?.onClick?.();
         }}
       >
         {menu.icon}
@@ -229,7 +251,7 @@ const RecordListHeader = (props: RecordListHeaderProps) => {
           <span>
             已选择{isSelectAll ? listLayoutState.pagination.total : selectedRowKeys.length}项
           </span>
-          {batchMenu?.map(renderBatchButton)}
+          {batchMenu?.map(renderBatchMenuButton)}
         </Space>
         <Button
           type={'link'}
@@ -294,9 +316,9 @@ const RecordListHeader = (props: RecordListHeaderProps) => {
         <Space split={<Divider type="vertical" />}>
           {mainMenu?.map((item) => {
             if (_.has(item, 'items')) {
-              return renderMenu(item);
+              return renderMainMenuMenu(item);
             }
-            return renerButton(item);
+            return renerMainMenuButton(item);
           })}
         </Space>
       </div>

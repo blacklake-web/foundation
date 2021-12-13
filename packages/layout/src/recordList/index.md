@@ -323,6 +323,7 @@ export default () => {
           },
         },
       ],
+      isPureDropdown: true,
     },
   ];
 
@@ -421,19 +422,19 @@ export default () => {
 
 ## FilterItem 精确搜索
 
-| 参数            | 说明            | 类型                           | 默认值 |
-| --------------- | --------------- | ------------------------------ | ------ |
-| label           | label 名称      | `string`                       |        |
-| name            | form 的 name    | `string[] / string`            |        |
-| type            | FilterFieldType | `FilterFieldType`              |        |
-| rules           | form 的 rules   | `any[]`                        |        |
-| renderItem      | 自定义 item     | `React.ReactNode`              |        |
-| selectProps     |                 | `SelectProps<any>`             |        |
-| inputProps      |                 | `InputProps`                   |        |
-| datePickerProps |                 | `RecordListHeaderButtonType[]` |        |
-| dateFormat      | 日期格式化      | `string `                      |        |
-| precision       | 小数精度        | `string / number`              |        |
-| props           | 输入空间的属性，替代selectProps inputProps  | `any`              |        |
+| 参数            | 说明                                        | 类型                           | 默认值 |
+| --------------- | ------------------------------------------- | ------------------------------ | ------ |
+| label           | label 名称                                  | `string`                       |        |
+| name            | form 的 name                                | `string[] / string`            |        |
+| type            | FilterFieldType                             | `FilterFieldType`              |        |
+| rules           | form 的 rules                               | `any[]`                        |        |
+| renderItem      | 自定义 item                                 | `React.ReactNode`              |        |
+| selectProps     |                                             | `SelectProps<any>`             |        |
+| inputProps      |                                             | `InputProps`                   |        |
+| datePickerProps |                                             | `RecordListHeaderButtonType[]` |        |
+| dateFormat      | 日期格式化                                  | `string `                      |        |
+| precision       | 小数精度                                    | `string / number`              |        |
+| props           | 输入空间的属性，替代 selectProps inputProps | `any`                          |        |
 
 ## RecordListHeaderButtonType 操作按钮
 
@@ -446,10 +447,11 @@ export default () => {
 
 ## RecordListHeaderMenuType 菜单按钮
 
-| 参数        | 说明                                  | 类型                           | 默认值 |
-| ----------- | ------------------------------------- | ------------------------------ | ------ |
-| items       | 菜单隐藏按钮列表                      | `RecordListHeaderButtonType[]` |        |
-| ...resProps | 其他继承自 RecordListHeaderButtonType | `RecordListHeaderButtonType`   |        |
+| 参数           | 说明                                                | 类型                           | 默认值 |
+| -------------- | --------------------------------------------------- | ------------------------------ | ------ |
+| items          | 菜单隐藏按钮列表,如果存在该属性时,认为是主操作按钮  | `RecordListHeaderButtonType[]` |        |
+| isPureDropdown | 如果是主按钮,开启此配置项会除去主按钮操作，只做展示 | boolean                        | false  |
+| ...resProps    | 其他继承自 RecordListHeaderButtonType               | `RecordListHeaderButtonType`   |        |
 
 ## OnSelectedRowKeys 列表勾选回调
 
