@@ -63,26 +63,31 @@ const DataFormLayoutFooter = (props: DataFormLayoutFooterProps) => {
     footerStyle = {},
   } = props;
 
-  const renderFooter = () => (
-    <>
-      <Button
-        onClick={() => {
-          if (typeof onCancel === 'function') onCancel();
-        }}
-      >
-        {cancelText}
-      </Button>
-      <Button
-        loading={confirmLoading}
-        type={'primary'}
-        onClick={() => {
-          if (typeof onFinish === 'function') onFinish();
-        }}
-      >
-        {okText}
-      </Button>
-    </>
-  );
+  const renderFooter = () => {
+    if (footer === true) {
+      return (
+        <>
+          <Button
+            onClick={() => {
+              if (typeof onCancel === 'function') onCancel();
+            }}
+          >
+            {cancelText}
+          </Button>
+          <Button
+            loading={confirmLoading}
+            type={'primary'}
+            onClick={() => {
+              if (typeof onFinish === 'function') onFinish();
+            }}
+          >
+            {okText}
+          </Button>
+        </>
+      );
+    }
+    return footer; // 为了支持自定义footer
+  };
 
   return footer === false ? null : (
     <Space
