@@ -18,48 +18,54 @@ const infoBlockStyleNoFlex = {
   margin: 24,
 };
 
-const RenderInfoBlock: React.FC<{ infoBlock: DetailLayoutInfoBlock; dataSource: any; }> =
-  (props) => {
-    const [toggle, setToggle] = useState<boolean>(false); // 是否展开
-    const { infoBlock, dataSource } = props;
+const RenderInfoBlock: React.FC<{
+  infoBlock: DetailLayoutInfoBlock;
+  dataSource: any;
+  width?: number;
+}> = (props) => {
+  const [toggle, setToggle] = useState<boolean>(false); // 是否展开
+  const { infoBlock, dataSource } = props;
 
-    const useSize = (target) => {
-      const [rowWidth, setRowWidth] = React.useState(0);
-  
-      React.useLayoutEffect(() => {
-        if (target.current) {
-          setRowWidth(target.current.getBoundingClientRect());
-        }
-      }, [target]);
-  
-      useResizeObserver(target, (entry) => setRowWidth(entry.contentRect.width));
-      return rowWidth;
-    };
-  
-    const getColumn = (windowSize) => {
-      if (windowSize >= 1920 || (windowSize <= 1920 && windowSize >= 1440)) {
-        return 3;
+  const useSize = (target) => {
+    const [rowWidth, setRowWidth] = React.useState(0);
+
+    React.useLayoutEffect(() => {
+      if (target.current) {
+        setRowWidth(target.current.getBoundingClientRect());
       }
-      if (windowSize >= 1280 && windowSize <= 1440) {
-        return 2;
-      }
-      if (windowSize < 1280) {
-        return 1;
-      }
+    }, [target]);
+
+    useResizeObserver(target, (entry) => setRowWidth(entry.contentRect.width));
+    return rowWidth;
+  };
+
+  const getColumn = (windowSize) => {
+    if (windowSize >= 1920 || (windowSize <= 1920 && windowSize >= 1440)) {
+      return 3;
+    }
+    if (windowSize >= 1280 && windowSize <= 1440) {
+      return 2;
+    }
+    if (windowSize < 1280) {
       return 1;
-    };
+    }
+    return 1;
+  };
 
-    const getInfoItem = (dataIndex: string | string[], record: any) => {
-      return _.get(record, dataIndex, null);
-    };
-    const { title, extra, items } = infoBlock;
-    const baseColumn = getColumn(useSize(document.body));
+  const getInfoItem = (dataIndex: string | string[], record: any) => {
+    return _.get(record, dataIndex, null);
+  };
+  const { title, extra, items } = infoBlock;
+  const baseColumn = getColumn(useSize(document.body));
 
-    return (
-      <div>
-        <Descriptions
-          title={
-            title ? <div className="bl-descriptionTitle">
+  const labelStyle = { whiteSpace: 'break-spaces', maxWidth: 120 };
+
+  return (
+    <div>
+      <Descriptions
+        title={
+          title ? (
+            <div className="bl-descriptionTitle">
               <span className="title-left">{title}</span>
               <div
                 className={'bl-toggleButon'}
@@ -67,47 +73,49 @@ const RenderInfoBlock: React.FC<{ infoBlock: DetailLayoutInfoBlock; dataSource: 
               >
                 <BlIcon type={toggle ? 'iconshouqi' : 'iconzhankai'} />
               </div>
-            </div> : null
-          }
-          labelStyle={{ paddingLeft: 20 }}
-          style={infoBlockStyleNoFlex}
-          column={baseColumn}
-          extra={extra}
-        >
-          {!toggle &&
-            items.map((item: any, index: number) => {
-              const itemValue = getInfoItem(item.dataIndex, dataSource);
+            </div>
+          ) : null
+        }
+        labelStyle={{ paddingLeft: 20 }}
+        style={infoBlockStyleNoFlex}
+        column={baseColumn}
+        extra={extra}
+      >
+        {!toggle &&
+          items.map((item: any, index: number) => {
+            const itemValue = getInfoItem(item.dataIndex, dataSource);
 
-              return (
-                <Descriptions.Item
-                  key={`${item.dataIndex}_${index}`}
-                  span={item.isFullLine ? baseColumn : 1}
-                  contentStyle={{ width: '100%', display: 'inline-block' }}
-                  label={
-                    item.desc ? (
-                      <span>
-                        {item.label}
-                        <Tooltip title={item.desc}>
-                          <BlIcon type="iconwentizhiyinbangzhu" className="bl-title-icon" />
-                        </Tooltip>
-                      </span>
-                    ) : (
-                      item.label
-                    )
-                  }
-                >
-                  {item.render ? (
-                    item.render(itemValue, dataSource)
+            return (
+              <Descriptions.Item
+                key={`${item.dataIndex}_${index}`}
+                span={item.isFullLine ? baseColumn : 1}
+                contentStyle={{ width: '100%', display: 'inline-block' }}
+                labelStyle={{ wordBreak: 'break-word', maxWidth: 120 }}
+                label={
+                  item.desc ? (
+                    <span>
+                      {item.label}
+                      <Tooltip title={item.desc}>
+                        <BlIcon type="iconwentizhiyinbangzhu" className="bl-title-icon" />
+                      </Tooltip>
+                    </span>
                   ) : (
-                    <span className={'detail-text'}>{itemValue}</span>
-                  )}
-                </Descriptions.Item>
-              );
-            })}
-        </Descriptions>
-      </div>
-    );
-  };
+                    item.label
+                  )
+                }
+              >
+                {item.render ? (
+                  item.render(itemValue, dataSource)
+                ) : (
+                  <span className={'detail-text'}>{itemValue}</span>
+                )}
+              </Descriptions.Item>
+            );
+          })}
+      </Descriptions>
+    </div>
+  );
+};
 
 const DetailLayoutContent = (props: DetailLayoutContentProps) => {
   const { info, dataSource } = props;

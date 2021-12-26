@@ -6,6 +6,7 @@ import { useVisible } from '@blacklake-web/hooks';
 import { DataFormLayoutInfoBlock } from '../DataFormLayout.type';
 import '../../detail/components/DetailLayoutContent.less';
 import '../DataFormLayout.less';
+import { CSSProperties } from '@umijs/renderer-react/node_modules/@types/react';
 export interface DataFormLayoutBodyProps {
   /**顶部拓展内容 */
   topContext?: ReactNode;
@@ -111,11 +112,20 @@ const DataFormLayoutBody = (props: DataFormLayoutBodyProps) => {
 
       if (items.length === 0) return null;
 
+      const lableStyle: CSSProperties = isSingleColumn ? {
+        height: 'auto',
+        whiteSpace: 'break-spaces',
+        maxWidth: 106,
+      } : {
+        height: 'auto',
+      }
+
       return (
         <Row style={{ paddingTop: 24 }}>
           {items.map((item, itemIndex) => {
-            const { span, render, style, isFullLine, ...formItemProps } = item;
-            const colSpan = isFullLine || isFullLine ? 100 : baseSpan;
+            const { span, render, style, isFullLine, label, ...formItemProps } = item;
+            const isSingle = isFullLine || column === 1;
+            const colSpan = isSingle ? 100 : baseSpan;
 
             const baseFormItemProps = {
               key: `formItem_${itemIndex}`,
@@ -130,7 +140,17 @@ const DataFormLayoutBody = (props: DataFormLayoutBodyProps) => {
             };
 
             return (
-              <Form.Item {...formItemProps} {...baseFormItemProps}>
+              <Form.Item
+                {...formItemProps}
+                {...baseFormItemProps}
+                label={
+                  <div
+                    style={{ ...lableStyle  }}
+                  >
+                    {label}
+                  </div>
+                }
+              >
                 {/* 把基础的 fotmItemProps 传下去，适配dependencies 或 shouldUpdate的两层formItem情况 */}
                 {render(baseFormItemProps)}
               </Form.Item>
