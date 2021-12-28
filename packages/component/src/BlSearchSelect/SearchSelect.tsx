@@ -17,6 +17,7 @@ const BlSearchSelect = <VT extends SelectValue = SelectValue>(props: BlSearchSel
     formatter,
     onDropdownVisibleChange,
     onPopupScroll,
+    onChange,
     ...resProps
   } = props;
 
@@ -95,7 +96,17 @@ const BlSearchSelect = <VT extends SelectValue = SelectValue>(props: BlSearchSel
     setOptions(options);
     totalRef.current = total;
     setLoading(false);
-  }, 500);
+  }, 800);
+
+  /**
+   * onChange处理
+   * @param value
+   */
+  const handleChange = (value, options) => {
+    if (!value) resetSearchInfo('');
+
+    if (typeof onChange === 'function') onChange(value, options);
+  };
 
   const handleDropdownVisibleChange = (open) => {
     if (open && isEmpty(options)) {
@@ -125,6 +136,7 @@ const BlSearchSelect = <VT extends SelectValue = SelectValue>(props: BlSearchSel
       }}
       options={options}
       onSearch={handleSearch}
+      onChange={handleChange}
       notFoundContent={renderNotFoundContent()}
       {...resProps}
     />
