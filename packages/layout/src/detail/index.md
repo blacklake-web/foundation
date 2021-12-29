@@ -32,26 +32,28 @@ export default () => {
 
   const baseMenu = [
     {
+      title: '开启',
       key: 'enable',
-      onClick: () => {},
+      disabled: true,
+      onClick: () => { console.log('开启'); },
       icon: <BlIcon type="iconqiyong" />,
     },
     {
       title: '刷新',
       key: 'refresh',
-      onClick: () => {},
+      onClick: () => { console.log('刷新'); },
       icon: 'iconshuaxin',
     },
     {
       title: '刷新2',
       key: 'refresh2',
       disabled: true,
-      onClick: () => {},
+      onClick: () => { console.log('刷新2'); },
     },
     {
       title: '编辑',
       key: 'edit',
-      onClick: () => {},
+      onClick: () => { console.log('编辑'); },
       icon: 'iconbianji',
     },
   ];
