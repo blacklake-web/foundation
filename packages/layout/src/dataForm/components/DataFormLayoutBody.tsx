@@ -191,7 +191,6 @@ const DataFormLayoutBody = (props: DataFormLayoutBodyProps) => {
         <Form
           form={form}
           name="dataFormInfo"
-          preserve={false}
           style={{ width: '100%', marginBottom: 24 }}
           labelCol={isSingleColumn ? { flex: '120px' } : {}}
           layout={isSingleColumn ? 'horizontal' : formLayout}
