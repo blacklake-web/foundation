@@ -1,4 +1,4 @@
-import React, { CSSProperties, ReactNode } from 'react';
+import React, { CSSProperties, ReactElement, ReactNode } from 'react';
 import { Row, Col, Button, Dropdown, Menu, Space } from 'antd';
 import { BlIcon } from '@blacklake-web/component';
 import { DetailLayoutMenuItem } from '../DetailLayout.type';
@@ -75,7 +75,7 @@ const DetailLayoutTitle = (props: DetailLayoutTitleProps) => {
           <>
             <Dropdown.Button
               buttonsRender={([leftButton, rightButton]) => [
-                React.cloneElement(leftButton, { disabled: firstMenuItem.disabled }),
+                React.cloneElement(leftButton as ReactElement, { disabled: firstMenuItem.disabled }),
                 rightButton,
               ]}
               icon={<BlIcon type="iconxiala" />}
