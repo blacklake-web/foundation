@@ -1,8 +1,6 @@
 import React, { CSSProperties, ReactNode } from 'react';
 import { Row, Col, Button, Dropdown, Menu, Space } from 'antd';
-import { EllipsisOutlined } from '@ant-design/icons';
 import { BlIcon } from '@blacklake-web/component';
-//
 import { DetailLayoutMenuItem } from '../DetailLayout.type';
 
 interface DetailLayoutTitleProps {
@@ -25,6 +23,12 @@ const extraStyle = {
 };
 
 const renderIcon = (icon: DetailLayoutMenuItem['icon']) => typeof icon === 'string' ? <BlIcon type={icon} /> : icon;
+const renderButtonText = (text: DetailLayoutMenuItem['title']) => {
+  if (text.length === 2) {
+    return text.split('').join(' ');
+  }
+  return text;
+};
 
 const DetailLayoutTitle = (props: DetailLayoutTitleProps) => {
   const { title, extra, baseMenu = [], style } = props;
@@ -41,7 +45,7 @@ const DetailLayoutTitle = (props: DetailLayoutTitleProps) => {
         {menuList.map((item) => {
           return (
             <Menu.Item key={item.key} disabled={item.disabled} icon={renderIcon(item.icon)} onClick={item.onClick}>
-              {item.title}
+              {renderButtonText(item.title)}
             </Menu.Item>
           );
         })}
@@ -58,24 +62,42 @@ const DetailLayoutTitle = (props: DetailLayoutTitleProps) => {
 
     if (isEmptyMenu) return null;
 
-    const isMoreMenu = baseMenu?.length > 5;
+    const isMoreMenu = baseMenu?.length > 2;
     const firstMenuItem = baseMenu[0];
 
     if (!firstMenuItem) return null;
 
+    const lastMenuItem = baseMenu[baseMenu.length - 1];
+
     return (
       <>
         {isMoreMenu ? (
-          <Dropdown.Button
-            onClick={firstMenuItem.onClick}
-            overlay={
-              renderMenu(baseMenu.filter((item, index) => index > 0))
-            }
-            icon={<EllipsisOutlined />}
-          >
-            {firstMenuItem.icon}
-            {firstMenuItem.title}
-          </Dropdown.Button>
+          <>
+            <Dropdown.Button
+              buttonsRender={([leftButton, rightButton]) => [
+                React.cloneElement(leftButton, { disabled: firstMenuItem.disabled }),
+                rightButton,
+              ]}
+              icon={<BlIcon type="iconxiala" />}
+              onClick={firstMenuItem.onClick}
+              overlay={
+                renderMenu(baseMenu.filter((_, index) => index > 0 && index < baseMenu.length - 1))
+              }
+              overlayStyle={{ width: 116 }}
+            >
+              {renderIcon(firstMenuItem.icon)}
+              {renderButtonText(firstMenuItem.title)}
+            </Dropdown.Button>
+            <Button
+              key={lastMenuItem.key}
+              disabled={lastMenuItem.disabled}
+              type="primary"
+              onClick={lastMenuItem.onClick}
+            >
+              {renderIcon(lastMenuItem.icon)}
+              {renderButtonText(lastMenuItem.title)}
+            </Button>
+          </>
         ) : (
           baseMenu.map((item, idx) =>
             item.buttonRender ? (
@@ -88,7 +110,7 @@ const DetailLayoutTitle = (props: DetailLayoutTitleProps) => {
                 onClick={item.onClick}
               >
                 {renderIcon(item.icon)}
-                {item.title}
+                {renderButtonText(item.title)}
               </Button>
             ),
           )
