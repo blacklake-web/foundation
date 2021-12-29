@@ -1,6 +1,7 @@
 import React, { CSSProperties, ReactNode } from 'react';
 import { Row, Col, Button, Dropdown, Menu, Space } from 'antd';
 import { EllipsisOutlined } from '@ant-design/icons';
+import { BlIcon } from '@blacklake-web/component';
 //
 import { DetailLayoutMenuItem } from '../DetailLayout.type';
 
@@ -23,10 +24,7 @@ const extraStyle = {
   justifyContent: 'flex-end',
 };
 
-const baseButtonStyle = {
-  border: 'none',
-  background: '#f5f5f5',
-};
+const renderIcon = (icon: DetailLayoutMenuItem['icon']) => typeof icon === 'string' ? <BlIcon type={icon} /> : icon;
 
 const DetailLayoutTitle = (props: DetailLayoutTitleProps) => {
   const { title, extra, baseMenu = [], style } = props;
@@ -42,7 +40,7 @@ const DetailLayoutTitle = (props: DetailLayoutTitleProps) => {
       <Menu>
         {menuList.map((item) => {
           return (
-            <Menu.Item key={item.key} icon={item?.icon} onClick={item.onClick}>
+            <Menu.Item key={item.key} disabled={item.disabled} icon={renderIcon(item.icon)} onClick={item.onClick}>
               {item.title}
             </Menu.Item>
           );
@@ -71,20 +69,25 @@ const DetailLayoutTitle = (props: DetailLayoutTitleProps) => {
           <Dropdown.Button
             onClick={firstMenuItem.onClick}
             overlay={
-              isMoreMenu ? renderMenu(baseMenu.filter((item, index) => index > 0)) : <span />
+              renderMenu(baseMenu.filter((item, index) => index > 0))
             }
-            icon={isMoreMenu ? <EllipsisOutlined /> : ''}
+            icon={<EllipsisOutlined />}
           >
             {firstMenuItem.icon}
             {firstMenuItem.title}
           </Dropdown.Button>
         ) : (
-          baseMenu.map((item) =>
+          baseMenu.map((item, idx) =>
             item.buttonRender ? (
               item.buttonRender
             ) : (
-              <Button key={item.key} style={baseButtonStyle} onClick={item.onClick}>
-                {item.icon}
+              <Button
+                key={item.key}
+                disabled={item.disabled}
+                type={idx === baseMenu.length - 1 ? 'primary' : 'default'}
+                onClick={item.onClick}
+              >
+                {renderIcon(item.icon)}
                 {item.title}
               </Button>
             ),

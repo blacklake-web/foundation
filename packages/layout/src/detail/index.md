@@ -32,15 +32,28 @@ export default () => {
 
   const baseMenu = [
     {
-      key: 'edit',
+      key: 'enable',
       onClick: () => {},
       icon: <BlIcon type="iconqiyong" />,
     },
     {
+      title: '刷新',
       key: 'refresh',
       onClick: () => {},
-      icon: <BlIcon type="iconshuaxin" />
-    }
+      icon: 'iconshuaxin',
+    },
+    {
+      title: '刷新2',
+      key: 'refresh2',
+      disabled: true,
+      onClick: () => {},
+    },
+    {
+      title: '编辑',
+      key: 'edit',
+      onClick: () => {},
+      icon: 'iconbianji',
+    },
   ];
 
   const detailInfo: DetailLayoutInfoBlock = {

@@ -28,7 +28,7 @@ export interface DetailLayoutInfoItem {
 
 export interface DetailLayoutMenuItem {
   disabled?: boolean;
-  icon?: ReactElement;
+  icon?: ReactElement | string;
   key: string;
   title: string;
   buttonRender?: ReactNode;
