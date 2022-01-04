@@ -19,13 +19,14 @@ group:
 import React from 'react';
 import { BlIcon } from '@blacklake-web/component';
 import { DetailLayout, DetailLayoutInfoBlock } from '@blacklake-web/layout';
+import { Radio } from 'antd';
 
 export default () => {
   const dataSource = {
     warehouseName: 'warehouseNametest超长的仓库名称释义的就是这样的长度',
     warehouseCode: 'warehouseCode',
     parentName: 'parentName',
-    parentCode: 'parentCode',
+    parentCode: 'parentCodewarehouseNametest超长的仓库名称释义的就是这样的长度',
     name: 'name',
     code: 'code',
   };
@@ -92,9 +93,12 @@ export default () => {
         render: (parentName) => parentName ?? '-',
       },
       {
-        label: '上级区域编号',
+        label: '上级区域编号昌吉厂的标题',
         dataIndex: 'parentCode',
-        render: (parentCode) => parentCode ?? '-',
+        render: (parentCode) => <div>
+        <Radio>fsdfsd</Radio>
+         <di>{parentCode ?? '-'}</di>
+        </div>,
       },
       { label: '区域名称', dataIndex: 'name' },
       { label: '区域编号', dataIndex: 'code' },

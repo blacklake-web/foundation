@@ -26,6 +26,7 @@ export default () => {
   const baseInfo: DataFormLayoutInfoBlock = {
     title: '基本信息',
     align: 'left',
+    column: 1,
     items: [
       {
         label: '名称',
@@ -46,7 +47,7 @@ export default () => {
         ),
       },
       {
-        label: '编号',
+        label: 'warehouse超长的仓库名称释义的就是这样的长度',
         name: 'code',
         rules: [
           { required: true, message: '特殊日名称必填' },
