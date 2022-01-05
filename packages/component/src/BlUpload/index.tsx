@@ -7,6 +7,8 @@ import { getBase64 } from './utils';
 import { BlUploadProps } from './index.type';
 import './style.less';
 
+const isImageFile = (file: UploadFile) => ['image/jpeg', 'image/jpg', 'image/png'].includes(file?.type!);
+
 const BlUpload: React.FC<BlUploadProps> = (props) => {
   const {
     defaultFiles,
@@ -26,6 +28,7 @@ const BlUpload: React.FC<BlUploadProps> = (props) => {
   const [fileList, setFileList] = useState([]);
   const [previewVisible, setPreviewVisible] = useState(false);
   const [previewImage, setPreviewImage] = useState('');
+  const [previewDownloadUrl, setPreviewDownloadUrl] = useState('');
   const [previewTitle, setPreviewTitle] = useState('');
   const getFileExt = (fileName: string) => {
     const result = fileName.split('.');
@@ -43,8 +46,7 @@ const BlUpload: React.FC<BlUploadProps> = (props) => {
     const fileSize = file.size || 0;
     const extension = file?.name ? getFileExt(file.name) : '';
 
-    const isImage =
-      fileType === 'image/jpeg' || file.type === 'image/jpg' || file.type === 'image/png';
+    const isImage = isImageFile(file);
     const isPDF = fileType === 'application/pdf';
     const isXLSX =
       fileType === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' ||
@@ -118,9 +120,18 @@ const BlUpload: React.FC<BlUploadProps> = (props) => {
     if (!file.url && !file.preview) {
       file.preview = await getBase64(file.originFileObj);
     }
-    setPreviewImage(file.url || file.preview);
-    setPreviewVisible(true);
+    // 图片文件支持预览
+    if (isImageFile(file)) {
+      setPreviewImage(file.url || file.preview);
+      setPreviewDownloadUrl('');
+    }
+    // 其他类型文件不支持预览，只能下载查看
+    else {
+      setPreviewDownloadUrl(file.url || file.preview);
+      setPreviewImage('');
+    }
     setPreviewTitle(file.name || file.url.substring(file.url.lastIndexOf('/') + 1));
+    setPreviewVisible(true);
   };
 
   const handleChange = (e: any) => {
@@ -183,7 +194,8 @@ const BlUpload: React.FC<BlUploadProps> = (props) => {
         footer={null}
         onCancel={() => setPreviewVisible(false)}
       >
-        <img style={{ width: '100%' }} src={previewImage} />
+        {previewImage && <img style={{ width: '100%' }} src={previewImage} />}
+        {previewDownloadUrl && <span>该文件类型暂不支持预览，请<a href={previewDownloadUrl} download={previewTitle}>下载</a>后查看。</span>}
       </Modal>
     );
   };
