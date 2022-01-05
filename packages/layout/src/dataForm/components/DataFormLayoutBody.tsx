@@ -144,11 +144,11 @@ const DataFormLayoutBody = (props: DataFormLayoutBodyProps) => {
                 {...formItemProps}
                 {...baseFormItemProps}
                 label={
-                  <div
+                  label ? <div
                     style={{ ...lableStyle  }}
                   >
                     {label}
-                  </div>
+                  </div> : undefined
                 }
               >
                 {/* 把基础的 fotmItemProps 传下去，适配dependencies 或 shouldUpdate的两层formItem情况 */}
