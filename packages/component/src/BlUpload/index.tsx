@@ -16,21 +16,24 @@ const getFileExt = (fileName: string | undefined) => {
   return result[result.length - 1];
 };
 
-const isImageFile = (file: UploadFile) => ['image/jpeg', 'image/jpg', 'image/png'].includes(file.type!);
-const isAudioFile = (file: UploadFile) => file.type?.startsWith('audio/');
-const isVideoFile = (file: UploadFile) => file.type?.startsWith('video/');
-const isCompressedFile = (file: UploadFile) => ['application/x-rar'].includes(file.type!);
-const isPdf = (file: UploadFile) => file.type === 'application/pdf';
-const isXLSX = (file: UploadFile) => file.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' || getFileExt(file.name) === 'xlsx';
-const isDoc = (file: UploadFile) => {
-  const fileType = file.type;
-  const extension = getFileExt(file.name);
-  return fileType === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ||
-    fileType === 'application/msword' ||
-    fileType === 'application/wps-writer' ||
-    extension === 'doc' ||
-    extension === 'docx';
-};
+const isImageFile = (file: UploadFile) => ['image/jpeg', 'image/jpg', 'image/png'].includes(file.type!)
+  || ['jpeg', 'jpg', 'png'].includes(getFileExt(file.name));
+const isAudioFile = (file: UploadFile) => file.type?.startsWith('audio/')
+  || ['mp3', 'wav', 'wma', 'mpeg', 'aac', 'midi', 'cda'].includes(getFileExt(file.name));
+const isVideoFile = (file: UploadFile) => file.type?.startsWith('video/')
+  || ['mp4', 'avi', 'asf', 'rmvb', 'mov', 'flv', 'm4v', 'f4v', 'wmv'].includes(getFileExt(file.name));
+const isCompressedFile = (file: UploadFile) => ['application/x-rar'].includes(file.type!)
+  || ['rar'].includes(getFileExt(file.name));
+const isPdf = (file: UploadFile) => file.type === 'application/pdf'
+  || ['pdf'].includes(getFileExt(file.name));
+const isXLSX = (file: UploadFile) => file.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+  || ['xlsx'].includes(getFileExt(file.name));
+const isDoc = (file: UploadFile) => [
+    'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+    'application/msword',
+    'application/wps-writer'
+  ].includes(file.type!) || ['doc', 'docx'].includes(getFileExt(file.name));
+
 const isDocumentFile = (file: UploadFile) => {
   return isDoc(file) || isXLSX(file) || isPdf(file);
 };
