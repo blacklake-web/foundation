@@ -1,6 +1,8 @@
 import { UploadFile, UploadProps } from 'antd/lib/upload/interface';
 import { ReactNode } from 'react';
 
+export type FileType = 'image' | 'pdf' | 'doc' | 'xlsx' | 'attach' | 'compressed' | 'video' | 'audio' | 'document';
+
 export interface BlUploadBaseProps<T = any> {
   /**
    * [BL]默认文件
@@ -14,7 +16,7 @@ export interface BlUploadBaseProps<T = any> {
   /**
    * [BL]文件格式限制
    */
-  limit?: 'image' | 'pdf' | 'doc' | 'xlsx' | 'attach';
+  limit?: FileType | FileType[];
   /**
    * [BL]总文件大小限制（主要针对文件多选）
    */
