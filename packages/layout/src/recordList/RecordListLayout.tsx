@@ -35,6 +35,8 @@ interface BlRecordListLayoutProps {
   requestFn: (parmas: any) => Promise<any>;
   /**刷新表示，只要传与上次不一样的值时触发刷新动作，可以传时间戳 */
   refreshMarker?: string | number;
+  /**重置刷新，会重置所有查询条件，使用方法和refreshMarker一致 */
+  resetRefreshMarker?: string | number;
   /**
    * 是否启用url 记录和获取 查询参数的功能，当recordListLayout用于弹窗内时或不要url参与时，开启
    * @default false
@@ -130,6 +132,7 @@ const ListLayout = <RecordType extends object = any>(
     filterList = [], // 筛选列表
     requestFn, // 请求接口函数，接收format后的params
     refreshMarker, // 刷新标识，需要刷新时，传变化的值（如：当前时间戳）
+    resetRefreshMarker, // 重置刷新标识，需要刷新时，传变化的值（如：当前时间戳）
     formatDataToFormDisplay, // 处理从url获取filter后去(FilterList)展示在搜索栏里面的转换函数
     // header
     mainMenu, // 主页操作菜单（button,menu）
@@ -249,15 +252,30 @@ const ListLayout = <RecordType extends object = any>(
   /**
    * 刷新页面
    */
-  const handleRefresh = () => {
+  const handleRefresh = (reset?: boolean) => {
     const { quickFilterData, filterData, pagination, sorter, isSelectMode } = listLayoutState;
+    let params: ListLayoutQueryParams;
 
-    const params: ListLayoutQueryParams = {
-      quickFilterData,
-      filterData,
-      pagination,
-      sorter,
-    };
+    if (reset) {
+      /** 重置刷新 */
+      params = {
+        quickFilterData: { quickSearch: '' },
+        filterData: {},
+        pagination: {
+          ...pagination,
+          ...DEFAULT_PAGE,
+        },
+        sorter: undefined,
+      };
+    } else {
+      /** 刷新 */
+      params = {
+        quickFilterData,
+        filterData,
+        pagination,
+        sorter,
+      };
+    }
 
     // 刷新数据时必须恢复查询状态 1.选择为空 2.选择状态关闭
     if (isSelectMode) {
@@ -269,6 +287,8 @@ const ListLayout = <RecordType extends object = any>(
         type: LIST_REDUCER_TYPE.SetPagination,
         payload: { total: response?.data?.total ?? 0 },
       });
+
+      if (reset) setFilterToUrl(params);
     });
   };
 
@@ -432,6 +452,12 @@ const ListLayout = <RecordType extends object = any>(
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [refreshMarker]);
+
+  useEffect(() => {
+    if (resetRefreshMarker) {
+      handleRefresh(true);
+    }
+  }, [resetRefreshMarker]);
 
   return (
     <div className={'bl-listLayout'} id={'bl-list-layout'} style={style}>
