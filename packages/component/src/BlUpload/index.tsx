@@ -87,8 +87,8 @@ const BlUpload: React.FC<BlUploadProps> = (props) => {
   } = props;
   const [fileList, setFileList] = useState([]);
   const [previewVisible, setPreviewVisible] = useState(false);
-  const [previewImage, setPreviewImage] = useState('');
-  const [previewDownloadUrl, setPreviewDownloadUrl] = useState('');
+  const [previewUrl, setPreviewUrl] = useState('');
+  const [previewType, setPreviewType] = useState<FileType | ''>('');
   const [previewTitle, setPreviewTitle] = useState('');
 
 
@@ -138,15 +138,20 @@ const BlUpload: React.FC<BlUploadProps> = (props) => {
     if (!file.url && !file.preview) {
       file.preview = await getBase64(file.originFileObj);
     }
-    // 图片文件支持预览
+    setPreviewUrl(file.url || file.preview);
+    // 图片、音视频、pdf 支持预览
     if (isImageFile(file)) {
-      setPreviewImage(file.url || file.preview);
-      setPreviewDownloadUrl('');
+      setPreviewType('image');
+    } else if (isVideoFile(file)) {
+      setPreviewType('video');
+    } else if (isAudioFile(file)) {
+      setPreviewType('audio');
+    } else if (isPdf(file)) {
+      setPreviewType('pdf');
     }
     // 其他类型文件不支持预览，只能下载查看
     else {
-      setPreviewDownloadUrl(file.url || file.preview);
-      setPreviewImage('');
+      setPreviewType('');
     }
     setPreviewTitle(file.name || file.url.substring(file.url.lastIndexOf('/') + 1));
     setPreviewVisible(true);
@@ -212,8 +217,11 @@ const BlUpload: React.FC<BlUploadProps> = (props) => {
         footer={null}
         onCancel={() => setPreviewVisible(false)}
       >
-        {previewImage && <img style={{ width: '100%' }} src={previewImage} />}
-        {previewDownloadUrl && <span>该文件类型暂不支持预览，请<a href={previewDownloadUrl} download={previewTitle}>下载</a>后查看。</span>}
+        {previewType === 'image' && <img style={{ width: '100%' }} src={previewUrl} />}
+        {previewType === 'video' && <video style={{ width: '100%' }} src={previewUrl} />}
+        {previewType === 'audio' && <audio style={{ width: '100%' }} src={previewUrl} />}
+        {previewType === 'pdf' && <iframe style={{ width: '100%', height: 600 }} src={previewUrl} />}
+        {previewType === '' && <span>该文件类型暂不支持预览，请<a href={previewUrl} download={previewTitle}>下载</a>后查看。</span>}
       </Modal>
     );
   };
