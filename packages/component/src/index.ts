@@ -9,7 +9,7 @@ import { BlMultiCascader } from './MultiCascader';
 import { BlSearchSelect } from './BlSearchSelect';
 
 import type { ButtonProps } from './Button/index.type';
-import type { BlUploadProps } from './BlUpload/index.type';
+import type { BlUploadProps, BlUploadFileType } from './BlUpload/index.type';
 import type { BlTableProps, BlColumnsType } from './BlTable';
 import type { BlCascaderProps } from './Cascader/index.type';
 import type { BlMultiCascaderProps } from './MultiCascader/index.type';
@@ -38,6 +38,7 @@ export { cascaderOptions, multiCascaderOptions };
 export type {
   ButtonProps,
   BlUploadProps,
+  BlUploadFileType,
   BlTableProps,
   BlColumnsType,
   BlCascaderProps,
