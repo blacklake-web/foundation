@@ -4,7 +4,7 @@ import { UploadFile } from 'antd/lib/upload/interface';
 import _ from 'lodash';
 //
 import { getBase64 } from './utils';
-import { BlUploadProps, FileType } from './index.type';
+import { BlUploadProps, BlUploadFileType } from './index.type';
 import './style.less';
 
 const getFileExt = (fileName: string | undefined) => {
@@ -13,17 +13,16 @@ const getFileExt = (fileName: string | undefined) => {
   }
   const result = fileName.split('.');
 
-  return result[result.length - 1];
+  return result[result.length - 1].toLowerCase();
 };
 
 const isImageFile = (file: UploadFile) => ['image/jpeg', 'image/jpg', 'image/png'].includes(file.type!)
   || ['jpeg', 'jpg', 'png'].includes(getFileExt(file.name));
 const isAudioFile = (file: UploadFile) => file.type?.startsWith('audio/')
   || ['mp3', 'wav', 'wma', 'mpeg', 'aac', 'midi', 'cda'].includes(getFileExt(file.name));
-const isVideoFile = (file: UploadFile) => file.type?.startsWith('video/')
-  || ['mp4', 'avi', 'asf', 'rmvb', 'mov', 'flv', 'm4v', 'f4v', 'wmv'].includes(getFileExt(file.name));
-const isCompressedFile = (file: UploadFile) => ['application/x-rar'].includes(file.type!)
-  || ['rar'].includes(getFileExt(file.name));
+const isVideoFile = (file: UploadFile) => ['mp4', 'avi', 'mov'].includes(getFileExt(file.name));
+const isCompressedFile = (file: UploadFile) => ['application/x-rar', 'application/zip'].includes(file.type!)
+  || ['rar', 'zip'].includes(getFileExt(file.name));
 const isPdf = (file: UploadFile) => file.type === 'application/pdf'
   || ['pdf'].includes(getFileExt(file.name));
 const isXLSX = (file: UploadFile) => file.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
@@ -33,14 +32,12 @@ const isDoc = (file: UploadFile) => [
     'application/msword',
     'application/wps-writer'
   ].includes(file.type!) || ['doc', 'docx'].includes(getFileExt(file.name));
+const isTxt = (file: UploadFile) => ['txt'].includes(getFileExt(file.name));
 
 const isDocumentFile = (file: UploadFile) => {
-  return isDoc(file) || isXLSX(file) || isPdf(file);
+  return isDoc(file) || isXLSX(file) || isPdf(file) || isTxt(file);
 };
-function checkSingleFileLimit(limit: FileType, file: UploadFile) {
-  if (limit === 'image' && !isImageFile(file)) {
-    return '.jpg/.png/.jpeg';
-  }
+function checkSingleFileLimit(limit: BlUploadFileType, file: UploadFile) {
   if (limit === 'pdf' && !isPdf(file)) {
     return '.pdf';
   }
@@ -52,6 +49,9 @@ function checkSingleFileLimit(limit: FileType, file: UploadFile) {
   }
   if (limit === 'attach' && !(isImageFile(file) || isPdf(file) || isXLSX(file) || isCompressedFile(file))) {
     return '.jpg/.png/.jpeg/.pdf/.xlsx/.rar';
+  }
+  if (limit === 'image' && !isImageFile(file)) {
+    return '图片';
   }
   if (limit === 'document' && !isDocumentFile(file)) {
     return '文档';
@@ -88,7 +88,7 @@ const BlUpload: React.FC<BlUploadProps> = (props) => {
   const [fileList, setFileList] = useState([]);
   const [previewVisible, setPreviewVisible] = useState(false);
   const [previewUrl, setPreviewUrl] = useState('');
-  const [previewType, setPreviewType] = useState<FileType | ''>('');
+  const [previewType, setPreviewType] = useState<BlUploadFileType | ''>('');
   const [previewTitle, setPreviewTitle] = useState('');
 
 
@@ -103,11 +103,11 @@ const BlUpload: React.FC<BlUploadProps> = (props) => {
     if (limit) {
       const supportedFileTypes: string[] = [];
       if (_.isArray(limit)) {
-        (limit as FileType[]).forEach(lmt => {
+        (limit as BlUploadFileType[]).forEach(lmt => {
           supportedFileTypes.push(checkSingleFileLimit(lmt, file));
         })
       } else {
-        supportedFileTypes.push(checkSingleFileLimit(limit as FileType, file));
+        supportedFileTypes.push(checkSingleFileLimit(limit as BlUploadFileType, file));
       }
       // 没有通过任意一个类型校验，则报错
       if (!supportedFileTypes.some(item => item === '')) {
@@ -138,20 +138,45 @@ const BlUpload: React.FC<BlUploadProps> = (props) => {
     if (!file.url && !file.preview) {
       file.preview = await getBase64(file.originFileObj);
     }
-    setPreviewUrl(file.url || file.preview);
+
+    // 视频、音频、pdf 先完整下载再预览，否则可能无法预览
+    // pdf还得修改一下 MIME type, 故读取为 base64
+    function downloadToPreview(isPdf = false) {
+      if (file.url) {
+        fetch(file.url)
+          .then(res => res.blob())
+          .then(data => {
+            if (isPdf) {
+              const reader = new FileReader();
+              reader.readAsDataURL(data); 
+              reader.onloadend = function () {
+                setPreviewUrl((reader.result as string).replace('/octet-stream', '/pdf'));
+              }
+            } else {
+              setPreviewUrl(window.URL.createObjectURL(data));
+            }
+          });
+      }
+    }
+
     // 图片、音视频、pdf 支持预览
     if (isImageFile(file)) {
       setPreviewType('image');
+      setPreviewUrl(file.url || file.preview);
     } else if (isVideoFile(file)) {
       setPreviewType('video');
+      downloadToPreview();
     } else if (isAudioFile(file)) {
       setPreviewType('audio');
+      downloadToPreview();
     } else if (isPdf(file)) {
       setPreviewType('pdf');
+      downloadToPreview(true);
     }
     // 其他类型文件不支持预览，只能下载查看
     else {
       setPreviewType('');
+      setPreviewUrl(file.url || file.preview);
     }
     setPreviewTitle(file.name || file.url.substring(file.url.lastIndexOf('/') + 1));
     setPreviewVisible(true);
@@ -218,7 +243,7 @@ const BlUpload: React.FC<BlUploadProps> = (props) => {
         onCancel={() => setPreviewVisible(false)}
       >
         {previewType === 'image' && <img style={{ width: '100%' }} src={previewUrl} />}
-        {previewType === 'video' && <video style={{ width: '100%' }} src={previewUrl} />}
+        {previewType === 'video' && <video style={{ width: '100%' }} src={previewUrl} controls autoPlay muted />}
         {previewType === 'audio' && <audio style={{ width: '100%' }} src={previewUrl} />}
         {previewType === 'pdf' && <iframe style={{ width: '100%', height: 600 }} src={previewUrl} />}
         {previewType === '' && <span>该文件类型暂不支持预览，请<a href={previewUrl} download={previewTitle}>下载</a>后查看。</span>}
