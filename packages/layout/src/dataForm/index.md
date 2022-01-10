@@ -78,7 +78,7 @@ export default () => {
           return (
             <Form.Item
               {...formItemConfig}
-              label="关联对象22222"
+              label="关联对象关联对象关联对象关联对象关联对象"
               name="name1"
               rules={[
                 { required: true, message: '特殊日名称必填' },
