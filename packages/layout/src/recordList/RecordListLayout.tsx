@@ -213,6 +213,36 @@ const ListLayout = <RecordType extends object = any>(
     isFirstRef.current = false;
   };
 
+  /**
+   * 重置各种store
+   * @param response
+   * @param resetList
+   */
+  const resetStore = (resetList: LIST_REDUCER_TYPE[], response: any) => {
+    // 置空精确搜索
+    if (_.includes(resetList, LIST_REDUCER_TYPE.SetFliterData)) {
+      dispatch({ type: LIST_REDUCER_TYPE.SetFliterData, payload: {} });
+    }
+
+    // 置空快速搜索
+    if (_.includes(resetList, LIST_REDUCER_TYPE.SetQuickFilterData)) {
+      dispatch({ type: LIST_REDUCER_TYPE.SetQuickFilterData, payload: undefined });
+    }
+
+    // 重置排序
+    if (_.includes(resetList, LIST_REDUCER_TYPE.SetSorter)) {
+      dispatch({ type: LIST_REDUCER_TYPE.SetSorter, payload: undefined });
+    }
+
+    // 重置分页
+    if (_.includes(resetList, LIST_REDUCER_TYPE.SetPagination)) {
+      dispatch({
+        type: LIST_REDUCER_TYPE.SetPagination,
+        payload: { ...DEFAULT_PAGE, total: response?.data?.total ?? 0 },
+      });
+    }
+  };
+
   const fetchData = (
     params: ListLayoutQueryParams,
     successCB?: (responseData: TableResponseData) => void,
@@ -288,7 +318,20 @@ const ListLayout = <RecordType extends object = any>(
         payload: { total: response?.data?.total ?? 0 },
       });
 
-      if (reset) setFilterToUrl(params);
+      if (reset) {
+        setFilterToUrl(params);
+
+        // 重置精确搜索,快速搜索,分页,排序
+        resetStore(
+          [
+            LIST_REDUCER_TYPE.SetFliterData,
+            LIST_REDUCER_TYPE.SetQuickFilterData,
+            LIST_REDUCER_TYPE.SetPagination,
+            LIST_REDUCER_TYPE.SetSorter,
+          ],
+          response,
+        );
+      }
     });
   };
 
@@ -311,16 +354,12 @@ const ListLayout = <RecordType extends object = any>(
 
     fetchData(params, (response) => {
       dispatch({ type: LIST_REDUCER_TYPE.SetFliterData, payload: newFilters });
-      dispatch({
-        type: LIST_REDUCER_TYPE.SetPagination,
-        payload: { ...DEFAULT_PAGE, total: response?.data?.total ?? 0 },
-      });
       dispatch({ type: LIST_REDUCER_TYPE.ChangeFilter, payload: false });
 
       setFilterToUrl(params);
 
-      // 置空快速搜索
-      dispatch({ type: LIST_REDUCER_TYPE.SetQuickFilterData, payload: undefined });
+      // 重置快速搜索,分页
+      resetStore([LIST_REDUCER_TYPE.SetQuickFilterData, LIST_REDUCER_TYPE.SetPagination], response);
     });
   };
 
@@ -343,15 +382,11 @@ const ListLayout = <RecordType extends object = any>(
 
     fetchData(params, (response) => {
       dispatch({ type: LIST_REDUCER_TYPE.SetQuickFilterData, payload: newQuickSearch });
-      dispatch({
-        type: LIST_REDUCER_TYPE.SetPagination,
-        payload: { ...DEFAULT_PAGE, total: response?.data?.total ?? 0 },
-      });
 
       setFilterToUrl(params);
 
-      // 置空精确搜索
-      dispatch({ type: LIST_REDUCER_TYPE.SetFliterData, payload: {} });
+      // 重置精确搜索,分页
+      resetStore([LIST_REDUCER_TYPE.SetFliterData, LIST_REDUCER_TYPE.SetPagination], response);
     });
   };
 

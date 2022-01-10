@@ -112,18 +112,10 @@ const DataFormLayoutBody = (props: DataFormLayoutBodyProps) => {
 
       if (items.length === 0) return null;
 
-      const lableStyle: CSSProperties = isSingleColumn ? {
-        height: 'auto',
-        whiteSpace: 'break-spaces',
-        maxWidth: 106,
-      } : {
-        height: 'auto',
-      }
-
       return (
         <Row style={{ paddingTop: 24 }}>
           {items.map((item, itemIndex) => {
-            const { span, render, style, isFullLine, label, ...formItemProps } = item;
+            const { span, render, style, isFullLine, ...formItemProps } = item;
             const isSingle = isFullLine || column === 1;
             const colSpan = isSingle ? 100 : baseSpan;
 
@@ -140,17 +132,7 @@ const DataFormLayoutBody = (props: DataFormLayoutBodyProps) => {
             };
 
             return (
-              <Form.Item
-                {...formItemProps}
-                {...baseFormItemProps}
-                label={
-                  label ? <div
-                    style={{ ...lableStyle  }}
-                  >
-                    {label}
-                  </div> : undefined
-                }
-              >
+              <Form.Item {...formItemProps} {...baseFormItemProps}>
                 {/* 把基础的 fotmItemProps 传下去，适配dependencies 或 shouldUpdate的两层formItem情况 */}
                 {render(baseFormItemProps)}
               </Form.Item>

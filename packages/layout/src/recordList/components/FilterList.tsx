@@ -189,7 +189,14 @@ const FilterList = (props: FilterProps) => {
   const footerContent = (
     <div style={{ display: 'flex' }}>
       <div style={{ flex: 1 }}>
-        <Button type="text" icon={<RedoOutlined />} onClick={() => form.resetFields()}>
+        <Button
+          type="text"
+          icon={<RedoOutlined />}
+          onClick={() => {
+            form.resetFields();
+            form.submit();
+          }}
+        >
           重置
         </Button>
       </div>
