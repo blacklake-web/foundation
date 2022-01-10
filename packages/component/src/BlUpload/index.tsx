@@ -3,7 +3,7 @@ import { message, Upload, Modal, UploadProps } from 'antd';
 import { UploadFile } from 'antd/lib/upload/interface';
 import _ from 'lodash';
 //
-import { getBase64 } from './utils';
+import { getBase64, modifyResponseHeader } from './utils';
 import { BlUploadProps, BlUploadFileType } from './index.type';
 import './style.less';
 
@@ -140,21 +140,18 @@ const BlUpload: React.FC<BlUploadProps> = (props) => {
     }
 
     // 视频、音频、pdf 先完整下载再预览，否则可能无法预览
-    // pdf还得修改一下 MIME type, 故读取为 base64
+    // pdf需修改一下 MIME type
     function downloadToPreview(isPdf = false) {
       if (file.url) {
         fetch(file.url)
-          .then(res => res.blob())
-          .then(data => {
+          .then(res => {
             if (isPdf) {
-              const reader = new FileReader();
-              reader.readAsDataURL(data); 
-              reader.onloadend = function () {
-                setPreviewUrl((reader.result as string).replace('/octet-stream', '/pdf'));
-              }
-            } else {
-              setPreviewUrl(window.URL.createObjectURL(data));
+              return modifyResponseHeader(res, 'content-type', 'application/pdf').blob();
             }
+            return res.blob();
+          })
+          .then(data => {
+            setPreviewUrl(window.URL.createObjectURL(data));
           });
       }
     }
