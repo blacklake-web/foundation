@@ -26,7 +26,7 @@ export default () => {
         name: `name_${i}`,
         sex: `sex_${i}`,
         old: `old_${i}`,
-        job: `job_${i}`,
+        job: `job_job_job_job_jobs_jobs_jobs_jobs_jobs_jobs_jobs_job_job_job_${i}`,
         school: `school_${i}`,
         phone: `phone_${i}`,
         qq: `qq_${i}`,
