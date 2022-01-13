@@ -21,6 +21,7 @@ import './styles.less';
 const BL_TABLE_CONFIG = 'BL_TABLE_CONFIG';
 const DEFAULT_TAG = '-';
 const blLocalStorage = BlLocalStorage.getInstance();
+const PADDING = 16;
 
 /**
  * 获取列表每一列 列配置初始值
@@ -102,10 +103,12 @@ const BlTable = <RecordType extends object = any>(props: BlTableProps<RecordType
   };
 
   const getColRender = (col: ColumnGroupType<RecordType>) => {
+    const colWidth = col.width ?? (100 + PADDING * 2);
+    const tooltipWidth = _.isNumber(colWidth) ? ((colWidth as number) - PADDING * 2) : colWidth;
     // 不存在自定义render时，返回指定render
     if (!col?.render) {
       return (text: any) => {
-        return <TextTooltip text={text || DEFAULT_TAG} width={col?.width ?? 100} />;
+        return <TextTooltip text={text || DEFAULT_TAG} width={tooltipWidth} />;
       };
     }
 
@@ -114,7 +117,7 @@ const BlTable = <RecordType extends object = any>(props: BlTableProps<RecordType
       const resultText = col?.render?.(text, record, index);
 
       if (typeof resultText === 'string') {
-        return <TextTooltip text={resultText || DEFAULT_TAG} width={col?.width ?? 100} />;
+        return <TextTooltip text={resultText || DEFAULT_TAG} width={tooltipWidth} />;
       } else {
         return resultText ?? DEFAULT_TAG;
       }

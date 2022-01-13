@@ -237,7 +237,11 @@ const BlUpload: React.FC<BlUploadProps> = (props) => {
         visible={previewVisible}
         title={previewTitle}
         footer={null}
-        onCancel={() => setPreviewVisible(false)}
+        onCancel={() => {
+          setPreviewVisible(false);
+          setPreviewUrl('');
+          setPreviewType('');
+        }}
       >
         {previewType === 'image' && <img style={{ width: '100%' }} src={previewUrl} />}
         {previewType === 'video' && <video style={{ width: '100%' }} src={previewUrl} controls autoPlay muted />}
