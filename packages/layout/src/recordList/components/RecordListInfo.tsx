@@ -26,13 +26,16 @@ export interface RecordListInfoProps extends BlRecordListBaseProps {
 
 export const objToKeyValueAry = (obj: AfterFormatData): DisplayDatas => {
   const names =
-    _.toPairs(
-      _.omitBy(obj, (item) => {
-        if (typeof item === 'number') return false;
-        if (typeof item === 'boolean') return false;
-        if (typeof item === 'undefined') return true;
-        return _.isEmpty(item);
-      }),
+    _.filter(
+      _.toPairs(
+        _.omitBy(obj, (item) => {
+          if (typeof item === 'number') return false;
+          if (typeof item === 'boolean') return false;
+          if (typeof item === 'undefined') return true;
+          return _.isEmpty(item);
+        }),
+      ),
+      _.compact,
     ) ?? [];
 
   if (_.isEmpty(names)) return [];
