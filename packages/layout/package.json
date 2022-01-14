@@ -31,13 +31,13 @@
   },
   "peerDependencies": {
     "@ant-design/icons": ">=4.0.0",
-    "antd": ">=4.10.0",
+    "antd": "4.16.13",
     "lodash": ">=4.10.0",
     "react": ">=17.0.0",
     "react-dom": ">=17.0.0"
   },
   "devDependencies": {
-    "antd": "^4.16.8",
+    "antd": "4.16.13",
     "babel-plugin-import": "^1.13.3",
     "father": "^2.30.6"
   },
