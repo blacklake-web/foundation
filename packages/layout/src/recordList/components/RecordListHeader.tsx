@@ -284,49 +284,47 @@ const RecordListHeader = (props: RecordListHeaderProps) => {
     const isNeedFilterButton = !_.isEmpty(filterList);
     const isNeedMainMenu = !_.isEmpty(mainMenu);
 
-    return (
-      (useQuickFilter || isNeedFilterButton || isNeedMainMenu) && (
-        <div className={'bl-listLayout-head'}>
-          <Space size={16}>
-            {useQuickFilter && (
-              <Input.Search
-                style={{ width: 240 }}
-                placeholder={placeholder}
-                value={quickSearch}
-                onChange={(e) => {
-                  setQuickSearch(e.target.value);
-                }}
-                onPressEnter={handleQuickPress}
-                onSearch={handleQuickSearch}
-              />
-            )}
-            {isNeedFilterButton && (
-              <Button
-                style={{ padding: '5px 8px' }}
-                icon={<FilterOutlined width={32} height={32} />}
-                type={filterDataCount ? 'primary' : 'default'}
-                ghost={Boolean(filterDataCount)}
-                onClick={() => {
-                  dispatch?.({ type: LIST_REDUCER_TYPE.ChangeFilter, payload: true });
-                }}
-              >
-                <span>筛选</span>
-                {filterDataCount ? <span>({filterDataCount})</span> : null}
-              </Button>
-            )}
-          </Space>
-          <Space split={<Divider type="vertical" />}>
-            {isNeedMainMenu &&
-              mainMenu?.map((item) => {
-                if (_.has(item, 'items')) {
-                  return renderMainMenuMenu(item);
-                }
-                return renerMainMenuButton(item);
-              })}
-          </Space>
-        </div>
-      )
-    );
+    return useQuickFilter || isNeedFilterButton || isNeedMainMenu ? (
+      <div className={'bl-listLayout-head'}>
+        <Space size={16}>
+          {useQuickFilter && (
+            <Input.Search
+              style={{ width: 240 }}
+              placeholder={placeholder}
+              value={quickSearch}
+              onChange={(e) => {
+                setQuickSearch(e.target.value);
+              }}
+              onPressEnter={handleQuickPress}
+              onSearch={handleQuickSearch}
+            />
+          )}
+          {isNeedFilterButton && (
+            <Button
+              style={{ padding: '5px 8px' }}
+              icon={<FilterOutlined width={32} height={32} />}
+              type={filterDataCount ? 'primary' : 'default'}
+              ghost={Boolean(filterDataCount)}
+              onClick={() => {
+                dispatch?.({ type: LIST_REDUCER_TYPE.ChangeFilter, payload: true });
+              }}
+            >
+              <span>筛选</span>
+              {filterDataCount ? <span>({filterDataCount})</span> : null}
+            </Button>
+          )}
+        </Space>
+        <Space split={<Divider type="vertical" />}>
+          {isNeedMainMenu &&
+            mainMenu?.map((item) => {
+              if (_.has(item, 'items')) {
+                return renderMainMenuMenu(item);
+              }
+              return renerMainMenuButton(item);
+            })}
+        </Space>
+      </div>
+    ) : null;
   };
 
   return listLayoutState.isSelectMode ? renderBatchMenu() : renderMainMenu();

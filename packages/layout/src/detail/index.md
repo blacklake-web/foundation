@@ -16,12 +16,20 @@ group:
  * title: 详情布局组件
  * desc: 基础使用
  */
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { BlIcon } from '@blacklake-web/component';
 import { DetailLayout, DetailLayoutInfoBlock } from '@blacklake-web/layout';
 import { Radio } from 'antd';
 
 export default () => {
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 1000);
+  }, []);
+
   const dataSource = {
     warehouseName: 'warehouseNametest超长的仓库名称释义的就是这样的长度',
     warehouseCode: 'warehouseCode',
@@ -36,25 +44,33 @@ export default () => {
       title: '开启',
       key: 'enable',
       disabled: true,
-      onClick: () => { console.log('开启'); },
+      onClick: () => {
+        console.log('开启');
+      },
       icon: <BlIcon type="iconqiyong" />,
     },
     {
       title: '刷新',
       key: 'refresh',
-      onClick: () => { console.log('刷新'); },
+      onClick: () => {
+        console.log('刷新');
+      },
       icon: 'iconshuaxin',
     },
     {
       title: '刷新2',
       key: 'refresh2',
       disabled: true,
-      onClick: () => { console.log('刷新2'); },
+      onClick: () => {
+        console.log('刷新2');
+      },
     },
     {
       title: '编辑',
       key: 'edit',
-      onClick: () => { console.log('编辑'); },
+      onClick: () => {
+        console.log('编辑');
+      },
       icon: 'iconbianji',
     },
   ];
@@ -95,10 +111,12 @@ export default () => {
       {
         label: '上级区域编号昌吉厂的标题',
         dataIndex: 'parentCode',
-        render: (parentCode) => <div>
-        <Radio>fsdfsd</Radio>
-         <di>{parentCode ?? '-'}</di>
-        </div>,
+        render: (parentCode) => (
+          <div>
+            <Radio>fsdfsd</Radio>
+            <di>{parentCode ?? '-'}</di>
+          </div>
+        ),
       },
       { label: '区域名称', dataIndex: 'name' },
       { label: '区域编号', dataIndex: 'code' },
@@ -119,12 +137,12 @@ export default () => {
         label: '产出物料',
         dataIndex: 'warehouseCode',
         render: (warehouseCode) => warehouseCode ?? '-',
-      }
+      },
     ],
     column: 2,
   };
 
-    const otherInfo: DetailLayoutInfoBlock = {
+  const otherInfo: DetailLayoutInfoBlock = {
     title: '其他信息',
     items: [
       {
@@ -137,14 +155,20 @@ export default () => {
         label: '备注',
         dataIndex: 'warehouseCode',
         render: (warehouseCode) => warehouseCode ?? '-',
-      }
+      },
     ],
     column: 2,
   };
 
   return (
     <div style={{ border: '1px solid #d8d8d8' }}>
-      <DetailLayout title="详情" info={[detailInfo, materialInfo, otherInfo]} dataSource={dataSource} baseMenu={baseMenu} />
+      <DetailLayout
+        title="详情"
+        info={[detailInfo, materialInfo, otherInfo]}
+        dataSource={dataSource}
+        baseMenu={baseMenu}
+        loading={loading}
+      />
     </div>
   );
 };
@@ -189,7 +213,7 @@ export default () => {
       key: 'delate',
       onClick: () => {},
       title: '刷新',
-    }
+    },
   ];
 
   const detailInfo: DetailLayoutInfoBlock = {
