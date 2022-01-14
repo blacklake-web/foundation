@@ -282,8 +282,9 @@ const RecordListHeader = (props: RecordListHeaderProps) => {
 
     const filterDataCount = objToKeyValueAry(afterFormatData).length;
     const isNeedFilterButton = !_.isEmpty(filterList);
+    const isNeedMainMenu = !_.isEmpty(mainMenu);
 
-    return (
+    return useQuickFilter || isNeedFilterButton || isNeedMainMenu ? (
       <div className={'bl-listLayout-head'}>
         <Space size={16}>
           {useQuickFilter && (
@@ -314,15 +315,16 @@ const RecordListHeader = (props: RecordListHeaderProps) => {
           )}
         </Space>
         <Space split={<Divider type="vertical" />}>
-          {mainMenu?.map((item) => {
-            if (_.has(item, 'items')) {
-              return renderMainMenuMenu(item);
-            }
-            return renerMainMenuButton(item);
-          })}
+          {isNeedMainMenu &&
+            mainMenu?.map((item) => {
+              if (_.has(item, 'items')) {
+                return renderMainMenuMenu(item);
+              }
+              return renerMainMenuButton(item);
+            })}
         </Space>
       </div>
-    );
+    ) : null;
   };
 
   return listLayoutState.isSelectMode ? renderBatchMenu() : renderMainMenu();

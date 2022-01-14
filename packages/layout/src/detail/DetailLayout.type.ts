@@ -6,6 +6,7 @@ export interface DetailLayoutProps {
   baseMenu?: DetailLayoutMenuItem[];
   extra?: ReactNode;
   dataSource: any;
+  loading?: boolean;
   children?: ReactNode;
 }
 

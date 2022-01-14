@@ -1,6 +1,7 @@
-import { TableProps, ColumnsType, ColumnGroupType, ColumnType } from 'antd/lib/table';
+import { TableProps, ColumnType } from 'antd/lib/table';
+import { RenderedCell } from 'rc-table/lib/interface';
 
-export interface BlTableProps<RecordType> extends TableProps<RecordType> {
+export interface BlTableProps<RecordType> extends Omit<TableProps<RecordType>, 'columns'> {
   /**
    * [BL]列宽可拖拽伸缩,可伸缩时，column.width 必填且为数字
    */
@@ -24,10 +25,21 @@ export interface BlTableProps<RecordType> extends TableProps<RecordType> {
   columns: BlColumnsType<RecordType>;
 }
 
-export interface BlColumnType<RecordType> extends ColumnType<RecordType> {
+export interface BlColumnType<RecordType> extends Omit<ColumnType<RecordType>, 'render'> {
   minWidth?: number;
   fixed?: any;
   renderStr?: (text: any, record: any, index) => string; // 返回string的render,用作导出或xxx(其他场景)
+  render?: (
+    value: any,
+    record: RecordType,
+    index: number,
+    config: {
+      /** 列的最大宽度 */
+      width: number | string;
+      /** 列的内容宽度，用作tooltip限制 */
+      contentWidth: number | string;
+    },
+  ) => React.ReactNode | RenderedCell<RecordType>;
   defaultColConfig?: {
     fixed?: boolean; // 默认固定左侧列
     display?: boolean; // 默认列显示

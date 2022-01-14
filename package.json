@@ -23,6 +23,7 @@
   "author": "blacklake",
   "license": "ISC",
   "devDependencies": {
+    "@types/lodash": "^4.14.178",
     "babel-plugin-import": "^1.13.3",
     "father": "^2.30.6",
     "lerna": "^4.0.0",

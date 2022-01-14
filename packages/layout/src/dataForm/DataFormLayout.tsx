@@ -3,6 +3,7 @@ import DataFormLayoutBody, { DataFormLayoutBodyProps } from './components/DataFo
 import DataFormLayoutTitle, { DataFormLayoutTitleProps } from './components/DataFormLayoutTitle';
 import DataFormLayoutFooter, { DataFormLayoutFooterProps } from './components/DataFormLayoutFooter';
 import './DataFormLayout.less';
+import { Spin } from 'antd';
 
 const BlDataFormLayout: React.FC<
   DataFormLayoutTitleProps & DataFormLayoutBodyProps & DataFormLayoutFooterProps
@@ -17,26 +18,32 @@ const BlDataFormLayout: React.FC<
     rightContext,
     bottomContext,
     children,
+    loading,
     ...footerProps
   } = props;
 
   return (
-    <div className="data-layout-context">
-      <DataFormLayoutTitle title={title} />
-      {info?.length ? (
-        <DataFormLayoutBody
-          info={info}
-          form={form}
-          formLayout={formLayout}
-          topContext={topContext}
-          rightContext={rightContext}
-          leftContext={leftContext}
-          bottomContext={bottomContext}
-          {...footerProps}
-        />
-      ) : null}
-      {children}
-      <DataFormLayoutFooter {...footerProps} />
+    <div style={{ height: '100%', overflow: 'auto' }}>
+      <Spin spinning={loading}>
+        <div className="data-layout-context">
+          <DataFormLayoutTitle title={title} />
+          {info?.length ? (
+            <DataFormLayoutBody
+              info={info}
+              form={form}
+              loading={loading}
+              formLayout={formLayout}
+              topContext={topContext}
+              rightContext={rightContext}
+              leftContext={leftContext}
+              bottomContext={bottomContext}
+              {...footerProps}
+            />
+          ) : null}
+          {children}
+          <DataFormLayoutFooter {...footerProps} />
+        </div>
+      </Spin>
     </div>
   );
 };

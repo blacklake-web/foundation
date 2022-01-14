@@ -2,6 +2,7 @@ import React, { CSSProperties, ReactElement, ReactNode } from 'react';
 import { Row, Col, Button, Dropdown, Menu, Space } from 'antd';
 import { BlIcon } from '@blacklake-web/component';
 import { DetailLayoutMenuItem } from '../DetailLayout.type';
+import './DetailLayoutContent.less';
 
 interface DetailLayoutTitleProps {
   /**详情标题 */
@@ -22,7 +23,8 @@ const extraStyle = {
   justifyContent: 'flex-end',
 };
 
-const renderIcon = (icon: DetailLayoutMenuItem['icon']) => typeof icon === 'string' ? <BlIcon type={icon} /> : icon;
+const renderIcon = (icon: DetailLayoutMenuItem['icon']) =>
+  typeof icon === 'string' ? <BlIcon type={icon} /> : icon;
 const renderButtonText = (text: DetailLayoutMenuItem['title']) => {
   if (text.length === 2) {
     return text.split('').join(' ');
@@ -44,7 +46,12 @@ const DetailLayoutTitle = (props: DetailLayoutTitleProps) => {
       <Menu>
         {menuList.map((item) => {
           return (
-            <Menu.Item key={item.key} disabled={item.disabled} icon={renderIcon(item.icon)} onClick={item.onClick}>
+            <Menu.Item
+              key={item.key}
+              disabled={item.disabled}
+              icon={renderIcon(item.icon)}
+              onClick={item.onClick}
+            >
               {renderButtonText(item.title)}
             </Menu.Item>
           );
@@ -75,14 +82,16 @@ const DetailLayoutTitle = (props: DetailLayoutTitleProps) => {
           <>
             <Dropdown.Button
               buttonsRender={([leftButton, rightButton]) => [
-                React.cloneElement(leftButton as ReactElement, { disabled: firstMenuItem.disabled }),
+                React.cloneElement(leftButton as ReactElement, {
+                  disabled: firstMenuItem.disabled,
+                }),
                 rightButton,
               ]}
               icon={<BlIcon type="iconxiala" />}
               onClick={firstMenuItem.onClick}
-              overlay={
-                renderMenu(baseMenu.filter((_, index) => index > 0 && index < baseMenu.length - 1))
-              }
+              overlay={renderMenu(
+                baseMenu.filter((_, index) => index > 0 && index < baseMenu.length - 1),
+              )}
               overlayStyle={{ width: 116 }}
             >
               {renderIcon(firstMenuItem.icon)}
@@ -120,7 +129,7 @@ const DetailLayoutTitle = (props: DetailLayoutTitleProps) => {
   };
 
   return (
-    <div style={{ ...titleStyle, ...style }}>
+    <div className={'detail-title '} style={{ ...titleStyle, ...style }}>
       <Row justify={'space-between'} style={{ alignItems: 'center' }}>
         <Col span={14}>{renderTitle()}</Col>
         <Col span={10} style={extraStyle}>

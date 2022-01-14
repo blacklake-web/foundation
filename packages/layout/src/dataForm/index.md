@@ -16,12 +16,19 @@ group:
  * title: 表单布局组件
  * desc: 基础使用
  */
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Form, Checkbox, Input, DatePicker, Select, Table, Radio } from 'antd';
 import { DataFormLayout, DataFormLayoutInfoBlock } from '@blacklake-web/layout';
 
 export default () => {
   const [modalForm] = Form.useForm();
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 1000);
+  }, []);
 
   const baseInfo: DataFormLayoutInfoBlock = {
     title: '基本信息',
@@ -199,7 +206,12 @@ export default () => {
 
   return (
     <div style={{ border: '1px solid #d8d8d8', position: 'relative' }}>
-      <DataFormLayout form={modalForm} title="新建字段" info={[baseInfo, otherInfo]} />
+      <DataFormLayout
+        form={modalForm}
+        title="新建字段"
+        info={[baseInfo, otherInfo]}
+        loading={loading}
+      />
     </div>
   );
 };

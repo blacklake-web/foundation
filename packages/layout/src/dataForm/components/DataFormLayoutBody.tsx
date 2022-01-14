@@ -6,7 +6,6 @@ import { useVisible } from '@blacklake-web/hooks';
 import { DataFormLayoutInfoBlock } from '../DataFormLayout.type';
 import '../../detail/components/DetailLayoutContent.less';
 import '../DataFormLayout.less';
-import { CSSProperties } from '@umijs/renderer-react/node_modules/@types/react';
 export interface DataFormLayoutBodyProps {
   /**顶部拓展内容 */
   topContext?: ReactNode;
@@ -28,6 +27,7 @@ export interface DataFormLayoutBodyProps {
    */
   formLayout?: 'horizontal' | 'vertical';
   formProps?: FormProps;
+  loading?: boolean;
 }
 
 const infoBlockStyle = {

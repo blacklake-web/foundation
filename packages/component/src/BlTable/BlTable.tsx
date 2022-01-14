@@ -102,22 +102,22 @@ const BlTable = <RecordType extends object = any>(props: BlTableProps<RecordType
     return blTableComponents;
   };
 
-  const getColRender = (col: ColumnGroupType<RecordType>) => {
-    const colWidth = col.width ?? (100 + PADDING * 2);
-    const tooltipWidth = _.isNumber(colWidth) ? ((colWidth as number) - PADDING * 2) : colWidth;
+  const getColRender = (col: BlColumnType<RecordType>) => {
+    const colWidth = col.width ?? 100 + PADDING * 2;
+    const contentWidth = _.isNumber(colWidth) ? (colWidth as number) - PADDING * 2 : colWidth;
     // 不存在自定义render时，返回指定render
     if (!col?.render) {
       return (text: any) => {
-        return <TextTooltip text={text || DEFAULT_TAG} width={tooltipWidth} />;
+        return <TextTooltip text={text || DEFAULT_TAG} width={contentWidth} />;
       };
     }
 
     // 存在自定义render时，判断render返回的类型
     return (text: any, record: any, index: number) => {
-      const resultText = col?.render?.(text, record, index);
+      const resultText = col?.render?.(text, record, index, { contentWidth, width: colWidth });
 
       if (typeof resultText === 'string') {
-        return <TextTooltip text={resultText || DEFAULT_TAG} width={tooltipWidth} />;
+        return <TextTooltip text={resultText || DEFAULT_TAG} width={contentWidth} />;
       } else {
         return resultText ?? DEFAULT_TAG;
       }
