@@ -18,7 +18,7 @@ const BlDataFormLayout: React.FC<
     rightContext,
     bottomContext,
     children,
-    loading,
+    loading = false,
     ...footerProps
   } = props;
 

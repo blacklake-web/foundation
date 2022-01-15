@@ -8,7 +8,7 @@ import { DetailLayoutProps } from './DetailLayout.type';
 import './components/DetailLayoutContent.less';
 
 const BlDetailLayout = (props: DetailLayoutProps) => {
-  const { title, info, extra, baseMenu, dataSource, loading, children } = props;
+  const { title, info, extra, baseMenu, dataSource, loading = false, children } = props;
 
   return (
     <div style={{ height: '100%', overflow: 'auto' }}>
