@@ -128,7 +128,7 @@ const DetailLayoutTitle = (props: DetailLayoutTitleProps) => {
     );
   };
 
-  return (
+  return title || baseMenu ? (
     <div className={'detail-title '} style={{ ...titleStyle, ...style }}>
       <Row justify={'space-between'} style={{ alignItems: 'center' }}>
         <Col span={14}>{renderTitle()}</Col>
@@ -140,7 +140,7 @@ const DetailLayoutTitle = (props: DetailLayoutTitleProps) => {
         </Col>
       </Row>
     </div>
-  );
+  ) : null;
 };
 
 export { DetailLayoutTitle };
