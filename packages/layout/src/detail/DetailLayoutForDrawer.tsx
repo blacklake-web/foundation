@@ -6,7 +6,6 @@ import { DetailLayoutForDrawerProps } from './DetailLayout.type';
 
 const bodyStyle = {
   padding: 0,
-  display: 'flex',
 };
 
 const DetailLayoutForDrawer = (props: DetailLayoutForDrawerProps) => {
@@ -22,7 +21,7 @@ const DetailLayoutForDrawer = (props: DetailLayoutForDrawerProps) => {
       onClose={handleClose}
       destroyOnClose
       width={width ?? '75%'}
-      bodyStyle={bodyStyle}
+      bodyStyle={{ ...bodyStyle, overflowY: 'auto' }}
       getContainer={'body'}
       keyboard={false}
       closable={false}

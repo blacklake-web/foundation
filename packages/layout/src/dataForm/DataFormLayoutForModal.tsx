@@ -3,7 +3,6 @@ import { Modal } from 'antd';
 //
 import { DataFormLayoutForModalProps } from './DataFormLayout.type';
 
-
 const DataFormLayoutForModal = (props: DataFormLayoutForModalProps) => {
   const { visible, onClose, width, content, closable } = props;
 
@@ -17,7 +16,6 @@ const DataFormLayoutForModal = (props: DataFormLayoutForModalProps) => {
       bodyStyle={{
         padding: 0,
         maxHeight: document.body.clientHeight - 100,
-        display: 'flex',
         overflowY: 'auto',
       }}
       destroyOnClose

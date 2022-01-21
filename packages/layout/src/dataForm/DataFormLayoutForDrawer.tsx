@@ -7,7 +7,6 @@ import { DataFormLayoutForDrawerProps } from './DataFormLayout.type';
 
 const bodyStyle = {
   padding: 0,
-  display: 'flex',
 };
 
 const DataFormLayoutForDrawer = (props: DataFormLayoutForDrawerProps) => {
@@ -22,7 +21,7 @@ const DataFormLayoutForDrawer = (props: DataFormLayoutForDrawerProps) => {
       visible={visible}
       onClose={handleClose}
       width={width ?? '75%'}
-      bodyStyle={bodyStyle}
+      bodyStyle={{ ...bodyStyle, overflowY: 'auto' }}
       destroyOnClose
       getContainer={'body'}
       keyboard={false}

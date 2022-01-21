@@ -7,7 +7,6 @@ import { DetailLayoutForModalProps } from './DetailLayout.type';
 const bodyStyle = {
   padding: 0,
   maxHeight: document.body.clientHeight - 100,
-  display: 'flex',
 };
 
 const DetailLayoutForModal = (props: DetailLayoutForModalProps) => {
