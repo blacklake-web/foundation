@@ -1,5 +1,5 @@
 ---
-title: 搜索选择 - BlSortFormList
+title: 表单表格 - BlSortFormList
 nav:
   title: 组件
   path: /component

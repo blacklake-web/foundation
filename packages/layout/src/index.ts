@@ -1,6 +1,11 @@
 import { FilterFieldType } from './constants';
 
-import { DataFormLayout, DataFormLayoutForDrawer, DataFormLayoutForModal } from './dataForm';
+import {
+  DataFormLayout,
+  DataFormLayoutForDrawer,
+  DataFormLayoutForModal,
+  checkFieldHasPermission,
+} from './dataForm';
 import { DetailLayout, DetailLayoutForDrawer, DetailLayoutForModal } from './detail';
 import { RecordListLayout, BL_SELECTED_ALL } from './recordList';
 import { LogListLayout, LogDetailLayout, OperateRecordLayout } from './logList';
@@ -25,6 +30,7 @@ export {
   DataFormLayout,
   DataFormLayoutForDrawer,
   DataFormLayoutForModal,
+  checkFieldHasPermission,
   DetailLayout,
   DetailLayoutForDrawer,
   DetailLayoutForModal,

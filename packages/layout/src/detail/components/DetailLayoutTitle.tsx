@@ -1,4 +1,5 @@
 import React, { CSSProperties, ReactElement, ReactNode } from 'react';
+import _ from 'lodash';
 import { Row, Col, Button, Dropdown, Menu, Space } from 'antd';
 import { BlIcon } from '@blacklake-web/component';
 import { DetailLayoutMenuItem } from '../DetailLayout.type';
@@ -128,7 +129,7 @@ const DetailLayoutTitle = (props: DetailLayoutTitleProps) => {
     );
   };
 
-  return title || baseMenu ? (
+  return title || !_.isEmpty(baseMenu) ? (
     <div className={'detail-title '} style={{ ...titleStyle, ...style }}>
       <Row justify={'space-between'} style={{ alignItems: 'center' }}>
         <Col span={14}>{renderTitle()}</Col>

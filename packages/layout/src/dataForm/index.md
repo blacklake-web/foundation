@@ -211,6 +211,15 @@ export default () => {
         title="新建字段"
         info={[baseInfo, otherInfo]}
         loading={loading}
+        fieldPermission={{
+          encoding: 'xxxxx',
+          noAccess: ['name'],
+          readonly: ['code'],
+        }}
+        onFinish={async () => {
+          const value = await modalForm?.validateFields();
+          console.log('%c [ value ]-220', 'font-size:px; color:#bf2c9f;', value);
+        }}
       />
     </div>
   );

@@ -5,13 +5,13 @@ import { DetailLayoutContent } from './components/DetailLayoutContent';
 import { DetailLayoutTitle } from './components/DetailLayoutTitle';
 //
 import { DetailLayoutProps } from './DetailLayout.type';
-import './components/DetailLayoutContent.less';
+import './DetailLayout.less';
 
 const BlDetailLayout = (props: DetailLayoutProps) => {
   const { title, info, extra, baseMenu, dataSource, loading = false, children } = props;
 
   return (
-    <div style={{ height: '100%', overflow: 'auto' }}>
+    <div className="bl-detailLayout">
       <Spin spinning={loading}>
         <div className="detail-layout">
           <DetailLayoutTitle title={title} extra={extra} baseMenu={baseMenu} />

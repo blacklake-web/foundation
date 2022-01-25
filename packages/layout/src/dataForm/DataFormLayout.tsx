@@ -19,11 +19,15 @@ const BlDataFormLayout: React.FC<
     bottomContext,
     children,
     loading = false,
+    bodyStyle,
+    formProps,
+    infoBlockStyleProps,
+    fieldPermission,
     ...footerProps
   } = props;
 
   return (
-    <div style={{ height: '100%', overflow: 'auto' }}>
+    <div className="bl-dataFormLayout">
       <Spin spinning={loading}>
         <div className="data-layout-context">
           <DataFormLayoutTitle title={title} />
@@ -37,7 +41,10 @@ const BlDataFormLayout: React.FC<
               rightContext={rightContext}
               leftContext={leftContext}
               bottomContext={bottomContext}
-              {...footerProps}
+              bodyStyle={bodyStyle}
+              formProps={formProps}
+              infoBlockStyleProps={infoBlockStyleProps}
+              fieldPermission={fieldPermission}
             />
           ) : null}
           {children}
