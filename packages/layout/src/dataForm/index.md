@@ -63,6 +63,21 @@ export default () => {
         render: () => <Input placeholder="请输入" allowClear />,
       },
       {
+        label: '隐藏的字段',
+        name: 'codeHidden',
+        hidden: true,
+        rules: [
+          { required: true, message: '特殊日名称必填' },
+          { max: 256, message: '不可超过255个字符' },
+        ],
+        render: () => <Input placeholder="请输入" allowClear />,
+      },
+      {
+        label: '纯文本字段',
+        name: '222',
+        render: () => <span>'纯文本'</span>,
+      },
+      {
         noStyle: true,
         dependencies: [['name']],
         render: (formItemConfig) => () => {

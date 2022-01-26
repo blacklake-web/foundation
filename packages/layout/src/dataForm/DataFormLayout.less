@@ -24,8 +24,18 @@
           text-align: justify;
         }
 
+        .ant-form-item-label > label::before {
+          display: inline-block;
+          margin-right: 4px;
+          line-height: 1;
+          content: ' ';
+        }
+
+        .ant-form-item-required::before {
+          content: '*' !important;
+        }
+
         .bl-form-item-single {
-          display: flex;
           padding: 0 12px;
           .ant-form-item-control-input-content {
             max-width: 600px;
@@ -33,7 +43,6 @@
         }
 
         .bl-form-item {
-          display: flex;
           padding: 0 12px;
         }
 
