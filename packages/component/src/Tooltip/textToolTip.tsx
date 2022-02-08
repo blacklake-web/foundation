@@ -22,11 +22,25 @@ const overflowStyle = {
 };
 
 const TextTooltip = (props: TextTooltipProps & AbstractTooltipProps) => {
-  const { text, width = '100%', length = 15, ...restProps } = props;
+  const { text, width = '100%', length, ...restProps } = props;
+
+  const getDisplayText = () => {
+    if (length && length > 0) {
+      return (text ?? '').slice(0, length).concat('...');
+    }
+
+    return text;
+  };
 
   return (
-    <AntTooltip {...restProps} title={text}>
-      <span style={{ maxWidth: width, whiteSpace: 'pre', ...overflowStyle }}>{text}</span>
+    <AntTooltip
+      overlayInnerStyle={{ maxHeight: 300, overflow: 'auto' }}
+      {...restProps}
+      title={text}
+    >
+      <span style={{ maxWidth: width, whiteSpace: 'pre', ...overflowStyle }}>
+        {getDisplayText()}
+      </span>
     </AntTooltip>
   );
 };
