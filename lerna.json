@@ -2,7 +2,7 @@
   "packages": [
     "packages/*"
   ],
-  "version": "1.0.14-alpha.39",
+  "version": "1.0.14-alpha.40",
   "publishConfig": {
     "directory": "dist"
   }
