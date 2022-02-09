@@ -22,11 +22,11 @@ const overflowStyle = {
 };
 
 const TextTooltip = (props: TextTooltipProps & AbstractTooltipProps) => {
-  const { text, width = '100%', length, ...restProps } = props;
+  const { text = '', width = '100%', length, ...restProps } = props;
 
   const getDisplayText = () => {
-    if (length && length > 0) {
-      return (text ?? '').slice(0, length).concat('...');
+    if (length && length > 0 && text.length > length) {
+      return text.slice(0, length).concat('...');
     }
 
     return text;
