@@ -94,7 +94,7 @@ interface StoreDetailProps {
    * 初始化行数量
    * @default 0
    */
-  initLineCount: number;
+  initLineCount?: number;
 }
 
 /**

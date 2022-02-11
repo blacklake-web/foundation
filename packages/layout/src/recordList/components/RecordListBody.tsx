@@ -269,6 +269,7 @@ const RecordListBody = <RecordType extends object = any>(
           current: listLayoutState.pagination.page,
           pageSize: listLayoutState.pagination.size,
           total: listLayoutState.pagination.total,
+          size: 'default',
           showTotal: (total) => `共 ${total} 条`,
         }}
         scroll={{ x: 'max-content', y: maxHeight }}
