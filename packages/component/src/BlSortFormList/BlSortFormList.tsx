@@ -90,6 +90,11 @@ interface StoreDetailProps {
    * 列表校验规则
    */
   listRules?: FormListProps['rules'];
+  /**
+   * 是否初始化一行
+   * @default true
+   */
+  initLine: boolean;
 }
 
 /**
@@ -153,6 +158,7 @@ const BlSortFormList = (props: StoreDetailProps) => {
     batchButtonText = '批量添加',
     handleAdd,
     listRules = [],
+    initLine = true,
   } = props;
   const [dataSource, setDataSource] = useState<any>([]);
   const [hovered, setHovered] = useState(false);
@@ -408,7 +414,7 @@ const BlSortFormList = (props: StoreDetailProps) => {
 
     return (
       <>
-        <Form.List name={name} rules={listRules}>
+        <Form.List name={name} rules={listRules} initialValue={initLine ? [{}] : undefined}>
           {(fields: FormListFieldData[], { add, remove, move }, { errors }) => {
             const data: any = fields?.map((f: any) => {
               return { ...f, ...dataSource[f?.name] } ?? {};
