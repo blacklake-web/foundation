@@ -82,6 +82,7 @@ const BlTable = <RecordType extends object = any>(props: BlTableProps<RecordType
     tableConfigKey,
     useColConfig,
     useIndex = false,
+    size = 'large',
     ...resProps
   } = props;
 
@@ -339,11 +340,11 @@ const BlTable = <RecordType extends object = any>(props: BlTableProps<RecordType
           onVisibleChange={setColConfigVisible}
         >
           <SettingFilled
-            className={
+            className={`${
               isColumnConfigChange(originColumnConfigRef.current, colConfigValue)
                 ? 'changeConfigIcon'
                 : 'configIcon'
-            }
+            } configIcon_${size}`}
           />
         </Popover>
       )}
@@ -352,6 +353,7 @@ const BlTable = <RecordType extends object = any>(props: BlTableProps<RecordType
         dataSource={dataSource}
         components={getBlTableComponents()}
         columns={formatColumns()}
+        size={size}
         {...resProps}
       />
     </div>

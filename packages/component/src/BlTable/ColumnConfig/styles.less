@@ -2,18 +2,18 @@
   padding: 0px;
 
   .blTable-column-config-content-body {
-    max-height: 200px;
     width: 200px;
+    max-height: 200px;
     overflow-y: auto;
 
     .colConfigItem {
       display: flex;
-      justify-content: space-between;
-      align-items: center;
       flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
       padding: 5px 10px;
       transition: background 0.3s ease;
-      width: 100%;
 
       .errorColItem {
         color: @error-color;
@@ -29,14 +29,15 @@
     justify-content: flex-end;
     width: 100%;
     padding: 10px;
+    border-top: 1px solid #f0f0f0;
   }
 }
 
 .row-dragging {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-direction: row;
-  padding: 5px 10px;
   z-index: 1030;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px 10px;
 }
