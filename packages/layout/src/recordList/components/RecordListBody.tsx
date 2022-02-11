@@ -257,6 +257,7 @@ const RecordListBody = <RecordType extends object = any>(
         dataSource={dataSource}
         columns={getColumns()}
         rowKey={rowKey}
+        size="middle"
         sticky
         useColConfig={useColConfig}
         tableConfigKey={configcacheKey}
