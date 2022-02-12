@@ -191,7 +191,7 @@ const ListLayout = <RecordType extends object = any>(
     const _params: ListLayoutQueryParams = {
       pagination: {
         page: pagination?.page ?? 1,
-        size: pagination?.size ?? 10,
+        size: pagination?.size ?? 20,
       },
     };
 
