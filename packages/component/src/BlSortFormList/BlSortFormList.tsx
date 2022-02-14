@@ -409,7 +409,7 @@ const BlSortFormList = (props: StoreDetailProps) => {
 
   const renderBase = () => {
     const DragHandle = SortableHandle(() => (
-      <BlIcon type="iconrenyituozhuai" style={{ cursor: 'pointer' }} />
+      <BlIcon type="iconrenyituozhuai" />
     ));
 
     return (
