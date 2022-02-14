@@ -25,7 +25,7 @@ interface TableColumnConfigProps<RecordType> {
 const MIN_CONFIG_AMOUNT = 5; // 最小列数量，低于时不可操作，只能换位置
 
 const DragHandle = SortableHandle(() => (
-  <BlIcon type="iconrenyituozhuai" style={{ cursor: 'grab', marginRight: 2 }} />
+  <BlIcon type="iconrenyituozhuai" style={{ marginRight: 2 }} />
 ));
 
 const SortableItem = SortableElement((props: any) => (

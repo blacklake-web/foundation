@@ -1,5 +1,17 @@
+import React from 'react';
 import { createFromIconfontCN } from '@ant-design/icons';
+import { IconFontProps } from '@ant-design/icons/dist/components/IconFont';
 
-export const BlIcon = createFromIconfontCN({
+const MyIcon = createFromIconfontCN({
   scriptUrl: '/fonticons.js', // 在 iconfont.cn 上生成
 });
+
+export const BlIcon: React.FC<IconFontProps> = (props) => {
+  const { type, style = {} } = props;
+  let extraStyle = {};
+
+  if (type === 'iconrenyituozhuai') {
+    extraStyle = { cursor: 'grab' };
+  }
+  return <MyIcon {...props} style={{ ...extraStyle, ...style }} />
+}
