@@ -441,7 +441,7 @@ const ListLayout = <RecordType extends object = any>(
         const urlParams = getRecordListUrlParams();
 
         // eslint-disable-next-line prefer-const
-        let { quickFilterData, filterData, pagination = { page: 1, size: 10 }, sorter } = urlParams;
+        let { quickFilterData, filterData, pagination = { page: 1, size: 20 }, sorter } = urlParams;
 
         //  区别处理快速搜索和精确搜索
         if (!_.isEmpty(quickFilterData?.quickSearch)) {
