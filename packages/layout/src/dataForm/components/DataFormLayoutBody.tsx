@@ -122,7 +122,7 @@ const DataFormLayoutBody = (props: DataFormLayoutBodyProps) => {
 
     const baseFormItemProps = {
       key: `formItem_${itemIndex}`,
-      className: isFullLine ? 'bl-form-item' : 'bl-form-item-single',
+      className: isFullLine ? 'bl-form-item-full-line' : 'bl-form-item-normal',
       style: {
         flex: `0 0 ${colSpan}%`,
         maxWidth: `${colSpan}%`,

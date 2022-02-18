@@ -30,7 +30,7 @@ export default () => {
       <BlIcon type={'iconduanxin'} />
       短信
       &nbsp;
-      <BlIcon type={'iconrenyituozhuai'} ref={ref} />
+      <BlIcon type={'iconrenyituozhuai'} />
       拖拽
       &nbsp;
       <div>
