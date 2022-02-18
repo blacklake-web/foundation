@@ -1,8 +1,6 @@
 {
-  "packages": [
-    "packages/*"
-  ],
-  "version": "1.0.14-alpha.44",
+  "packages": ["packages/*"],
+  "version": "1.0.14-alpha.43",
   "publishConfig": {
     "directory": "dist"
   }
