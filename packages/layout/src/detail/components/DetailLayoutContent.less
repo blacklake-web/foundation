@@ -26,17 +26,29 @@
   padding: 16px;
   display: flex;
   align-items: center;
-  .title-left {
-    border-left: solid 2px #02b980;
-    padding-left: 8px;
-    line-height: 20px;
-    font-size: 18px;
+  .title-left-part {
+    display: flex;
+    align-items: center;
     flex: 1;
+
+    .title-left-border {
+      width: 2px;
+      height: 16px;
+      background-color: #02b980;
+      border-radius: 1px;
+    }
+    .title-left {
+      margin-left: 8px;
+      line-height: 1.5;
+      font-size: 16px;
+      font-weight: 500;
+    }
   }
   .bl-toggleButon {
     font-size: 20px;
     color: #595959;
     line-height: 20px;
+    cursor: pointer;
   }
 }
 
