@@ -23,10 +23,16 @@ export default () => {
     <div>
       <BlIcon type={'iconmima'} />
       密码
+      &nbsp;
       <BlIcon type={'iconshouji'} />
       手机
+      &nbsp;
       <BlIcon type={'iconduanxin'} />
       短信
+      &nbsp;
+      <BlIcon type={'iconrenyituozhuai'} ref={ref} />
+      拖拽
+      &nbsp;
       <div>
         <a
           href=""
