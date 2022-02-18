@@ -1,6 +1,6 @@
 {
   "name": "@blacklake-web/layout",
-  "version": "1.0.14-alpha.43",
+  "version": "1.0.14-alpha.44",
   "description": "blacklake layout ",
   "author": "zx <zhaoxin@blacklake.cn>",
   "homepage": "https://github.com/blacklake-web/foundation#readme",
@@ -42,7 +42,7 @@
     "father": "^2.30.6"
   },
   "dependencies": {
-    "@blacklake-web/component": "^1.0.14-alpha.43",
+    "@blacklake-web/component": "^1.0.14-alpha.44",
     "@blacklake-web/hooks": "1.0.13-alpha.12",
     "@blacklake-web/utils": "^1.0.13-alpha.12",
     "@react-hook/resize-observer": "^1.2.4"
