@@ -15,6 +15,7 @@ import {
   DEFAULT_PAGE,
   ListLayoutContext,
   listLayoutInitState,
+  KNOWN_EMPTY_LIST_PARAM,
 } from './constants';
 import { getRecordListUrlParams, setRecordListUrlParams } from './utils';
 import './styles.less';
@@ -263,7 +264,23 @@ const ListLayout = <RecordType extends object = any>(
     const afterFormatParams =
       typeof formatDataToQuery === 'function' ? formatDataToQuery(queryParams) : queryParams;
 
-    requestFn(afterFormatParams)
+    let requestOrNot = requestFn;
+
+    for (const key in afterFormatParams) {
+      if (afterFormatParams[key] === KNOWN_EMPTY_LIST_PARAM) {
+        requestOrNot = () => {
+          return Promise.resolve({
+            data: {
+              list: [],
+              total: 0,
+            }
+          })
+        };
+        break;
+      }
+    }
+
+    requestOrNot(afterFormatParams)
       .then((json: TableResponseData) => {
         handleAfterFetchData(json);
 

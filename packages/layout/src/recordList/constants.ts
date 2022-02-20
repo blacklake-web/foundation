@@ -13,6 +13,9 @@ export enum LIST_REDUCER_TYPE {
   SetSorter, // 改变排序信息
 }
 
+// 筛选项做交集时用，如果出现了这样的传参，那么列表肯定为空
+export const KNOWN_EMPTY_LIST_PARAM = Symbol('known_empty');
+
 export const DEFAULT_PAGE = {
   page: 1,
 };
