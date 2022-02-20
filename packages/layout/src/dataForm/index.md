@@ -115,6 +115,7 @@ export default () => {
       {
         label: '关联对象2',
         name: 'name2',
+        tooltip: '关联对象2关联对象2关联对象2关联对象2关联对象2关联对象2',
         rules: [
           { required: true, message: '特殊日名称必填' },
           { max: 256, message: '不可超过255个字符' },
