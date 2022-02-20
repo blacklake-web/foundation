@@ -122,7 +122,7 @@ export default () => {
         render: () => <Input placeholder="请输入" allowClear />,
       },
       {
-        label: '关联对象3',
+        label: '关联对象关联对象关联对象333333',
         name: 'name3',
         rules: [
           { required: true, message: '特殊日名称必填' },

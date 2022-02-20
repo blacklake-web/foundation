@@ -122,7 +122,7 @@ const DataFormLayoutBody = (props: DataFormLayoutBodyProps) => {
 
     const baseFormItemProps = {
       key: `formItem_${itemIndex}`,
-      className: isFullLine ? 'bl-form-item' : 'bl-form-item-single',
+      className: isFullLine ? 'bl-form-item-full-line' : 'bl-form-item-normal',
       style: {
         flex: `0 0 ${colSpan}%`,
         maxWidth: `${colSpan}%`,
@@ -181,22 +181,19 @@ const DataFormLayoutBody = (props: DataFormLayoutBodyProps) => {
       if (!title) return null;
 
       return (
-        <div key={`info_${infoIndex}`}>
-          <Row justify={'space-between'} className="bl-descriptionTitle">
-            <Col>
-              <span className="title-left">{title}</span>
-            </Col>
-            <Col>
-              <div
-                className={'bl-toggleButon'}
-                onClick={() =>
-                  judgeVisible(infoIndex) ? deleteVisible(infoIndex) : addVisible(infoIndex)
-                }
-              >
-                <BlIcon type={judgeVisible(infoIndex) ? 'iconshouqi' : 'iconzhankai'} />
-              </div>
-            </Col>
-          </Row>
+        <div key={`info_${infoIndex}`} className="bl-descriptionTitle">
+          <div className="title-left-part">
+            <span className="title-left-border"></span>
+            <span className="title-left">{title}</span>
+          </div>
+          <div
+            className={'bl-toggleButon'}
+            onClick={() =>
+              judgeVisible(infoIndex) ? deleteVisible(infoIndex) : addVisible(infoIndex)
+            }
+          >
+            <BlIcon type={judgeVisible(infoIndex) ? 'iconshouqi' : 'iconzhankai'} />
+          </div>
         </div>
       );
     };

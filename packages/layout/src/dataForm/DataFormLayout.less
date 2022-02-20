@@ -15,34 +15,28 @@
         height: 100%;
         background: #ffffff;
 
+        .ant-form-item-label > label,
+        .ant-form-item-label > label::before,
+        .ant-form-item-label > label::after {
+          line-height: 22px;
+        }
         .ant-form-item-label > label {
-          align-items: flex-start;
-          justify-content: flex-end;
-          height: 100%;
-          min-height: 30px;
+          padding-top: 5px; // (32 - 22) / 2, 32是Input组件区的 min-height, 22是UI规范定的 label line-height
+          height: auto;
           white-space: pre-wrap;
           text-align: justify;
+          align-items: flex-start;
         }
 
-        .ant-form-item-label > label::before {
-          display: inline-block;
-          margin-right: 4px;
-          line-height: 1;
-          content: ' ';
-        }
-
-        .ant-form-item-required::before {
-          content: '*' !important;
-        }
-
-        .bl-form-item-single {
+        .bl-form-item-normal {
           padding: 0 12px;
+
           .ant-form-item-control-input-content {
             max-width: 600px;
           }
         }
 
-        .bl-form-item {
+        .bl-form-item-full-line {
           padding: 0 12px;
         }
 

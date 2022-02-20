@@ -7,6 +7,7 @@ import { RedoOutlined } from '@ant-design/icons';
 //
 import { BlRecordListBaseProps, FilterItem } from '../recordListLayout.type';
 import { BlIcon } from '@blacklake-web/component';
+import moment from 'moment';
 
 export interface FilterProps extends BlRecordListBaseProps {
   defaultFilterValue?: any;
@@ -155,18 +156,17 @@ const FilterList = (props: FilterProps) => {
         );
 
       case FilterFieldType.date: {
-        const isShowTime = Boolean(
-          dateFormat && (dateFormat.includes('hh') || dateFormat.includes('HH')),
-        );
 
         return (
           <DatePicker.RangePicker
             style={{ width: '100%' }}
             format={dateFormat}
-            showTime={isShowTime}
+            showTime={{
+              defaultValue: [moment('00:00:00', 'HH:mm:ss'), moment('23:59:59', 'HH:mm:ss')],
+            }}
             placeholder={['开始时间', '结束时间']}
             separator={<BlIcon type="iconzhixiangyou" />}
-            suffixIcon={<BlIcon type={isShowTime ? 'iconshijian' : 'iconrili'} />}
+            suffixIcon={<BlIcon type={'iconshijian'} />}
           />
         );
       }

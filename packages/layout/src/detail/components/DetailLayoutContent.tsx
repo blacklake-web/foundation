@@ -66,7 +66,10 @@ const RenderInfoBlock: React.FC<{
         title={
           title ? (
             <div className="bl-descriptionTitle">
-              <span className="title-left">{title}</span>
+              <div className="title-left-part">
+                <span className="title-left-border"></span>
+                <span className="title-left">{title}</span>
+              </div>
               <div
                 className={'bl-toggleButon'}
                 onClick={() => setToggle((prevState) => !prevState)}
