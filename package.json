@@ -30,6 +30,7 @@
     "rollup-plugin-commonjs": "^10.1.0"
   },
   "dependencies": {
-    "dumi": "^1.1.18"
+    "dumi": "^1.1.18",
+    "query-string": "^7.1.1"
   }
 }
