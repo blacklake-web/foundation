@@ -185,6 +185,15 @@ export default () => {
     },
   ];
 
+  const getOperationList = (record, idx) => {
+    return [
+      { title: '查看', onClick: () => message.info(`查看 ${record.name}`) },
+      { title: '编辑', disabled: idx % 2 === 0, onClick: () => message.info(`编辑 ${record.name}`) },
+      { title: '删除', disabled: true, onClick: () => message.warn(`删除 ${record.name}`) },
+      { title: '操作记录', auth: 'OP_RECORD_VIEW', onClick: () => message.info(`操作记录 ${record.name}`) },
+    ]
+  };
+
   return (
     <div style={{ border: '1px solid #d8d8d8' }}>
       <div style={{ height: 800 }}>
@@ -200,6 +209,9 @@ export default () => {
           selectedRowKeys={selectedKeys}
           onSelectedRowKeys={onSelectedRowKeys}
           dataSource={dataSource}
+          userAuth={['OP_RECORD_VIEW']}
+          getOperationList={getOperationList}
+          maxOperationCount={3}
         />
       </div>
     </div>
@@ -411,6 +423,7 @@ export default () => {
               }
             },
           }}
+          scroll={{ x: 1000 }}
         />
       </div>
     </div>

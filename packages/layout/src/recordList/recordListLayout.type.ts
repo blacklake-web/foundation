@@ -84,3 +84,15 @@ export interface TableResponseData {
 export type BlSelectedRowKeys = React.Key[];
 // 勾选回调
 export type OnSelectedRowKeys = (selectedRowKeys: BlSelectedRowKeys, selectRows?: any[]) => void;
+
+/** 操作列的配置项格式 */
+export type OperationListItem = {
+  /** 标题 */
+  title: string,
+  /** 权限 */
+  auth?: string,
+  /** 是否禁用 */
+  disabled?: boolean,
+  /** 点击回调 */
+  onClick: () => void,
+}
