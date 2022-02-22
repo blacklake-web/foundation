@@ -255,7 +255,7 @@ const BlTable = <RecordType extends object = any>(props: BlTableProps<RecordType
         title: '序号',
         dataIndex: ['BlTableIndex'],
         fixed: 'left',
-        width: 60,
+        width: 80,
         render: (_params, _reocrd, index) => index + 1,
       });
     }
