@@ -57,6 +57,8 @@ export interface BlRecordListBaseProps {
    * @default false
    */
   filterContaniner?: string | false | HTMLElement | undefined;
+  /** 用户拥有的权限 */
+  userAuth?: string[];
 }
 //
 export interface ListLayoutState {
@@ -88,11 +90,11 @@ export type OnSelectedRowKeys = (selectedRowKeys: BlSelectedRowKeys, selectRows?
 /** 操作列的配置项格式 */
 export type OperationListItem = {
   /** 标题 */
-  title: string,
+  title: string;
   /** 权限 */
-  auth?: string,
+  auth?: string;
   /** 是否禁用 */
-  disabled?: boolean,
+  disabled?: boolean;
   /** 点击回调 */
-  onClick: () => void,
-}
+  onClick: () => void;
+};

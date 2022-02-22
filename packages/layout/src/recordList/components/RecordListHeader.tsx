@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import _ from 'lodash';
 import { Button, Menu, Input, Space, Dropdown, Divider } from 'antd';
 import { FilterOutlined, DownOutlined } from '@ant-design/icons';
+import { filterListAuth } from '../../utils';
 //
 import { BL_SELECTED_ALL, ListLayoutContext, LIST_REDUCER_TYPE } from '../constants';
 import { BlRecordListBaseProps } from '../recordListLayout.type';
@@ -14,6 +15,8 @@ interface RecordListHeaderButtonType {
   // 批量操作时，1. onClick return Promise自动做后续处理  2.onClick 用success,fail回调函数手动做后续处理
   onClick?: (success?: () => void, fail?: () => void) => void | Promise<any>;
   icon?: React.ReactNode;
+  /** 每个操作带有的权限点 */
+  auth?: string;
 }
 
 // 列表头menu
@@ -40,9 +43,9 @@ export interface RecordListHeaderProps extends BlRecordListBaseProps {
    */
   useQuickFilter?: boolean;
   /** 批量操作按钮列表 */
-  batchMenu?: (RecordListHeaderMenuType | RecordListHeaderButtonType)[];
+  batchMenu?: RecordListHeaderButtonType[];
   /** 主操作按钮列表 */
-  mainMenu?: (RecordListHeaderMenuType | RecordListHeaderButtonType)[];
+  mainMenu?: RecordListHeaderMenuType[];
   /** 格式化查询数据做 tag展示*/
   formatDataToDisplay?: (formData: any) => AfterFormatData;
   /**内部状态 */
@@ -59,6 +62,7 @@ const RecordListHeader = (props: RecordListHeaderProps) => {
     selectedRowKeys = [],
     formatDataToDisplay,
     onChangeFilter,
+    userAuth = [],
   } = props;
 
   const [isLoading, setIsLoading] = useState('');
@@ -74,6 +78,40 @@ const RecordListHeader = (props: RecordListHeaderProps) => {
     if (listLayoutState.isSelectMode) {
       dispatch?.({ type: LIST_REDUCER_TYPE.ChangeSelectMode, payload: false });
     }
+  };
+
+  /**
+   * 格式化mainMenu的列表，1.过滤权限点
+   */
+  const formatMainMenu = (
+    mainMenu: RecordListHeaderProps['mainMenu'],
+  ): RecordListHeaderProps['mainMenu'] => {
+    const newMainMenu: RecordListHeaderProps['mainMenu'] = [];
+
+    _.forEach(mainMenu, ({ auth, ...res }) => {
+      // 如果不需要权限点控制 或 当前用户有权限时
+      if (!auth || userAuth.includes(auth)) {
+        // 如果存在items子集，需要过滤子集权限点
+        if (_.has(res, 'items')) {
+          const newItems = filterListAuth(res?.items ?? [], userAuth);
+          newMainMenu.push({ auth, ...res, items: newItems });
+        } else {
+          newMainMenu.push({ auth, ...res });
+        }
+      } else {
+        // 没有权限的，且存在items子集的，且不是用于展示下拉的操作，需要把有权限的子集进行替换
+        if (_.has(res, 'items') && !res?.isPureDropdown) {
+          const newItems = filterListAuth(res?.items ?? [], userAuth);
+          const firstItem = _.head(newItems);
+
+          if (firstItem) {
+            newMainMenu.push({ ...firstItem, items: _.drop(newItems) });
+          }
+        }
+      }
+    });
+
+    return newMainMenu;
   };
 
   /**
@@ -251,7 +289,7 @@ const RecordListHeader = (props: RecordListHeaderProps) => {
           <span>
             已选择{isSelectAll ? listLayoutState.pagination.total : selectedRowKeys.length}项
           </span>
-          {batchMenu?.map(renderBatchMenuButton)}
+          {_.map(filterListAuth(batchMenu ?? [], userAuth), renderBatchMenuButton)}
         </Space>
         <Button
           type={'link'}
@@ -316,7 +354,7 @@ const RecordListHeader = (props: RecordListHeaderProps) => {
         </Space>
         <Space split={<Divider type="vertical" />}>
           {isNeedMainMenu &&
-            mainMenu?.map((item) => {
+            _.map(formatMainMenu(mainMenu), (item) => {
               if (_.has(item, 'items')) {
                 return renderMainMenuMenu(item);
               }

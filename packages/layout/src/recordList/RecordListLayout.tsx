@@ -276,8 +276,8 @@ const ListLayout = <RecordType extends object = any>(
             data: {
               list: [],
               total: 0,
-            }
-          })
+            },
+          });
         };
         break;
       }
@@ -521,6 +521,7 @@ const ListLayout = <RecordType extends object = any>(
           filterList={filterList}
           batchMenu={batchMenu}
           mainMenu={mainMenu}
+          userAuth={userAuth}
           placeholder={placeholder}
           useQuickFilter={useQuickFilter}
           selectedRowKeys={selectedRowKeys}
