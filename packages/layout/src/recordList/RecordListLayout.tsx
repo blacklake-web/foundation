@@ -163,6 +163,9 @@ const ListLayout = <RecordType extends object = any>(
     expandable,
     customDataSource,
     isLoading,
+    userAuth,
+    getOperationList,
+    maxOperationCount,
   } = props;
 
   useEffect(() => {
@@ -545,6 +548,9 @@ const ListLayout = <RecordType extends object = any>(
           onSelectedRowKeys={onSelectedRowKeys}
           onChangeFilter={handleTableChangeQuery}
           expandable={expandable || {}}
+          userAuth={userAuth}
+          getOperationList={getOperationList}
+          maxOperationCount={maxOperationCount}
         />
         <FilterList
           filterList={filterList}
