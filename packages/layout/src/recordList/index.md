@@ -221,6 +221,7 @@ export default () => {
           userAuth={['OP_RECORD_VIEW', 'BATCH_EDIT']}
           getOperationList={getOperationList}
           maxOperationCount={3}
+          pagination={{ pageSizeOptions: [10, 20] }}
         />
       </div>
     </div>

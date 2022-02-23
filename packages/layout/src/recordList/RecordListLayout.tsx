@@ -154,6 +154,7 @@ const ListLayout = <RecordType extends object = any>(
     resizableCol = true, // 列表伸缩，默认启用
     useColConfig = true, // 列配置开关，默认启用
     configcacheKey, // 配置缓存Key,用于table和filter配置缓存标识
+    pagination,
     // base
     style = {},
     useFilterWithUrl = true, // 是否使用url记录查询条件
@@ -552,6 +553,7 @@ const ListLayout = <RecordType extends object = any>(
           userAuth={userAuth}
           getOperationList={getOperationList}
           maxOperationCount={maxOperationCount}
+          pagination={pagination}
         />
         <FilterList
           filterList={filterList}

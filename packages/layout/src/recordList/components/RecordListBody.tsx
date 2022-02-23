@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useRef } from 'react';
 import _, { isEmpty, get, remove, uniq, uniqWith, isEqual, isUndefined, isNumber } from 'lodash';
-import { Button, Dropdown, Menu } from 'antd';
+import { Button, Dropdown, Menu, TableProps } from 'antd';
 //
 import { BlColumnsType, BlTable, BlIcon } from '@blacklake-web/component';
 import { SortOrder } from 'antd/lib/table/interface';
@@ -68,6 +68,8 @@ export interface RecordListBodyProps<RecordType> extends BlRecordListBaseProps {
   getOperationList?: (record: any, index?: number) => OperationListItem[];
   /** 暴露的操作按钮数量, 默认2 */
   maxOperationCount?: number;
+  /** 列表的分页设置 */
+  pagination?: TableProps<RecordType>['pagination'];
 }
 
 const BL_LIST_LAYOUT_BODY = 'bl-list-layout-body';
@@ -104,6 +106,7 @@ const RecordListBody = <RecordType extends object = any>(
     userAuth = [],
     getOperationList,
     maxOperationCount = 2,
+    pagination,
   } = props;
 
   const { listLayoutState, dispatch } = useContext(ListLayoutContext);
@@ -329,6 +332,31 @@ const RecordListBody = <RecordType extends object = any>(
     return results;
   };
 
+  const getPagination = (): TableProps<RecordType>['pagination'] => {
+    const defaultPagination: TableProps<RecordType>['pagination'] = {
+      showSizeChanger: true,
+      showQuickJumper: true,
+      current: listLayoutState.pagination.page,
+      pageSize: listLayoutState.pagination.size,
+      total: listLayoutState.pagination.total,
+      size: 'default',
+      showTotal: (total) => `共 ${total} 条`,
+    };
+
+    if (pagination === false) return false;
+
+    if (pagination && typeof pagination === 'object') {
+      const { current, pageSize, total, size, ...resPagition } = pagination;
+
+      return {
+        ...defaultPagination,
+        ...resPagition,
+      };
+    }
+
+    return defaultPagination;
+  };
+
   return (
     <div className={'bl-listLayout-body'} id={BL_LIST_LAYOUT_BODY}>
       <BlTable<RecordType>
@@ -343,15 +371,7 @@ const RecordListBody = <RecordType extends object = any>(
         tableConfigKey={configcacheKey}
         rowSelection={getRowSelection()}
         onChange={handleTablechange}
-        pagination={{
-          showSizeChanger: true,
-          showQuickJumper: true,
-          current: listLayoutState.pagination.page,
-          pageSize: listLayoutState.pagination.size,
-          total: listLayoutState.pagination.total,
-          size: 'default',
-          showTotal: (total) => `共 ${total} 条`,
-        }}
+        pagination={getPagination()}
         scroll={{ x: 'max-content', y: maxHeight }}
         expandable={expandable || {}}
         useIndex={useIndex}
