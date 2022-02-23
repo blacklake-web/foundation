@@ -314,7 +314,7 @@ const BlTable = <RecordType extends object = any>(props: BlTableProps<RecordType
     }
 
     setBlTableColumns(_columns);
-  }, [columns, getColConfigByLocalStorage, useColConfig]);
+  }, []);
 
   return (
     <div className="blTable">
