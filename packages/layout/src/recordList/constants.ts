@@ -41,3 +41,4 @@ export const BL_SELECTED_ALL = 'BlSelectAll';
 export const CELL_PADDING = 24;
 export const OPERATION_BUTTON_SPACE = 16;
 export const FONT_SIZE = 14;
+export const DEFAULT_WIDTH = 20;

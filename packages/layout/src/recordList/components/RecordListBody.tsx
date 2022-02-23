@@ -12,6 +12,7 @@ import {
   CELL_PADDING,
   OPERATION_BUTTON_SPACE,
   FONT_SIZE,
+  DEFAULT_WIDTH,
 } from '../constants';
 import '../styles.less';
 import {
@@ -285,6 +286,7 @@ const RecordListBody = <RecordType extends object = any>(
         className: 'operation-column',
         fixed: 'right',
         width:
+          DEFAULT_WIDTH +
           CELL_PADDING * 2 +
           Math.min(visibleOps.length - 1, maxOperationCount) * OPERATION_BUTTON_SPACE +
           textNumber * FONT_SIZE,
