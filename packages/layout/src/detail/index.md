@@ -135,7 +135,6 @@ export default () => {
         label: '投入物料',
         dataIndex: 'warehouseName',
         desc: '投入生产的物料',
-        render: (warehouseName) => warehouseName ?? '-',
       },
       {
         label: '产出物料',

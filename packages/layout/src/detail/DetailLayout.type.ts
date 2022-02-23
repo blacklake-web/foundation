@@ -9,6 +9,7 @@ export interface DetailLayoutProps {
   loading?: boolean;
   userAuth?: string[];
   children?: ReactNode;
+  replaceSign?: string;
 }
 
 export interface DetailLayoutInfoBlock {

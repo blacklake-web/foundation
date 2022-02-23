@@ -8,14 +8,24 @@ import { DetailLayoutProps } from './DetailLayout.type';
 import './DetailLayout.less';
 
 const BlDetailLayout = (props: DetailLayoutProps) => {
-  const { title, info, extra, baseMenu, dataSource, loading = false, children, userAuth } = props;
+  const {
+    title,
+    info,
+    extra,
+    baseMenu,
+    dataSource,
+    loading = false,
+    children,
+    userAuth,
+    replaceSign,
+  } = props;
 
   return (
     <div className="bl-detailLayout">
       <Spin spinning={loading}>
         <div className="detail-layout">
           <DetailLayoutTitle title={title} extra={extra} baseMenu={baseMenu} userAuth={userAuth} />
-          <DetailLayoutContent info={info} dataSource={dataSource} />
+          <DetailLayoutContent info={info} dataSource={dataSource} replaceSign={replaceSign} />
           {children}
         </div>
       </Spin>

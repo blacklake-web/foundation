@@ -3,7 +3,7 @@ import _ from 'lodash';
 import { Descriptions, Tooltip } from 'antd';
 import useResizeObserver from '@react-hook/resize-observer';
 //
-import { DetailLayoutInfoBlock } from '../DetailLayout.type';
+import { DetailLayoutInfoBlock, DetailLayoutInfoItem } from '../DetailLayout.type';
 import { BlIcon } from '@blacklake-web/component';
 import './DetailLayoutContent.less';
 
@@ -12,15 +12,18 @@ interface DetailLayoutContentProps {
   info?: DetailLayoutInfoBlock[];
   /**详情数据 */
   dataSource: any;
+  /** 为空的时候，默认展示 */
+  replaceSign?: string;
 }
 
 const RenderInfoBlock: React.FC<{
   infoBlock: DetailLayoutInfoBlock;
   dataSource: any;
   width?: number;
+  replaceSign?: string;
 }> = (props) => {
   const [toggle, setToggle] = useState<boolean>(false); // 是否展开
-  const { infoBlock, dataSource } = props;
+  const { infoBlock, dataSource, replaceSign = '-' } = props;
 
   const useSize = (target) => {
     const [rowWidth, setRowWidth] = React.useState(0);
@@ -48,13 +51,31 @@ const RenderInfoBlock: React.FC<{
     return 1;
   };
 
-  const getInfoItem = (dataIndex: string | string[], record: any) => {
-    return _.get(record, dataIndex, null);
-  };
   const { title, extra, items } = infoBlock;
   const baseColumn = getColumn(useSize(document.body));
 
   const labelStyle = { whiteSpace: 'break-spaces', maxWidth: 120 };
+
+  const getInfoItemValue = (dataIndex: string | string[], record: any) => {
+    const retValue = _.get(record, dataIndex, replaceSign);
+
+    if (retValue === '') return replaceSign;
+
+    return retValue;
+  };
+
+  /**
+   * 渲染详情的value部分
+   * @param item
+   * @returns
+   */
+  const renderValue = (item: DetailLayoutInfoItem) => {
+    return item.render ? (
+      item.render(_.get(dataSource, item.dataIndex, null), dataSource)
+    ) : (
+      <span className={'detail-text'}>{getInfoItemValue(item.dataIndex, dataSource)}</span>
+    );
+  };
 
   return (
     <div>
@@ -81,8 +102,6 @@ const RenderInfoBlock: React.FC<{
       >
         {!toggle &&
           items.map((item: any, index: number) => {
-            const itemValue = getInfoItem(item.dataIndex, dataSource);
-
             return (
               <Descriptions.Item
                 key={`${item.dataIndex}_${index}`}
@@ -102,11 +121,7 @@ const RenderInfoBlock: React.FC<{
                   )
                 }
               >
-                {item.render ? (
-                  item.render(itemValue, dataSource)
-                ) : (
-                  <span className={'detail-text'}>{itemValue}</span>
-                )}
+                {renderValue(item)}
               </Descriptions.Item>
             );
           })}
