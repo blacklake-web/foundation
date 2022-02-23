@@ -14,10 +14,6 @@ interface DetailLayoutContentProps {
   dataSource: any;
 }
 
-const infoBlockStyleNoFlex = {
-  margin: 24,
-};
-
 const RenderInfoBlock: React.FC<{
   infoBlock: DetailLayoutInfoBlock;
   dataSource: any;
@@ -74,13 +70,12 @@ const RenderInfoBlock: React.FC<{
                 className={'bl-toggleButon'}
                 onClick={() => setToggle((prevState) => !prevState)}
               >
-                <BlIcon type={toggle ? 'iconshouqi' : 'iconzhankai'} />
+                <BlIcon type={toggle ? 'iconzhankai' : 'iconshouqi'} />
               </div>
             </div>
           ) : null
         }
         labelStyle={{ paddingLeft: 20 }}
-        style={infoBlockStyleNoFlex}
         column={baseColumn}
         extra={extra}
       >

@@ -76,14 +76,23 @@ const getColumn = (windowSize) => {
  * 判断一项是否在行尾
  * 对于不在行尾的项, 右侧padding要加大
  */
-const isItemInLineEnd = (infoBlock: DataFormLayoutInfoBlock, itemIndex: number, isFullLineItem: boolean, columnNum: number) => {
+const isItemInLineEnd = (
+  infoBlock: DataFormLayoutInfoBlock,
+  itemIndex: number,
+  isFullLineItem: boolean,
+  columnNum: number,
+) => {
   if (isFullLineItem) {
     return true;
   }
-  const lastFullLineItemIndex = _.findLastIndex(infoBlock.items.slice(0, itemIndex), item => !!item.isFullLine);
-  const rankSinceLastFullLineItem = lastFullLineItemIndex === -1 ? itemIndex : itemIndex - lastFullLineItemIndex - 1;
+  const lastFullLineItemIndex = _.findLastIndex(
+    infoBlock.items.slice(0, itemIndex),
+    (item) => !!item.isFullLine,
+  );
+  const rankSinceLastFullLineItem =
+    lastFullLineItemIndex === -1 ? itemIndex : itemIndex - lastFullLineItemIndex - 1;
   return (rankSinceLastFullLineItem + 1) % columnNum === 0;
-}
+};
 
 const DataFormLayoutBody = (props: DataFormLayoutBodyProps) => {
   const {
@@ -205,7 +214,7 @@ const DataFormLayoutBody = (props: DataFormLayoutBodyProps) => {
               judgeVisible(infoIndex) ? deleteVisible(infoIndex) : addVisible(infoIndex)
             }
           >
-            <BlIcon type={judgeVisible(infoIndex) ? 'iconshouqi' : 'iconzhankai'} />
+            <BlIcon type={judgeVisible(infoIndex) ? 'iconzhankai' : 'iconshouqi'} />
           </div>
         </div>
       );
