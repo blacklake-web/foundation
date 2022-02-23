@@ -8,6 +8,12 @@ import { BL_SELECTED_ALL, ListLayoutContext, LIST_REDUCER_TYPE } from '../consta
 import { BlRecordListBaseProps } from '../recordListLayout.type';
 import { AfterFormatData, objToKeyValueAry } from './RecordListInfo';
 import '../styles.less';
+
+// 当前是否时生产环境  过滤导入导出按钮的临时方案，后面要删掉的！！！！！
+const isProdEnv = !['feature', 'test', 'localhost'].filter((envKeyword) => {
+  return location.host.includes(envKeyword);
+}).length;
+
 // 列表头button
 interface RecordListHeaderButtonType {
   title: string;
@@ -110,6 +116,28 @@ const RecordListHeader = (props: RecordListHeaderProps) => {
         }
       }
     });
+
+    // --------- 过滤导入导出按钮的临时方案，后面要删掉的！！！！！----------------------
+    if (isProdEnv) {
+      const _list: RecordListHeaderProps['mainMenu'] = [];
+
+      _.forEach(newMainMenu, (item) => {
+        if (item.title != '导入' && item.title != '导出') {
+          let newItem = item;
+
+          if (!_.isEmpty(item.items)) {
+            newItem.items = _.filter(item.items, ({ title }) => {
+              return title != '导入' && title != '导出';
+            });
+          }
+
+          _list.push(newItem);
+        }
+      });
+
+      return _list;
+    }
+    // --------- 过滤导入导出按钮的临时方案，后面要删掉的！！！！！----------------------
 
     return newMainMenu;
   };

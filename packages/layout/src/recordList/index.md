@@ -107,15 +107,15 @@ export default () => {
 
   const mainMenu = [
     {
-      title: '新建',
-      onClick: () => {
-        console.log('新建 click');
-      },
-    },
-    {
       title: '导入',
       onClick: () => {
         console.log('导入 click');
+      },
+    },
+    {
+      title: '新建',
+      onClick: () => {
+        console.log('新建 click');
       },
       items: [
         {
@@ -209,7 +209,7 @@ export default () => {
         <RecordListLayout
           columns={columns}
           requestFn={requestFn}
-          // mainMenu={mainMenu}
+          mainMenu={mainMenu}
           batchMenu={batchMenu}
           filterList={filterList}
           configcacheKey={'recordListLayout'}
