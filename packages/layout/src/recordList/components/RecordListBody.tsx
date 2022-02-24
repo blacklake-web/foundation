@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useRef } from 'react';
 import _, { isEmpty, get, remove, uniq, uniqWith, isEqual, isUndefined, isNumber } from 'lodash';
-import { Button, Dropdown, Menu, TableProps } from 'antd';
+import { Button, Dropdown, Menu, Popconfirm, PopconfirmProps, TableProps } from 'antd';
 //
 import { BlColumnsType, BlTable, BlIcon } from '@blacklake-web/component';
 import { SortOrder } from 'antd/lib/table/interface';
@@ -296,25 +296,11 @@ const RecordListBody = <RecordType extends object = any>(
             (i) => !i.auth || userAuth.includes(i.auth),
           );
           // 前两个操作展示为按钮
-          const buttons = ops.slice(0, maxOperationCount).map(({ title, disabled, onClick }) => (
-            <Button type="link" disabled={disabled} onClick={onClick}>
-              {title}
-            </Button>
-          ));
+          const buttons = ops.slice(0, maxOperationCount).map(renderButton);
           // 后面的操作收进下拉框
           const dropdown =
             ops.length > maxOperationCount ? (
-              <Dropdown
-                overlay={
-                  <Menu>
-                    {ops.slice(maxOperationCount).map(({ title, disabled, onClick }) => (
-                      <Menu.Item disabled={disabled} onClick={onClick}>
-                        {title}
-                      </Menu.Item>
-                    ))}
-                  </Menu>
-                }
-              >
+              <Dropdown overlay={<Menu>{ops.slice(maxOperationCount).map(renderMenuItem)}</Menu>}>
                 <Button type="link">
                   <BlIcon type="icongengduo" />
                 </Button>
@@ -357,6 +343,68 @@ const RecordListBody = <RecordType extends object = any>(
     }
 
     return defaultPagination;
+  };
+
+  const renderButton = (item: OperationListItem) => {
+    const disabled = item?.disabled ?? false;
+
+    if (item?.popconfirm) {
+      const defaultPopconfirm: PopconfirmProps = {
+        placement: 'topRight',
+        okText: '确定',
+        cancelText: '取消',
+        title: `确定要${item.title}吗?`,
+      };
+      const customPopconfirm = _.isObject(item?.popconfirm) ? item?.popconfirm : {};
+
+      return (
+        <Popconfirm
+          {...defaultPopconfirm}
+          {...customPopconfirm}
+          disabled={disabled}
+          onConfirm={item.onClick}
+        >
+          <Button type="link" disabled={disabled}>
+            {item.title}
+          </Button>
+        </Popconfirm>
+      );
+    }
+    return (
+      <Button type="link" disabled={disabled} onClick={item?.onClick}>
+        {item.title}
+      </Button>
+    );
+  };
+
+  const renderMenuItem = (item: OperationListItem) => {
+    const disabled = item?.disabled ?? false;
+
+    if (item?.popconfirm) {
+      const defaultPopconfirm: PopconfirmProps = {
+        placement: 'topRight',
+        okText: '确定',
+        cancelText: '取消',
+        title: `确定要${item.title}吗?`,
+      };
+      const customPopconfirm = _.isObject(item?.popconfirm) ? item?.popconfirm : {};
+
+      return (
+        <Popconfirm
+          {...defaultPopconfirm}
+          {...customPopconfirm}
+          disabled={disabled}
+          onConfirm={item.onClick}
+        >
+          <Menu.Item disabled={disabled}>{item.title}</Menu.Item>
+        </Popconfirm>
+      );
+    }
+    return (
+      <Menu.Item disabled={disabled} onClick={item.onClick}>
+        {item.title}
+      </Menu.Item>
+    );
   };
 
   return (

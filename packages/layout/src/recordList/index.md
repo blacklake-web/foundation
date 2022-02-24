@@ -143,6 +143,8 @@ export default () => {
           fail();
         }
       },
+      disabled: true,
+      popconfirm: {},
     },
     {
       title: '删除',
@@ -188,7 +190,7 @@ export default () => {
 
   const getOperationList = (record, idx) => {
     return [
-      { title: '查看', onClick: () => message.info(`查看 ${record.name}`) },
+      { title: '查看', onClick: () => message.info(`查看 ${record.name}`), popconfirm: true },
       {
         title: '编辑',
         disabled: idx % 2 === 0,
@@ -465,13 +467,14 @@ export default () => {
 
 ## RecordListHeaderButtonType 操作按钮
 
-| 参数     | 说明                                                                                            | 类型                                                               | 默认值    |
-| -------- | ----------------------------------------------------------------------------------------------- | ------------------------------------------------------------------ | --------- |
-| title    | 按钮 text                                                                                       | `string`                                                           |           |
-| auth     | 当前操作的权限点                                                                                | `string`                                                           | undefined |
-| disabled | 是否可以操作                                                                                    | `boolean`                                                          | false     |
-| icon     | 按钮图标                                                                                        | `React.ReactNode`                                                  |           |
-| onClick  | !!!批量操作时有两种处理方式 1.同步处理，调用 success 或 fail 2.异步操作，返回 promise，自动处理 | `(success?: () => void, fail?: () => void) => void / Promise<any>` |           |
+| 参数       | 说明                                                                                            | 类型                                                               | 默认值    |
+| ---------- | ----------------------------------------------------------------------------------------------- | ------------------------------------------------------------------ | --------- |
+| title      | 按钮 text                                                                                       | `string`                                                           |           |
+| auth       | 当前操作的权限点                                                                                | `string`                                                           | undefined |
+| disabled   | 是否可以操作                                                                                    | `boolean`                                                          | false     |
+| icon       | 按钮图标                                                                                        | `React.ReactNode`                                                  |           |
+| onClick    | !!!批量操作时有两种处理方式 1.同步处理，调用 success 或 fail 2.异步操作，返回 promise，自动处理 | `(success?: () => void, fail?: () => void) => void / Promise<any>` |           |
+| popconfirm | 二次确认弹窗                                                                                    | `PopconfirmProps`                                                  | undefined |
 
 ## RecordListHeaderMenuType 菜单按钮
 

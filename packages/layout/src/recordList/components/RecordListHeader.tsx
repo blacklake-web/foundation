@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import _ from 'lodash';
-import { Button, Menu, Input, Space, Dropdown, Divider } from 'antd';
+import { Button, Menu, Input, Space, Dropdown, Divider, PopconfirmProps, Popconfirm } from 'antd';
 import { FilterOutlined, DownOutlined } from '@ant-design/icons';
 import { filterListAuth } from '../../utils';
 //
@@ -23,6 +23,8 @@ interface RecordListHeaderButtonType {
   icon?: React.ReactNode;
   /** 每个操作带有的权限点 */
   auth?: string;
+  /** 二次确认弹窗 */
+  popconfirm?: PopconfirmProps;
 }
 
 // 列表头menu
@@ -198,6 +200,38 @@ const RecordListHeader = (props: RecordListHeaderProps) => {
    */
   const renderBatchMenuButton = (item: RecordListHeaderButtonType) => {
     const disabled = (item?.disabled ?? false) || !!isLoading || selectedRowKeys.length === 0;
+
+    if (item?.popconfirm) {
+      const defaultPopconfirm: PopconfirmProps = {
+        placement: 'topRight',
+        okText: '确定',
+        cancelText: '取消',
+        title: `确定要${item.title}吗?`,
+      };
+      const customPopconfirm = _.isObject(item?.popconfirm) ? item?.popconfirm : {};
+
+      return (
+        <Popconfirm
+          {...defaultPopconfirm}
+          {...customPopconfirm}
+          disabled={disabled}
+          onConfirm={() => {
+            handleBatchButtonClick(item);
+          }}
+        >
+          <Button
+            type={'text'}
+            style={{ paddingLeft: 0, paddingRight: 0 }}
+            key={item.title}
+            loading={isLoading === item.title}
+            disabled={disabled}
+          >
+            {item?.icon}
+            {item.title?.split('').join('  ')}
+          </Button>
+        </Popconfirm>
+      );
+    }
 
     return (
       <Button

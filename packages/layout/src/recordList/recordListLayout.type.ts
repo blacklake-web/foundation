@@ -1,5 +1,5 @@
 import { Dispatch } from 'react';
-import { SelectProps, InputProps, DatePickerProps } from 'antd';
+import { SelectProps, InputProps, DatePickerProps, PopconfirmProps } from 'antd';
 import { LIST_REDUCER_TYPE } from './constants';
 
 export type FilterData = {
@@ -97,4 +97,6 @@ export type OperationListItem = {
   disabled?: boolean;
   /** 点击回调 */
   onClick: () => void;
+  /** 二次确认弹窗 */
+  popconfirm?: PopconfirmProps;
 };
