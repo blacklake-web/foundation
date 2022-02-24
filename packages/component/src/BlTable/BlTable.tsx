@@ -313,8 +313,21 @@ const BlTable = <RecordType extends object = any>(props: BlTableProps<RecordType
       }
     }
 
+    // 如果 state 中已经存在，需要做合并处理 1.相同列的宽度的合并
+    if (!_.isEmpty(blTableColumns)) {
+      _.forEach(_columns, (t) => {
+        const curIndex = _.findIndex(blTableColumns, ['title', t.title]);
+
+        if (curIndex !== -1) {
+          t.width = blTableColumns[curIndex].width;
+          t.minWidth = blTableColumns[curIndex].minWidth;
+        }
+      });
+    }
+
     setBlTableColumns(_columns);
-  }, []);
+    // 依赖传入的列，可能存在的情况 1.自定义字段列
+  }, [columns]);
 
   return (
     <div className="blTable">
