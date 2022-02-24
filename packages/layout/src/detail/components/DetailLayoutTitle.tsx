@@ -5,6 +5,7 @@ import { BlIcon } from '@blacklake-web/component';
 import { filterListAuth } from '../../utils';
 import { DetailLayoutMenuItem } from '../DetailLayout.type';
 import './DetailLayoutContent.less';
+import getOperationIcon from '../../components/operationIcon';
 
 interface DetailLayoutTitleProps {
   /**详情标题 */
@@ -27,8 +28,9 @@ const extraStyle = {
   justifyContent: 'flex-end',
 };
 
-const renderIcon = (icon: DetailLayoutMenuItem['icon']) =>
-  typeof icon === 'string' ? <BlIcon type={icon} /> : icon;
+const renderIcon = (item: DetailLayoutMenuItem) =>
+  getOperationIcon({ title: item.title, customIcon: item?.icon });
+
 const renderButtonText = (text: DetailLayoutMenuItem['title']) => {
   if (text.length === 2) {
     return text.split('').join(' ');
@@ -53,7 +55,8 @@ const DetailLayoutTitle = (props: DetailLayoutTitleProps) => {
             <Menu.Item
               key={item.key}
               disabled={item.disabled}
-              icon={renderIcon(item.icon)}
+              // 收起的暂不展示按钮
+              // icon={renderIcon(item)}
               onClick={item.onClick}
             >
               {renderButtonText(item.title)}
@@ -100,7 +103,7 @@ const DetailLayoutTitle = (props: DetailLayoutTitleProps) => {
               )}
               overlayStyle={{ width: 116 }}
             >
-              {renderIcon(firstMenuItem.icon)}
+              {renderIcon(firstMenuItem)}
               {renderButtonText(firstMenuItem.title)}
             </Dropdown.Button>
             {lastMenuItem && (
@@ -110,7 +113,7 @@ const DetailLayoutTitle = (props: DetailLayoutTitleProps) => {
                 type="primary"
                 onClick={lastMenuItem.onClick}
               >
-                {renderIcon(lastMenuItem.icon)}
+                {renderIcon(lastMenuItem)}
                 {renderButtonText(lastMenuItem.title)}
               </Button>
             )}
@@ -126,7 +129,7 @@ const DetailLayoutTitle = (props: DetailLayoutTitleProps) => {
                 type={idx === newBaseMenu.length - 1 ? 'primary' : 'default'}
                 onClick={item.onClick}
               >
-                {renderIcon(item.icon)}
+                {renderIcon(item)}
                 {renderButtonText(item.title)}
               </Button>
             ),

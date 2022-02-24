@@ -68,6 +68,13 @@ export default () => {
         console.log('刷新2');
       },
     },
+    { title: '新建物料' },
+    { title: '导入' },
+    { title: '导出' },
+    { title: '操作记录' },
+    { title: '复制' },
+    { title: '删除' },
+    { title: '编辑' },
     {
       title: '编辑',
       key: 'edit',

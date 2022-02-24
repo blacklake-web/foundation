@@ -8,6 +8,7 @@ import { BL_SELECTED_ALL, ListLayoutContext, LIST_REDUCER_TYPE } from '../consta
 import { BlRecordListBaseProps } from '../recordListLayout.type';
 import { AfterFormatData, objToKeyValueAry } from './RecordListInfo';
 import '../styles.less';
+import getOperationIcon from '../../components/operationIcon';
 
 // 当前是否时生产环境  过滤导入导出按钮的临时方案，后面要删掉的！！！！！
 const isProdEnv = !['feature', 'test', 'localhost'].filter((envKeyword) => {
@@ -212,6 +213,7 @@ const RecordListHeader = (props: RecordListHeaderProps) => {
 
       return (
         <Popconfirm
+          key={item.title}
           {...defaultPopconfirm}
           {...customPopconfirm}
           disabled={disabled}
@@ -222,11 +224,10 @@ const RecordListHeader = (props: RecordListHeaderProps) => {
           <Button
             type={'text'}
             style={{ paddingLeft: 0, paddingRight: 0 }}
-            key={item.title}
             loading={isLoading === item.title}
             disabled={disabled}
+            icon={getOperationIcon({ title: item.title, customIcon: item?.icon })}
           >
-            {item?.icon}
             {item.title?.split('').join('  ')}
           </Button>
         </Popconfirm>
@@ -243,8 +244,8 @@ const RecordListHeader = (props: RecordListHeaderProps) => {
         onClick={() => {
           handleBatchButtonClick(item);
         }}
+        icon={getOperationIcon({ title: item.title, customIcon: item?.icon })}
       >
-        {item?.icon}
         {item.title?.split('').join('  ')}
       </Button>
     );
@@ -264,8 +265,8 @@ const RecordListHeader = (props: RecordListHeaderProps) => {
         onClick={() => {
           item?.onClick?.();
         }}
+        icon={getOperationIcon({ title: item.title, customIcon: item?.icon })}
       >
-        {item?.icon}
         {item.title}
       </Button>
     );
@@ -287,8 +288,9 @@ const RecordListHeader = (props: RecordListHeaderProps) => {
             onClick={() => {
               subItem.onClick?.();
             }}
+            // 收起的不需要icon
+            // icon={subItem?.icon}
           >
-            {subItem?.icon}
             {subItem.title}
           </Menu.Item>
         ))}
@@ -301,7 +303,10 @@ const RecordListHeader = (props: RecordListHeaderProps) => {
       if (isPureDropdown) {
         return (
           <Dropdown key={menu.title} overlay={menuComponents}>
-            <Button type={'primary'} icon={menu.icon}>
+            <Button
+              type={'primary'}
+              icon={getOperationIcon({ title: menu.title, customIcon: menu?.icon })}
+            >
               {menu.title}
             </Button>
           </Dropdown>
@@ -318,7 +323,7 @@ const RecordListHeader = (props: RecordListHeaderProps) => {
           overlay={menuComponents}
           icon={<DownOutlined />}
         >
-          {menu.icon}
+          {getOperationIcon({ title: menu.title, customIcon: menu?.icon })}
           {menu.title}
         </Dropdown.Button>
       );
@@ -331,8 +336,8 @@ const RecordListHeader = (props: RecordListHeaderProps) => {
         onClick={() => {
           menu?.onClick?.();
         }}
+        icon={getOperationIcon({ title: menu.title, customIcon: menu?.icon })}
       >
-        {menu.icon}
         {menu.title}
       </Button>
     );
