@@ -26,6 +26,7 @@ interface RecordListHeaderButtonType {
   auth?: string;
   /** 二次确认弹窗 */
   popconfirm?: PopconfirmProps;
+  showExport?: boolean;
 }
 
 // 列表头menu
@@ -125,12 +126,13 @@ const RecordListHeader = (props: RecordListHeaderProps) => {
       const _list: RecordListHeaderProps['mainMenu'] = [];
 
       _.forEach(newMainMenu, (item) => {
-        if (item.title != '导入' && item.title != '导出') {
+        // 增加showExport属性，以便可以根据具体进度部分展示导入导出按钮
+        if (item.showExport || (item.title != '导入' && item.title != '导出')) {
           let newItem = item;
 
           if (!_.isEmpty(item.items)) {
             newItem.items = _.filter(item.items, ({ title }) => {
-              return title != '导入' && title != '导出';
+              return item.showExport || (title != '导入' && title != '导出');
             });
           }
 
@@ -288,8 +290,8 @@ const RecordListHeader = (props: RecordListHeaderProps) => {
             onClick={() => {
               subItem.onClick?.();
             }}
-            // 收起的不需要icon
-            // icon={subItem?.icon}
+          // 收起的不需要icon
+          // icon={subItem?.icon}
           >
             {subItem.title}
           </Menu.Item>
