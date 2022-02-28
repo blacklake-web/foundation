@@ -16,21 +16,26 @@ const getFileExt = (fileName: string | undefined) => {
   return result[result.length - 1].toLowerCase();
 };
 
-const isImageFile = (file: UploadFile) => ['image/jpeg', 'image/jpg', 'image/png'].includes(file.type!)
-  || ['jpeg', 'jpg', 'png'].includes(getFileExt(file.name));
-const isAudioFile = (file: UploadFile) => file.type?.startsWith('audio/')
-  || ['mp3', 'wav', 'wma', 'mpeg', 'aac', 'midi', 'cda'].includes(getFileExt(file.name));
+const isImageFile = (file: UploadFile) =>
+  ['image/jpeg', 'image/jpg', 'image/png'].includes(file.type!) ||
+  ['jpeg', 'jpg', 'png'].includes(getFileExt(file.name));
+const isAudioFile = (file: UploadFile) =>
+  file.type?.startsWith('audio/') ||
+  ['mp3', 'wav', 'wma', 'mpeg', 'aac', 'midi', 'cda'].includes(getFileExt(file.name));
 const isVideoFile = (file: UploadFile) => ['mp4', 'avi', 'mov'].includes(getFileExt(file.name));
-const isCompressedFile = (file: UploadFile) => ['application/x-rar', 'application/zip'].includes(file.type!)
-  || ['rar', 'zip'].includes(getFileExt(file.name));
-const isPdf = (file: UploadFile) => file.type === 'application/pdf'
-  || ['pdf'].includes(getFileExt(file.name));
-const isXLSX = (file: UploadFile) => file.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-  || ['xlsx'].includes(getFileExt(file.name));
-const isDoc = (file: UploadFile) => [
+const isCompressedFile = (file: UploadFile) =>
+  ['application/x-rar', 'application/zip'].includes(file.type!) ||
+  ['rar', 'zip'].includes(getFileExt(file.name));
+const isPdf = (file: UploadFile) =>
+  file.type === 'application/pdf' || ['pdf'].includes(getFileExt(file.name));
+const isXLSX = (file: UploadFile) =>
+  file.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' ||
+  ['xlsx'].includes(getFileExt(file.name));
+const isDoc = (file: UploadFile) =>
+  [
     'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
     'application/msword',
-    'application/wps-writer'
+    'application/wps-writer',
   ].includes(file.type!) || ['doc', 'docx'].includes(getFileExt(file.name));
 const isTxt = (file: UploadFile) => ['txt'].includes(getFileExt(file.name));
 
@@ -47,8 +52,11 @@ function checkSingleFileLimit(limit: BlUploadFileType, file: UploadFile) {
   if (limit === 'xlsx' && !isXLSX(file)) {
     return '.xlsx';
   }
-  if (limit === 'attach' && !(isImageFile(file) || isPdf(file) || isXLSX(file) || isCompressedFile(file))) {
-    return '.jpg/.png/.jpeg/.pdf/.xlsx/.rar';
+  if (
+    limit === 'attach' &&
+    !(isImageFile(file) || isDocumentFile(file) || isVideoFile(file) || isCompressedFile(file))
+  ) {
+    return '.jpg/.png/.jpeg/.pdf/.xlsx/.rar/.txt/.doc/.docx/.zip/.mp4/.avi/.mov';
   }
   if (limit === 'image' && !isImageFile(file)) {
     return '图片';
@@ -91,7 +99,6 @@ const BlUpload: React.FC<BlUploadProps> = (props) => {
   const [previewType, setPreviewType] = useState<BlUploadFileType | ''>('');
   const [previewTitle, setPreviewTitle] = useState('');
 
-
   // 判断文件类型和大小
   const judge = (file: UploadFile, files?: Array<UploadFile>) => {
     if (!file) {
@@ -103,14 +110,14 @@ const BlUpload: React.FC<BlUploadProps> = (props) => {
     if (limit) {
       const supportedFileTypes: string[] = [];
       if (_.isArray(limit)) {
-        (limit as BlUploadFileType[]).forEach(lmt => {
+        (limit as BlUploadFileType[]).forEach((lmt) => {
           supportedFileTypes.push(checkSingleFileLimit(lmt, file));
-        })
+        });
       } else {
         supportedFileTypes.push(checkSingleFileLimit(limit as BlUploadFileType, file));
       }
       // 没有通过任意一个类型校验，则报错
-      if (!supportedFileTypes.some(item => item === '')) {
+      if (!supportedFileTypes.some((item) => item === '')) {
         return { message: `附件只支持 ${_.uniq(supportedFileTypes).join('/')} 类型`, res: false };
       }
     }
@@ -144,13 +151,13 @@ const BlUpload: React.FC<BlUploadProps> = (props) => {
     function downloadToPreview(isPdf = false) {
       if (file.url) {
         fetch(file.url)
-          .then(res => {
+          .then((res) => {
             if (isPdf) {
               return modifyResponseHeader(res, 'content-type', 'application/pdf').blob();
             }
             return res.blob();
           })
-          .then(data => {
+          .then((data) => {
             setPreviewUrl(window.URL.createObjectURL(data));
           });
       }
@@ -244,10 +251,22 @@ const BlUpload: React.FC<BlUploadProps> = (props) => {
         }}
       >
         {previewType === 'image' && <img style={{ width: '100%' }} src={previewUrl} />}
-        {previewType === 'video' && <video style={{ width: '100%' }} src={previewUrl} controls autoPlay muted />}
+        {previewType === 'video' && (
+          <video style={{ width: '100%' }} src={previewUrl} controls autoPlay muted />
+        )}
         {previewType === 'audio' && <audio style={{ width: '100%' }} src={previewUrl} />}
-        {previewType === 'pdf' && <iframe style={{ width: '100%', height: 600 }} src={previewUrl} />}
-        {previewType === '' && <span>该文件类型暂不支持预览，请<a href={previewUrl} download={previewTitle}>下载</a>后查看。</span>}
+        {previewType === 'pdf' && (
+          <iframe style={{ width: '100%', height: 600 }} src={previewUrl} />
+        )}
+        {previewType === '' && (
+          <span>
+            该文件类型暂不支持预览，请
+            <a href={previewUrl} download={previewTitle}>
+              下载
+            </a>
+            后查看。
+          </span>
+        )}
       </Modal>
     );
   };
