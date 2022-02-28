@@ -154,7 +154,7 @@ const BlSortFormList = (props: StoreDetailProps) => {
     fixedRowFn,
     tableProps = {},
     onDelete,
-    buttonText = '添加元素',
+    buttonText = '添加',
     batchButtonText = '批量添加',
     handleAdd,
     listRules = [],
@@ -408,9 +408,7 @@ const BlSortFormList = (props: StoreDetailProps) => {
   };
 
   const renderBase = () => {
-    const DragHandle = SortableHandle(() => (
-      <BlIcon type="iconrenyituozhuai" />
-    ));
+    const DragHandle = SortableHandle(() => <BlIcon type="iconrenyituozhuai" />);
 
     return (
       <>
