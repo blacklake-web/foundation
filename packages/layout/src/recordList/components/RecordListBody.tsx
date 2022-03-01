@@ -55,8 +55,6 @@ export interface RecordListBodyProps<RecordType> extends BlRecordListBaseProps {
    * @default true
    */
   resizableCol?: boolean;
-  /** 缓存时相关标识 */
-  configcacheKey?: string;
   /**内部状态 */
   dataSource?: RecordType[];
   /**内部状态 */

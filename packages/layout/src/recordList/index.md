@@ -189,8 +189,7 @@ export default () => {
     {
       label: '姓名2',
       name: 'name2',
-      type: FilterFieldType.date,
-      dateFormat: 'YYYY-MM-DD HH:mm:ss',
+      type: FilterFieldType.text,
       props: { width: 200 },
     },
   ];
@@ -420,7 +419,7 @@ export default () => {
           batchMenu={batchMenu}
           filterList={filterList}
           useIndex={false}
-          configcacheKey={'recordListLayout'}
+          configcacheKey={'recordListLayout1'}
           rowKey="name"
           filterContaniner={false}
           selectedRowKeys={selectedKeys}

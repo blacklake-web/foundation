@@ -59,6 +59,8 @@ export interface BlRecordListBaseProps {
   filterContaniner?: string | false | HTMLElement | undefined;
   /** 用户拥有的权限 */
   userAuth?: string[];
+  /** 缓存时相关标识 */
+  configcacheKey?: string;
 }
 //
 export interface ListLayoutState {
