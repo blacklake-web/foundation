@@ -42,6 +42,7 @@
     "father": "^2.30.6"
   },
   "dependencies": {
+    "array-move": "^3.0.1",
     "@blacklake-web/component": "^1.0.14-alpha.55",
     "@blacklake-web/hooks": "1.0.13-alpha.12",
     "@blacklake-web/utils": "^1.0.13-alpha.12",

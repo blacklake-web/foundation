@@ -135,6 +135,7 @@ const ListLayout = <RecordType extends object = any>(
     refreshMarker, // 刷新标识，需要刷新时，传变化的值（如：当前时间戳）
     resetRefreshMarker, // 重置刷新标识，需要刷新时，传变化的值（如：当前时间戳）
     formatDataToFormDisplay, // 处理从url获取filter后去(FilterList)展示在搜索栏里面的转换函数
+    useFilterConfig, // 是否启用筛选列配置
     // header
     mainMenu, // 主页操作菜单（button,menu）
     batchMenu,
@@ -557,6 +558,8 @@ const ListLayout = <RecordType extends object = any>(
         />
         <FilterList
           filterList={filterList}
+          configcacheKey={configcacheKey}
+          useFilterConfig={useFilterConfig}
           handleFilter={handleFilterQuery}
           formatDataToFormDisplay={formatDataToFormDisplay}
           defaultFilterValue={listLayoutState.filterData}
