@@ -1,16 +1,26 @@
 import React, { useContext, useEffect, useRef } from 'react';
 import _, { isEmpty, get, remove, uniq, uniqWith, isEqual, isUndefined, isNumber } from 'lodash';
+import { Button, Dropdown, Menu, Popconfirm, PopconfirmProps, TableProps } from 'antd';
 //
-import { BlColumnsType, BlTable } from '@blacklake-web/component';
+import { BlColumnsType, BlTable, BlIcon } from '@blacklake-web/component';
 import { SortOrder } from 'antd/lib/table/interface';
 //
-import { BL_SELECTED_ALL, ListLayoutContext, LIST_REDUCER_TYPE } from '../constants';
+import {
+  BL_SELECTED_ALL,
+  ListLayoutContext,
+  LIST_REDUCER_TYPE,
+  CELL_PADDING,
+  OPERATION_BUTTON_SPACE,
+  FONT_SIZE,
+  DEFAULT_WIDTH,
+} from '../constants';
 import '../styles.less';
 import {
   BlSelectedRowKeys,
   BlRecordListBaseProps,
   ListLayoutQueryParams,
   FormatDataToQueryDataSorter,
+  OperationListItem,
 } from '../recordListLayout.type';
 
 type BlSortOrder = 'asc' | 'desc';
@@ -45,8 +55,6 @@ export interface RecordListBodyProps<RecordType> extends BlRecordListBaseProps {
    * @default true
    */
   resizableCol?: boolean;
-  /** 缓存时相关标识 */
-  configcacheKey?: string;
   /**内部状态 */
   dataSource?: RecordType[];
   /**内部状态 */
@@ -55,6 +63,12 @@ export interface RecordListBodyProps<RecordType> extends BlRecordListBaseProps {
    * table的可扩展配置
    */
   expandable?: any;
+  /** 添加操作列 */
+  getOperationList?: (record: any, index?: number) => OperationListItem[];
+  /** 暴露的操作按钮数量, 默认2 */
+  maxOperationCount?: number;
+  /** 列表的分页设置 */
+  pagination?: TableProps<RecordType>['pagination'];
 }
 
 const BL_LIST_LAYOUT_BODY = 'bl-list-layout-body';
@@ -88,6 +102,10 @@ const RecordListBody = <RecordType extends object = any>(
     resizableCol = true,
     configcacheKey,
     expandable,
+    userAuth = [],
+    getOperationList,
+    maxOperationCount = 2,
+    pagination,
   } = props;
 
   const { listLayoutState, dispatch } = useContext(ListLayoutContext);
@@ -239,14 +257,152 @@ const RecordListBody = <RecordType extends object = any>(
   };
 
   const getColumns = () => {
-    return columns.map((item) => {
+    const results = columns.map((item) => {
+      const newItem = { ...item };
       if (item?.sorter) {
         const blOrder = getSorterInfo(item.dataIndex, listLayoutState?.sorter)?.order;
         // eslint-disable-next-line no-param-reassign
-        item.sortOrder = blOrder ? toAntdOrderMap.get(blOrder) : null;
+        newItem.sortOrder = blOrder ? toAntdOrderMap.get(blOrder) : null;
       }
-      return item;
+      return newItem;
     });
+
+    // 添加操作列
+    if (_.isFunction(getOperationList)) {
+      // 计算操作列宽: 调一下 getOperationList, 获得经过权限过滤后的按钮数
+      const visibleOps = getOperationList({}).filter((i) => !i.auth || userAuth.includes(i.auth));
+      const textNumber =
+        _.sumBy(visibleOps.slice(0, maxOperationCount), (item) => item.title.length) +
+          visibleOps.length >
+        maxOperationCount
+          ? 1
+          : 0;
+
+      results.push({
+        title: _.isEmpty(visibleOps) ? '' : '操作',
+        key: 'operation-column',
+        className: 'operation-column',
+        fixed: 'right',
+        width:
+          DEFAULT_WIDTH +
+          CELL_PADDING * 2 +
+          Math.min(visibleOps.length - 1, maxOperationCount) * OPERATION_BUTTON_SPACE +
+          textNumber * FONT_SIZE,
+        render: (__: unknown, record, index) => {
+          // 根据权限点过滤操作按钮。不传视为无权限控制
+          const ops = getOperationList!(record, index).filter(
+            (i) => !i.auth || userAuth.includes(i.auth),
+          );
+          // 前两个操作展示为按钮
+          const buttons = ops.slice(0, maxOperationCount).map(renderButton);
+          // 后面的操作收进下拉框
+          const dropdown =
+            ops.length > maxOperationCount ? (
+              <Dropdown overlay={<Menu>{ops.slice(maxOperationCount).map(renderMenuItem)}</Menu>}>
+                <Button type="link">
+                  <BlIcon type="icongengduo" />
+                </Button>
+              </Dropdown>
+            ) : null;
+
+          return (
+            <>
+              {buttons}
+              {dropdown}
+            </>
+          );
+        },
+      });
+    }
+
+    return results;
+  };
+
+  const getPagination = (): TableProps<RecordType>['pagination'] => {
+    const defaultPagination: TableProps<RecordType>['pagination'] = {
+      showSizeChanger: true,
+      showQuickJumper: true,
+      current: listLayoutState.pagination.page,
+      pageSize: listLayoutState.pagination.size,
+      total: listLayoutState.pagination.total,
+      size: 'default',
+      showTotal: (total) => `共 ${total} 条`,
+    };
+
+    if (pagination === false) return false;
+
+    if (pagination && typeof pagination === 'object') {
+      const { current, pageSize, total, size, ...resPagition } = pagination;
+
+      return {
+        ...defaultPagination,
+        ...resPagition,
+      };
+    }
+
+    return defaultPagination;
+  };
+
+  const renderButton = (item: OperationListItem) => {
+    const disabled = item?.disabled ?? false;
+
+    if (item?.popconfirm) {
+      const defaultPopconfirm: PopconfirmProps = {
+        placement: 'topRight',
+        okText: '确定',
+        cancelText: '取消',
+        title: `确定要${item.title}吗?`,
+      };
+      const customPopconfirm = _.isObject(item?.popconfirm) ? item?.popconfirm : {};
+
+      return (
+        <Popconfirm
+          {...defaultPopconfirm}
+          {...customPopconfirm}
+          disabled={disabled}
+          onConfirm={item.onClick}
+        >
+          <Button type="link" disabled={disabled}>
+            {item.title}
+          </Button>
+        </Popconfirm>
+      );
+    }
+    return (
+      <Button type="link" disabled={disabled} onClick={item?.onClick}>
+        {item.title}
+      </Button>
+    );
+  };
+
+  const renderMenuItem = (item: OperationListItem) => {
+    const disabled = item?.disabled ?? false;
+
+    if (item?.popconfirm) {
+      const defaultPopconfirm: PopconfirmProps = {
+        placement: 'topRight',
+        okText: '确定',
+        cancelText: '取消',
+        title: `确定要${item.title}吗?`,
+      };
+      const customPopconfirm = _.isObject(item?.popconfirm) ? item?.popconfirm : {};
+
+      return (
+        <Popconfirm
+          {...defaultPopconfirm}
+          {...customPopconfirm}
+          disabled={disabled}
+          onConfirm={item.onClick}
+        >
+          <Menu.Item disabled={disabled}>{item.title}</Menu.Item>
+        </Popconfirm>
+      );
+    }
+    return (
+      <Menu.Item disabled={disabled} onClick={item.onClick}>
+        {item.title}
+      </Menu.Item>
+    );
   };
 
   return (
@@ -263,15 +419,7 @@ const RecordListBody = <RecordType extends object = any>(
         tableConfigKey={configcacheKey}
         rowSelection={getRowSelection()}
         onChange={handleTablechange}
-        pagination={{
-          showSizeChanger: true,
-          showQuickJumper: true,
-          current: listLayoutState.pagination.page,
-          pageSize: listLayoutState.pagination.size,
-          total: listLayoutState.pagination.total,
-          size: 'default',
-          showTotal: (total) => `共 ${total} 条`,
-        }}
+        pagination={getPagination()}
         scroll={{ x: 'max-content', y: maxHeight }}
         expandable={expandable || {}}
         useIndex={useIndex}

@@ -18,5 +18,35 @@
     height: 100%;
     overflow-y: auto;
     padding: 0px 16px 0px;
+
+    .ant-table-tbody > .ant-table-row > .operation-column {
+      white-space: nowrap;
+
+      > .ant-btn-link {
+        padding-left: 0;
+        padding-right: 0;
+        border: none;
+      }
+
+      > .ant-btn-link[disabled] {
+        color: #9ae3cc;
+      }
+
+      > .ant-btn-link:not(:last-of-type) {
+        padding-right: 16px;
+      }
+    }
+  }
+
+  .changeConfigIcon {
+    color: @primary-color;
+  }
+}
+
+.bl-recordList-Filter-config {
+  .configItem {
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: space-between;
   }
 }

@@ -1,5 +1,5 @@
 import { Dispatch } from 'react';
-import { SelectProps, InputProps, DatePickerProps } from 'antd';
+import { SelectProps, InputProps, DatePickerProps, PopconfirmProps } from 'antd';
 import { LIST_REDUCER_TYPE } from './constants';
 
 export type FilterData = {
@@ -57,6 +57,10 @@ export interface BlRecordListBaseProps {
    * @default false
    */
   filterContaniner?: string | false | HTMLElement | undefined;
+  /** 用户拥有的权限 */
+  userAuth?: string[];
+  /** 缓存时相关标识 */
+  configcacheKey?: string;
 }
 //
 export interface ListLayoutState {
@@ -84,3 +88,17 @@ export interface TableResponseData {
 export type BlSelectedRowKeys = React.Key[];
 // 勾选回调
 export type OnSelectedRowKeys = (selectedRowKeys: BlSelectedRowKeys, selectRows?: any[]) => void;
+
+/** 操作列的配置项格式 */
+export type OperationListItem = {
+  /** 标题 */
+  title: string;
+  /** 权限 */
+  auth?: string;
+  /** 是否禁用 */
+  disabled?: boolean;
+  /** 点击回调 */
+  onClick: () => void;
+  /** 二次确认弹窗 */
+  popconfirm?: PopconfirmProps;
+};

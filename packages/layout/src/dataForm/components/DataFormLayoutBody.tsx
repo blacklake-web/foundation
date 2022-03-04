@@ -62,6 +62,38 @@ export const checkFieldHasPermission = (
   return result;
 };
 
+const getColumn = (windowSize) => {
+  if (windowSize >= 1280 && windowSize < 1440) {
+    return 2;
+  }
+  if (windowSize >= 1440) {
+    return 3;
+  }
+  return 1;
+};
+
+/**
+ * 判断一项是否在行尾
+ * 对于不在行尾的项, 右侧padding要加大
+ */
+const isItemInLineEnd = (
+  infoBlock: DataFormLayoutInfoBlock,
+  itemIndex: number,
+  isFullLineItem: boolean,
+  columnNum: number,
+) => {
+  if (isFullLineItem) {
+    return true;
+  }
+  const lastFullLineItemIndex = _.findLastIndex(
+    infoBlock.items.slice(0, itemIndex),
+    (item) => !!item.isFullLine,
+  );
+  const rankSinceLastFullLineItem =
+    lastFullLineItemIndex === -1 ? itemIndex : itemIndex - lastFullLineItemIndex - 1;
+  return (rankSinceLastFullLineItem + 1) % columnNum === 0;
+};
+
 const DataFormLayoutBody = (props: DataFormLayoutBodyProps) => {
   const {
     info,
@@ -82,19 +114,6 @@ const DataFormLayoutBody = (props: DataFormLayoutBodyProps) => {
   //   ?.map((i) => i.items?.length || 0)
   //   .reduce((previousValue, currentValue) => previousValue + currentValue);
 
-  const getColumn = (windowSize) => {
-    if (windowSize < 1280) {
-      return 1;
-    }
-    if (windowSize >= 1280 && windowSize <= 1440) {
-      return 2;
-    }
-    if (windowSize >= 1440) {
-      return 3;
-    }
-    return 1;
-  };
-
   const useSize = (target) => {
     const [rowWidth, setRowWidth] = React.useState(0);
 
@@ -106,8 +125,8 @@ const DataFormLayoutBody = (props: DataFormLayoutBodyProps) => {
     return rowWidth;
   };
 
-  const baseSpan = (1 / getColumn(useSize(contentRef))) * 100;
-  const isSingleColumn = getColumn(useSize(contentRef)) === 1;
+  const calculatedColumnNum = getColumn(useSize(contentRef));
+  const baseSpan = (1 / calculatedColumnNum) * 100;
 
   const renderItem = (
     infoBlock: DataFormLayoutInfoBlock,
@@ -117,8 +136,9 @@ const DataFormLayoutBody = (props: DataFormLayoutBodyProps) => {
     const { column, align = 'left' } = infoBlock;
 
     const { span, render, style, isFullLine, ...formItemProps } = item;
-    const isSingle = isFullLine || column === 1;
-    const colSpan = isSingle ? 100 : baseSpan;
+    // 是否固定独占一行
+    const isFullLineItem = isFullLine || column === 1;
+    const colSpan = isFullLineItem ? 100 : baseSpan;
 
     const baseFormItemProps = {
       key: `formItem_${itemIndex}`,
@@ -127,12 +147,14 @@ const DataFormLayoutBody = (props: DataFormLayoutBodyProps) => {
         flex: `0 0 ${colSpan}%`,
         maxWidth: `${colSpan}%`,
         justifyContent: align,
-        paddingRight: 10,
         ...style,
       },
     };
+    if (!isItemInLineEnd(infoBlock, itemIndex, isFullLineItem, calculatedColumnNum)) {
+      baseFormItemProps.style.paddingRight = 36; // = 48 - 12
+    }
 
-    /* 把基础的 fotmItemProps 传下去，适配dependencies 或 shouldUpdate的两层formItem情况 */
+    /* 把基础的 formItemProps 传下去，适配dependencies 或 shouldUpdate的两层formItem情况 */
     const itemComponents = render(baseFormItemProps, fieldPermission);
 
     if (fieldPermission) {
@@ -192,7 +214,7 @@ const DataFormLayoutBody = (props: DataFormLayoutBodyProps) => {
               judgeVisible(infoIndex) ? deleteVisible(infoIndex) : addVisible(infoIndex)
             }
           >
-            <BlIcon type={judgeVisible(infoIndex) ? 'iconshouqi' : 'iconzhankai'} />
+            <BlIcon type={judgeVisible(infoIndex) ? 'iconzhankai' : 'iconshouqi'} />
           </div>
         </div>
       );
@@ -267,8 +289,8 @@ const DataFormLayoutBody = (props: DataFormLayoutBodyProps) => {
           form={form}
           name="dataFormInfo"
           style={{ width: '100%', marginBottom: 24 }}
-          labelCol={isSingleColumn ? { flex: '120px' } : {}}
-          layout={isSingleColumn ? 'horizontal' : formLayout}
+          labelCol={calculatedColumnNum === 1 ? { flex: '120px' } : {}}
+          layout={calculatedColumnNum === 1 ? 'horizontal' : formLayout}
           {...formProps}
         >
           {info?.map((infoBlock: DataFormLayoutInfoBlock, infoIndex) =>

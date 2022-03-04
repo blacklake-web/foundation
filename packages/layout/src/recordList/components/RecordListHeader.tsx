@@ -1,12 +1,20 @@
 import React, { useContext, useEffect, useState } from 'react';
 import _ from 'lodash';
-import { Button, Menu, Input, Space, Dropdown, Divider } from 'antd';
+import { Button, Menu, Input, Space, Dropdown, Divider, PopconfirmProps, Popconfirm } from 'antd';
 import { FilterOutlined, DownOutlined } from '@ant-design/icons';
+import { filterListAuth } from '../../utils';
 //
 import { BL_SELECTED_ALL, ListLayoutContext, LIST_REDUCER_TYPE } from '../constants';
 import { BlRecordListBaseProps } from '../recordListLayout.type';
 import { AfterFormatData, objToKeyValueAry } from './RecordListInfo';
 import '../styles.less';
+import getOperationIcon from '../../components/operationIcon';
+
+// 当前是否时生产环境  过滤导入导出按钮的临时方案，后面要删掉的！！！！！
+const isProdEnv = !['feature', 'test', 'localhost'].filter((envKeyword) => {
+  return location.host.includes(envKeyword);
+}).length;
+
 // 列表头button
 interface RecordListHeaderButtonType {
   title: string;
@@ -14,6 +22,11 @@ interface RecordListHeaderButtonType {
   // 批量操作时，1. onClick return Promise自动做后续处理  2.onClick 用success,fail回调函数手动做后续处理
   onClick?: (success?: () => void, fail?: () => void) => void | Promise<any>;
   icon?: React.ReactNode;
+  /** 每个操作带有的权限点 */
+  auth?: string;
+  /** 二次确认弹窗 */
+  popconfirm?: PopconfirmProps;
+  showExport?: boolean;
 }
 
 // 列表头menu
@@ -40,9 +53,9 @@ export interface RecordListHeaderProps extends BlRecordListBaseProps {
    */
   useQuickFilter?: boolean;
   /** 批量操作按钮列表 */
-  batchMenu?: (RecordListHeaderMenuType | RecordListHeaderButtonType)[];
+  batchMenu?: RecordListHeaderButtonType[];
   /** 主操作按钮列表 */
-  mainMenu?: (RecordListHeaderMenuType | RecordListHeaderButtonType)[];
+  mainMenu?: RecordListHeaderMenuType[];
   /** 格式化查询数据做 tag展示*/
   formatDataToDisplay?: (formData: any) => AfterFormatData;
   /**内部状态 */
@@ -59,6 +72,7 @@ const RecordListHeader = (props: RecordListHeaderProps) => {
     selectedRowKeys = [],
     formatDataToDisplay,
     onChangeFilter,
+    userAuth = [],
   } = props;
 
   const [isLoading, setIsLoading] = useState('');
@@ -74,6 +88,63 @@ const RecordListHeader = (props: RecordListHeaderProps) => {
     if (listLayoutState.isSelectMode) {
       dispatch?.({ type: LIST_REDUCER_TYPE.ChangeSelectMode, payload: false });
     }
+  };
+
+  /**
+   * 格式化mainMenu的列表，1.过滤权限点
+   */
+  const formatMainMenu = (
+    mainMenu: RecordListHeaderProps['mainMenu'],
+  ): RecordListHeaderProps['mainMenu'] => {
+    const newMainMenu: RecordListHeaderProps['mainMenu'] = [];
+
+    _.forEach(mainMenu, ({ auth, ...res }) => {
+      // 如果不需要权限点控制 或 当前用户有权限时
+      if (!auth || userAuth.includes(auth)) {
+        // 如果存在items子集，需要过滤子集权限点
+        if (_.has(res, 'items')) {
+          const newItems = filterListAuth(res?.items ?? [], userAuth);
+          newMainMenu.push({ auth, ...res, items: newItems });
+        } else {
+          newMainMenu.push({ auth, ...res });
+        }
+      } else {
+        // 没有权限的，且存在items子集的，且不是用于展示下拉的操作，需要把有权限的子集进行替换
+        if (_.has(res, 'items') && !res?.isPureDropdown) {
+          const newItems = filterListAuth(res?.items ?? [], userAuth);
+          const firstItem = _.head(newItems);
+
+          if (firstItem) {
+            newMainMenu.push({ ...firstItem, items: _.drop(newItems) });
+          }
+        }
+      }
+    });
+
+    // --------- 过滤导入导出按钮的临时方案，后面要删掉的！！！！！----------------------
+    if (isProdEnv) {
+      const _list: RecordListHeaderProps['mainMenu'] = [];
+
+      _.forEach(newMainMenu, (item) => {
+        // 增加showExport属性，以便可以根据具体进度部分展示导入导出按钮
+        if (item.showExport || (item.title != '导入' && item.title != '导出')) {
+          let newItem = item;
+
+          if (!_.isEmpty(item.items)) {
+            newItem.items = _.filter(item.items, ({ title }) => {
+              return item.showExport || (title != '导入' && title != '导出');
+            });
+          }
+
+          _list.push(newItem);
+        }
+      });
+
+      return _list;
+    }
+    // --------- 过滤导入导出按钮的临时方案，后面要删掉的！！！！！----------------------
+
+    return newMainMenu;
   };
 
   /**
@@ -133,6 +204,38 @@ const RecordListHeader = (props: RecordListHeaderProps) => {
   const renderBatchMenuButton = (item: RecordListHeaderButtonType) => {
     const disabled = (item?.disabled ?? false) || !!isLoading || selectedRowKeys.length === 0;
 
+    if (item?.popconfirm) {
+      const defaultPopconfirm: PopconfirmProps = {
+        placement: 'topRight',
+        okText: '确定',
+        cancelText: '取消',
+        title: `确定要${item.title}吗?`,
+      };
+      const customPopconfirm = _.isObject(item?.popconfirm) ? item?.popconfirm : {};
+
+      return (
+        <Popconfirm
+          key={item.title}
+          {...defaultPopconfirm}
+          {...customPopconfirm}
+          disabled={disabled}
+          onConfirm={() => {
+            handleBatchButtonClick(item);
+          }}
+        >
+          <Button
+            type={'text'}
+            style={{ paddingLeft: 0, paddingRight: 0 }}
+            loading={isLoading === item.title}
+            disabled={disabled}
+            icon={getOperationIcon({ title: item.title, customIcon: item?.icon })}
+          >
+            {item.title?.split('').join('  ')}
+          </Button>
+        </Popconfirm>
+      );
+    }
+
     return (
       <Button
         type={'text'}
@@ -143,8 +246,8 @@ const RecordListHeader = (props: RecordListHeaderProps) => {
         onClick={() => {
           handleBatchButtonClick(item);
         }}
+        icon={getOperationIcon({ title: item.title, customIcon: item?.icon })}
       >
-        {item?.icon}
         {item.title?.split('').join('  ')}
       </Button>
     );
@@ -164,8 +267,8 @@ const RecordListHeader = (props: RecordListHeaderProps) => {
         onClick={() => {
           item?.onClick?.();
         }}
+        icon={getOperationIcon({ title: item.title, customIcon: item?.icon })}
       >
-        {item?.icon}
         {item.title}
       </Button>
     );
@@ -187,8 +290,9 @@ const RecordListHeader = (props: RecordListHeaderProps) => {
             onClick={() => {
               subItem.onClick?.();
             }}
+          // 收起的不需要icon
+          // icon={subItem?.icon}
           >
-            {subItem?.icon}
             {subItem.title}
           </Menu.Item>
         ))}
@@ -201,7 +305,10 @@ const RecordListHeader = (props: RecordListHeaderProps) => {
       if (isPureDropdown) {
         return (
           <Dropdown key={menu.title} overlay={menuComponents}>
-            <Button type={'primary'} icon={menu.icon}>
+            <Button
+              type={'primary'}
+              icon={getOperationIcon({ title: menu.title, customIcon: menu?.icon })}
+            >
               {menu.title}
             </Button>
           </Dropdown>
@@ -218,7 +325,7 @@ const RecordListHeader = (props: RecordListHeaderProps) => {
           overlay={menuComponents}
           icon={<DownOutlined />}
         >
-          {menu.icon}
+          {getOperationIcon({ title: menu.title, customIcon: menu?.icon })}
           {menu.title}
         </Dropdown.Button>
       );
@@ -231,8 +338,8 @@ const RecordListHeader = (props: RecordListHeaderProps) => {
         onClick={() => {
           menu?.onClick?.();
         }}
+        icon={getOperationIcon({ title: menu.title, customIcon: menu?.icon })}
       >
-        {menu.icon}
         {menu.title}
       </Button>
     );
@@ -251,7 +358,7 @@ const RecordListHeader = (props: RecordListHeaderProps) => {
           <span>
             已选择{isSelectAll ? listLayoutState.pagination.total : selectedRowKeys.length}项
           </span>
-          {batchMenu?.map(renderBatchMenuButton)}
+          {_.map(filterListAuth(batchMenu ?? [], userAuth), renderBatchMenuButton)}
         </Space>
         <Button
           type={'link'}
@@ -316,7 +423,7 @@ const RecordListHeader = (props: RecordListHeaderProps) => {
         </Space>
         <Space split={<Divider type="vertical" />}>
           {isNeedMainMenu &&
-            mainMenu?.map((item) => {
+            _.map(formatMainMenu(mainMenu), (item) => {
               if (_.has(item, 'items')) {
                 return renderMainMenuMenu(item);
               }

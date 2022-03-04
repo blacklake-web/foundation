@@ -43,6 +43,7 @@ export default () => {
     {
       title: '开启',
       key: 'enable',
+      auth: 'ENABLE',
       disabled: true,
       onClick: () => {
         console.log('开启');
@@ -52,6 +53,7 @@ export default () => {
     {
       title: '刷新',
       key: 'refresh',
+      auth: 'REFRESH',
       onClick: () => {
         console.log('刷新');
       },
@@ -60,14 +62,23 @@ export default () => {
     {
       title: '刷新2',
       key: 'refresh2',
+      auth: 'REFRESH2',
       disabled: true,
       onClick: () => {
         console.log('刷新2');
       },
     },
+    { title: '新建物料' },
+    { title: '导入' },
+    { title: '导出' },
+    { title: '操作记录' },
+    { title: '复制' },
+    { title: '删除' },
+    { title: '编辑' },
     {
       title: '编辑',
       key: 'edit',
+      auth: 'EDIT',
       onClick: () => {
         console.log('编辑');
       },
@@ -131,7 +142,6 @@ export default () => {
         label: '投入物料',
         dataIndex: 'warehouseName',
         desc: '投入生产的物料',
-        render: (warehouseName) => warehouseName ?? '-',
       },
       {
         label: '产出物料',
@@ -168,6 +178,7 @@ export default () => {
         dataSource={dataSource}
         baseMenu={baseMenu}
         loading={loading}
+        userAuth={['EDIT', 'ENABLE', 'REFRESH2']}
       />
     </div>
   );
@@ -309,3 +320,15 @@ export default () => {
 | span      | 当前占几列            | `number`            | 1      |
 | render    | FormItem 内的输入组件 | `() => ReactNode`   | -      |
 | toggle    | 支持展开、收起        | `boolean`           | false  |
+
+## DetailLayoutMenuItem
+
+| 参数         | 说明              | 类型                    | 默认值 |
+| ------------ | ----------------- | ----------------------- | ------ |
+| title        | 按钮名称          | `string`                | -      |
+| disabled     | 能否点击          | `boolean`               | true   |
+| icon         | 图标              | `ReactElement / string` | -      |
+| auth         | 按钮操作权限点    | `string`                | -      |
+| key          | 唯一标识          | `string`                | -      |
+| buttonRender | 自定义渲染 button | `ReactNode`             | -      |
+| onClick      | 点击事件          | `() => void;`           | -      |

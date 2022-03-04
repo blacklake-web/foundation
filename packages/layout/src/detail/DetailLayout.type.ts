@@ -7,7 +7,9 @@ export interface DetailLayoutProps {
   extra?: ReactNode;
   dataSource: any;
   loading?: boolean;
+  userAuth?: string[];
   children?: ReactNode;
+  replaceSign?: string;
 }
 
 export interface DetailLayoutInfoBlock {
@@ -30,6 +32,7 @@ export interface DetailLayoutInfoItem {
 export interface DetailLayoutMenuItem {
   disabled?: boolean;
   icon?: ReactElement | string;
+  auth?: string;
   key: string;
   title: string;
   buttonRender?: ReactNode;

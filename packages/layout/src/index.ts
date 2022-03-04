@@ -7,7 +7,7 @@ import {
   checkFieldHasPermission,
 } from './dataForm';
 import { DetailLayout, DetailLayoutForDrawer, DetailLayoutForModal } from './detail';
-import { RecordListLayout, BL_SELECTED_ALL } from './recordList';
+import { RecordListLayout, BL_SELECTED_ALL, KNOWN_EMPTY_LIST_PARAM } from './recordList';
 import { LogListLayout, LogDetailLayout, OperateRecordLayout } from './logList';
 
 import type {
@@ -39,6 +39,7 @@ export {
   LogDetailLayout,
   OperateRecordLayout,
   BL_SELECTED_ALL,
+  KNOWN_EMPTY_LIST_PARAM,
   FilterFieldType,
 };
 

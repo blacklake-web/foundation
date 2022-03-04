@@ -135,6 +135,7 @@ const ListLayout = <RecordType extends object = any>(
     refreshMarker, // 刷新标识，需要刷新时，传变化的值（如：当前时间戳）
     resetRefreshMarker, // 重置刷新标识，需要刷新时，传变化的值（如：当前时间戳）
     formatDataToFormDisplay, // 处理从url获取filter后去(FilterList)展示在搜索栏里面的转换函数
+    useFilterConfig, // 是否启用筛选列配置
     // header
     mainMenu, // 主页操作菜单（button,menu）
     batchMenu,
@@ -154,6 +155,7 @@ const ListLayout = <RecordType extends object = any>(
     resizableCol = true, // 列表伸缩，默认启用
     useColConfig = true, // 列配置开关，默认启用
     configcacheKey, // 配置缓存Key,用于table和filter配置缓存标识
+    pagination,
     // base
     style = {},
     useFilterWithUrl = true, // 是否使用url记录查询条件
@@ -163,6 +165,9 @@ const ListLayout = <RecordType extends object = any>(
     expandable,
     customDataSource,
     isLoading,
+    userAuth,
+    getOperationList,
+    maxOperationCount,
   } = props;
 
   useEffect(() => {
@@ -273,8 +278,8 @@ const ListLayout = <RecordType extends object = any>(
             data: {
               list: [],
               total: 0,
-            }
-          })
+            },
+          });
         };
         break;
       }
@@ -518,6 +523,7 @@ const ListLayout = <RecordType extends object = any>(
           filterList={filterList}
           batchMenu={batchMenu}
           mainMenu={mainMenu}
+          userAuth={userAuth}
           placeholder={placeholder}
           useQuickFilter={useQuickFilter}
           selectedRowKeys={selectedRowKeys}
@@ -545,9 +551,15 @@ const ListLayout = <RecordType extends object = any>(
           onSelectedRowKeys={onSelectedRowKeys}
           onChangeFilter={handleTableChangeQuery}
           expandable={expandable || {}}
+          userAuth={userAuth}
+          getOperationList={getOperationList}
+          maxOperationCount={maxOperationCount}
+          pagination={pagination}
         />
         <FilterList
           filterList={filterList}
+          configcacheKey={configcacheKey}
+          useFilterConfig={useFilterConfig}
           handleFilter={handleFilterQuery}
           formatDataToFormDisplay={formatDataToFormDisplay}
           defaultFilterValue={listLayoutState.filterData}

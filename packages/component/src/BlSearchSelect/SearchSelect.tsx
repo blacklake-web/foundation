@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Select as AntSelect, Spin } from 'antd';
+import { Select as AntSelect, Spin, Empty } from 'antd';
 import { SelectValue } from 'antd/lib/select';
 import { debounce, isEmpty, get } from 'lodash';
 import { BlSearchSelectProps, BlSearchSelectFormatterData } from './index.type';
@@ -121,7 +121,7 @@ const BlSearchSelect = <VT extends SelectValue = SelectValue>(props: BlSearchSel
       if (notFoundContent) return notFoundContent;
       return <Spin size="small" />;
     }
-    return null;
+    return <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />;
   };
 
   return (

@@ -107,15 +107,15 @@ export default () => {
 
   const mainMenu = [
     {
-      title: '新建',
-      onClick: () => {
-        console.log('新建 click');
-      },
-    },
-    {
       title: '导入',
       onClick: () => {
         console.log('导入 click');
+      },
+    },
+    {
+      title: '新建',
+      onClick: () => {
+        console.log('新建 click');
       },
       items: [
         {
@@ -131,6 +131,7 @@ export default () => {
   const batchMenu = [
     {
       title: '编辑',
+      auth: 'BATCH_EDIT',
       onClick: (success, fail) => {
         // 同步处理
         console.log('批量编辑 click');
@@ -142,11 +143,20 @@ export default () => {
           fail();
         }
       },
+      disabled: true,
+      popconfirm: {},
     },
+    { title: '新建物料' },
+    { title: '导入' },
+    { title: '导出' },
+    { title: '操作记录' },
+    { title: '复制' },
+    { title: '删除' },
+    { title: '编辑' },
     {
       title: '删除',
-      onClick: (success, fail) => {
-        // 异步处理
+      onClick: () => {
+        // 异步处理 返回promise
         console.log('批量删除 click');
         return new Promise((resolve, reject) => {
           setTimeout(() => {
@@ -179,11 +189,27 @@ export default () => {
     {
       label: '姓名2',
       name: 'name2',
-      type: FilterFieldType.date,
-      dateFormat: 'YYYY-MM-DD HH:mm:ss',
+      type: FilterFieldType.text,
       props: { width: 200 },
     },
   ];
+
+  const getOperationList = (record, idx) => {
+    return [
+      { title: '查看', onClick: () => message.info(`查看 ${record.name}`), popconfirm: true },
+      {
+        title: '编辑',
+        disabled: idx % 2 === 0,
+        onClick: () => message.info(`编辑 ${record.name}`),
+      },
+      { title: '删除', disabled: true, onClick: () => message.warn(`删除 ${record.name}`) },
+      {
+        title: '操作记录',
+        auth: 'OP_RECORD_VIEW',
+        onClick: () => message.info(`操作记录 ${record.name}`),
+      },
+    ];
+  };
 
   return (
     <div style={{ border: '1px solid #d8d8d8' }}>
@@ -191,7 +217,7 @@ export default () => {
         <RecordListLayout
           columns={columns}
           requestFn={requestFn}
-          // mainMenu={mainMenu}
+          mainMenu={mainMenu}
           batchMenu={batchMenu}
           filterList={filterList}
           configcacheKey={'recordListLayout'}
@@ -200,6 +226,10 @@ export default () => {
           selectedRowKeys={selectedKeys}
           onSelectedRowKeys={onSelectedRowKeys}
           dataSource={dataSource}
+          userAuth={['OP_RECORD_VIEW', 'BATCH_EDIT']}
+          getOperationList={getOperationList}
+          maxOperationCount={3}
+          pagination={{ pageSizeOptions: [10, 20] }}
         />
       </div>
     </div>
@@ -306,18 +336,21 @@ export default () => {
   const mainMenu = [
     {
       title: '新建',
+      auth: 'CREATE',
       onClick: () => {
         console.log('新建 click');
       },
     },
     {
       title: '导入',
+      auth: 'IMPORT',
       onClick: () => {
         console.log('导入 click');
       },
       items: [
         {
           title: '导出',
+          auth: 'EXPORT',
           onClick: () => {
             console.log('导出 click');
           },
@@ -344,8 +377,8 @@ export default () => {
     },
     {
       title: '删除',
-      onClick: (success, fail) => {
-        // 异步处理
+      onClick: () => {
+        // 异步处理 返回promise
         console.log('批量删除 click');
         return new Promise((resolve, reject) => {
           setTimeout(() => {
@@ -386,7 +419,7 @@ export default () => {
           batchMenu={batchMenu}
           filterList={filterList}
           useIndex={false}
-          configcacheKey={'recordListLayout'}
+          configcacheKey={'recordListLayout1'}
           rowKey="name"
           filterContaniner={false}
           selectedRowKeys={selectedKeys}
@@ -394,6 +427,7 @@ export default () => {
           dataSource={dataSource}
           isLoading={isLoading}
           customDataSource={customData}
+          userAuth={['CREATE', 'IMPORT', 'EXPORT']}
           expandable={{
             onExpand: (expanded, record) => {
               if (expanded) {
@@ -411,6 +445,7 @@ export default () => {
               }
             },
           }}
+          scroll={{ x: 1000 }}
         />
       </div>
     </div>
@@ -438,12 +473,14 @@ export default () => {
 
 ## RecordListHeaderButtonType 操作按钮
 
-| 参数     | 说明                                                                                            | 类型                                                               | 默认值 |
-| -------- | ----------------------------------------------------------------------------------------------- | ------------------------------------------------------------------ | ------ |
-| title    | 按钮 text                                                                                       | `string`                                                           |        |
-| disabled | 是否可以操作                                                                                    | `boolean`                                                          | false  |
-| icon     | 按钮图标                                                                                        | `React.ReactNode`                                                  |        |
-| onClick  | !!!批量操作时有两种处理方式 1.同步处理，调用 success 或 fail 2.异步操作，返回 promise，自动处理 | `(success?: () => void, fail?: () => void) => void / Promise<any>` |        |
+| 参数       | 说明                                                                                            | 类型                                                               | 默认值    |
+| ---------- | ----------------------------------------------------------------------------------------------- | ------------------------------------------------------------------ | --------- |
+| title      | 按钮 text                                                                                       | `string`                                                           |           |
+| auth       | 当前操作的权限点                                                                                | `string`                                                           | undefined |
+| disabled   | 是否可以操作                                                                                    | `boolean`                                                          | false     |
+| icon       | 按钮图标                                                                                        | `React.ReactNode`                                                  |           |
+| onClick    | !!!批量操作时有两种处理方式 1.同步处理，调用 success 或 fail 2.异步操作，返回 promise，自动处理 | `(success?: () => void, fail?: () => void) => void / Promise<any>` |           |
+| popconfirm | 二次确认弹窗                                                                                    | `PopconfirmProps`                                                  | undefined |
 
 ## RecordListHeaderMenuType 菜单按钮
 
