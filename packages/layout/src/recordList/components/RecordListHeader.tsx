@@ -131,8 +131,8 @@ const RecordListHeader = (props: RecordListHeaderProps) => {
           let newItem = item;
 
           if (!_.isEmpty(item.items)) {
-            newItem.items = _.filter(item.items, ({ title }) => {
-              return item.showExport || (title != '导入' && title != '导出');
+            newItem.items = _.filter(item.items, ({ title, showExport }) => {
+              return showExport || (title != '导入' && title != '导出');
             });
           }
 
@@ -290,8 +290,8 @@ const RecordListHeader = (props: RecordListHeaderProps) => {
             onClick={() => {
               subItem.onClick?.();
             }}
-          // 收起的不需要icon
-          // icon={subItem?.icon}
+            // 收起的不需要icon
+            // icon={subItem?.icon}
           >
             {subItem.title}
           </Menu.Item>
