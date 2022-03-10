@@ -387,17 +387,20 @@ const RecordListBody = <RecordType extends object = any>(
 
       return (
         <Popconfirm
+          key={item.title}
           {...defaultPopconfirm}
           {...customPopconfirm}
           disabled={disabled}
           onConfirm={item.onClick}
         >
-          <Menu.Item disabled={disabled}>{item.title}</Menu.Item>
+          <Menu.Item key={item.title} disabled={disabled}>
+            {item.title}
+          </Menu.Item>
         </Popconfirm>
       );
     }
     return (
-      <Menu.Item disabled={disabled} onClick={item.onClick}>
+      <Menu.Item key={item.title} disabled={disabled} onClick={item.onClick}>
         {item.title}
       </Menu.Item>
     );
