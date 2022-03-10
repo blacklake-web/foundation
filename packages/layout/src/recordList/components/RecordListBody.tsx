@@ -271,9 +271,11 @@ const RecordListBody = <RecordType extends object = any>(
     if (_.isFunction(getOperationList)) {
       // 计算操作列宽: 调一下 getOperationList, 获得经过权限过滤后的按钮数
       const visibleOps = getOperationList({}).filter((i) => !i.auth || userAuth.includes(i.auth));
-      const textNumber = _.sumBy(visibleOps.slice(0, maxOperationCount), 'title.length')
-        + (visibleOps.length > maxOperationCount ? 1 : 0);
-      const contentWidth = CELL_PADDING * 2 +
+      const textNumber =
+        _.sumBy(visibleOps.slice(0, maxOperationCount), 'title.length') +
+        (visibleOps.length > maxOperationCount ? 1 : 0);
+      const contentWidth =
+        CELL_PADDING * 2 +
         Math.min(visibleOps.length - 1, maxOperationCount) * OPERATION_BUTTON_SPACE +
         textNumber * FONT_SIZE;
 
@@ -283,7 +285,7 @@ const RecordListBody = <RecordType extends object = any>(
         className: 'operation-column',
         fixed: 'right',
         // 在操作列较窄时, 附加一个宽度, 防止列标题与齿轮icon重合
-        width: visibleOps.length <= 1 ? (contentWidth + DEFAULT_WIDTH) : DEFAULT_WIDTH,
+        width: visibleOps.length <= 1 ? contentWidth + DEFAULT_WIDTH : contentWidth,
         render: (__: unknown, record, index) => {
           // 根据权限点过滤操作按钮。不传视为无权限控制
           const ops = getOperationList!(record, index).filter(
