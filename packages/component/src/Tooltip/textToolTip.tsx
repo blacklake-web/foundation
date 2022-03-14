@@ -34,7 +34,7 @@ const TextTooltip = (props: TextTooltipProps & AbstractTooltipProps) => {
 
   return (
     <AntTooltip
-      overlayInnerStyle={{ maxHeight: 300, overflow: 'auto' }}
+      overlayClassName="bl-text-tooltip"
       {...restProps}
       title={text}
     >
