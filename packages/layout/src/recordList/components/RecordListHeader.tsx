@@ -127,12 +127,12 @@ const RecordListHeader = (props: RecordListHeaderProps) => {
 
       _.forEach(newMainMenu, (item) => {
         // 增加showExport属性，以便可以根据具体进度部分展示导入导出按钮
-        if (item.showExport || (item.title != '导入' && item.title != '导出')) {
+        if (item.showExport || (!item.title?.includes('导入') && !item.title?.includes('导出'))) {
           let newItem = item;
 
           if (!_.isEmpty(item.items)) {
             newItem.items = _.filter(item.items, ({ title, showExport }) => {
-              return showExport || (title != '导入' && title != '导出');
+              return showExport || (!title?.includes('导入') && !title?.includes('导出'));
             });
           }
 
