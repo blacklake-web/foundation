@@ -20,7 +20,11 @@ import {
 import { getRecordListUrlParams, setRecordListUrlParams } from './utils';
 import './styles.less';
 
-interface BlRecordListLayoutProps {
+export interface BlRecordListLayoutProps<RecordType>
+  extends RecordListHeaderProps,
+    Omit<RecordListInfoProps, 'onChangeFilter'>,
+    Omit<RecordListBodyProps<RecordType>, 'onChangeFilter'>,
+    FilterProps {
   /**样式 */
   style?: React.CSSProperties;
   /**
@@ -122,11 +126,7 @@ const listLayoutReducer = (
 };
 
 const ListLayout = <RecordType extends object = any>(
-  props: BlRecordListLayoutProps &
-    RecordListHeaderProps &
-    RecordListInfoProps &
-    RecordListBodyProps<RecordType> &
-    FilterProps,
+  props: BlRecordListLayoutProps<RecordType>,
 ) => {
   const {
     // filter

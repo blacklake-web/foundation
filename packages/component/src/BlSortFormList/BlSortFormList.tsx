@@ -10,7 +10,7 @@ import { BlIcon, BlTable } from '../index';
 
 const { TextArea } = Input;
 
-interface StoreDetailProps {
+export interface BlSortFormListProps {
   /**
    * Form 实例
    */
@@ -138,7 +138,7 @@ export const formatDeleteListToApi = (deleteListFormValue?: {
   });
 };
 
-const BlSortFormList = (props: StoreDetailProps) => {
+const BlSortFormList = (props: BlSortFormListProps) => {
   const {
     form: propsForm,
     name,

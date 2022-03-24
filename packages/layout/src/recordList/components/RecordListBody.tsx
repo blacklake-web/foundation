@@ -272,22 +272,20 @@ const RecordListBody = <RecordType extends object = any>(
       // 计算操作列宽: 调一下 getOperationList, 获得经过权限过滤后的按钮数
       const visibleOps = getOperationList({}).filter((i) => !i.auth || userAuth.includes(i.auth));
       const textNumber =
-        _.sumBy(visibleOps.slice(0, maxOperationCount), (item) => item.title.length) +
-          visibleOps.length >
-        maxOperationCount
-          ? 1
-          : 0;
+        _.sumBy(visibleOps.slice(0, maxOperationCount), 'title.length') +
+        (visibleOps.length > maxOperationCount ? 1 : 0);
+      const contentWidth =
+        CELL_PADDING * 2 +
+        Math.min(visibleOps.length - 1, maxOperationCount) * OPERATION_BUTTON_SPACE +
+        textNumber * FONT_SIZE;
 
       results.push({
         title: _.isEmpty(visibleOps) ? '' : '操作',
         key: 'operation-column',
         className: 'operation-column',
         fixed: 'right',
-        width:
-          DEFAULT_WIDTH +
-          CELL_PADDING * 2 +
-          Math.min(visibleOps.length - 1, maxOperationCount) * OPERATION_BUTTON_SPACE +
-          textNumber * FONT_SIZE,
+        // 在操作列较窄时, 附加一个宽度, 防止列标题与齿轮icon重合
+        width: visibleOps.length <= 1 ? contentWidth + DEFAULT_WIDTH : contentWidth,
         render: (__: unknown, record, index) => {
           // 根据权限点过滤操作按钮。不传视为无权限控制
           const ops = getOperationList!(record, index).filter(
@@ -389,17 +387,20 @@ const RecordListBody = <RecordType extends object = any>(
 
       return (
         <Popconfirm
+          key={item.title}
           {...defaultPopconfirm}
           {...customPopconfirm}
           disabled={disabled}
           onConfirm={item.onClick}
         >
-          <Menu.Item disabled={disabled}>{item.title}</Menu.Item>
+          <Menu.Item key={item.title} disabled={disabled}>
+            {item.title}
+          </Menu.Item>
         </Popconfirm>
       );
     }
     return (
-      <Menu.Item disabled={disabled} onClick={item.onClick}>
+      <Menu.Item key={item.title} disabled={disabled} onClick={item.onClick}>
         {item.title}
       </Menu.Item>
     );

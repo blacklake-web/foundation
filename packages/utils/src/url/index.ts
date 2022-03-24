@@ -40,7 +40,7 @@ function setParams(params: Param) {
     },
   );
 
-  window.history.pushState(null, '', newUrl);
+  window.history.replaceState(null, '', newUrl);
   return newUrl;
 }
 

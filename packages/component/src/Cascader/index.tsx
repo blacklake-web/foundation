@@ -51,7 +51,7 @@ export const BlCascader = (props: BlCascaderProps) => {
   ) => {
     setBlvalue(value);
     setSelectedOption(selectedOptions && selectedOptions[0]);
-    onChange && onChange(value);
+    onChange && onChange(value, selectedOptions);
     return;
   };
 
