@@ -253,10 +253,10 @@ const BlSortFormList = (props: BlSortFormListProps) => {
       if (_.isNumber(maxCount) && maxCount > 0) {
         const addCount = Number(index) + 1;
         if (addCount + currentCount <= maxCount) {
-          add(initBatchAddObj(item));
+          add(initBatchAddObj(String(item)));
         }
       } else {
-        add(initBatchAddObj(item));
+        add(initBatchAddObj(String(item)));
       }
     });
   };
@@ -438,7 +438,7 @@ const BlSortFormList = (props: BlSortFormListProps) => {
                     let isFixed = false;
 
                     if (typeof fixedRowFn === 'function') {
-                      isFixed = fixedRowFn(record, index);
+                      isFixed = fixedRowFn(record, index) && !propsForm?.getFieldValue([String(name)])[index]?.key;
                     }
 
                     return (
