@@ -45,6 +45,14 @@ export interface BlSortFormListProps {
    * @default false
    */
   isNeedBatchAdd?: boolean;
+  /**
+   * 额外的底部按钮，支持自定义功能
+   */
+  extraButton?: {
+    title: string;
+    onClick: () => void;
+    disabled?: boolean;
+  }[];
   batchAddInit?: {
     [x: string]: {
       isFollowInput?: boolean;
@@ -159,6 +167,7 @@ const BlSortFormList = (props: BlSortFormListProps) => {
     handleAdd,
     listRules = [],
     initLineCount = 0,
+    extraButton,
   } = props;
   const [dataSource, setDataSource] = useState<any>([]);
   const [hovered, setHovered] = useState(false);
@@ -393,6 +402,30 @@ const BlSortFormList = (props: BlSortFormListProps) => {
     );
   };
 
+  const renderExtraButton = (isOveredMaxCount: boolean) => {
+    if (_.isNil(extraButton)) return null;
+
+    return _.map(extraButton, ({ title, onClick, disabled }) => {
+      return (
+        <div style={{ width: '100%', marginLeft: 16 }}>
+          {withToolTiped(
+            <Button
+              type="dashed"
+              block
+              style={{ width: '100%' }}
+              onClick={onClick}
+              disabled={isOveredMaxCount || disabled}
+              icon={<BlIcon type="iconxinjiantianjia" />}
+            >
+              {title}
+            </Button>,
+            isOveredMaxCount,
+          )}
+        </div>
+      );
+    });
+  };
+
   const renderFooter = (
     add: (defaultValue?: any, insertIndex?: number | undefined) => void,
     data: FormListFieldData[],
@@ -403,6 +436,7 @@ const BlSortFormList = (props: BlSortFormListProps) => {
       <div style={{ width: '100%', display: 'flex', alignItems: 'center' }}>
         {isNeedAdd && renderAddBtn(add, isOveredMaxCount)}
         {isNeedBatchAdd && renderBatchAddBtn(add, data, isOveredMaxCount)}
+        {renderExtraButton(isOveredMaxCount)}
       </div>
     );
   };
