@@ -216,7 +216,21 @@ const FilterList = (props: FilterProps) => {
 
   const onFinish = (values: any) => {
     try {
-      handleFilter?.(values);
+      const submitValues: any = {};
+      Object.entries(values).forEach(([k, v]: [string, any]) => {
+        if (_.isNil(v) || v === '') { return; }
+        const type = _.find(filterList, { name: k })?.type;
+        if (type === FilterFieldType.multiSelect && _.isEmpty(v)) { return; }
+        let value: any = v;
+        if (type === FilterFieldType.number || type === FilterFieldType.integer) {
+          value = {};
+          if (!_.isNil(v.min)) { value.min = v.min; }
+          if (!_.isNil(v.max)) { value.max = v.max; }
+          if (_.isEmpty(value)) { return; }
+        }
+        submitValues[k] = value;
+      });
+      handleFilter?.(submitValues);
     } catch (err) {
       // eslint-disable-next-line no-console
       console.log(err);
