@@ -17,7 +17,7 @@ group:
  * desc: 基础使用
  */
 import React, { useState, useEffect } from 'react';
-import { Form, Checkbox, Input, DatePicker, Select, Table, Radio } from 'antd';
+import { Form, Checkbox, Input, InputNumber, DatePicker, Select, Table, Radio } from 'antd';
 import { DataFormLayout, DataFormLayoutInfoBlock } from '@blacklake-web/layout';
 
 export default () => {
@@ -33,11 +33,11 @@ export default () => {
   const baseInfo: DataFormLayoutInfoBlock = {
     title: '基本信息',
     align: 'left',
-    column: 1,
+    // column: 1,
     items: [
       {
         label: '名称',
-        name: 'name',
+        name: 'name-1',
         rules: [
           { required: true, message: '特殊日名称必填' },
           { max: 256, message: '不可超过255个字符' },
@@ -54,8 +54,14 @@ export default () => {
         ),
       },
       {
+        label: '年龄',
+        name: 'age',
+        render: () => <InputNumber placeholder="请输入" />,
+        extra: '实际年龄',
+      },
+      {
         label: 'warehouse超长的仓库名称释义的就是这样的长度',
-        name: 'code',
+        name: 'warehouseName',
         rules: [
           { required: true, message: '特殊日名称必填' },
           { max: 256, message: '不可超过255个字符' },
@@ -66,15 +72,9 @@ export default () => {
         label: '隐藏的字段',
         name: 'codeHidden',
         hidden: true,
-        rules: [
-          { required: true, message: '特殊日名称必填' },
-          { max: 256, message: '不可超过255个字符' },
-        ],
-        render: () => <Input placeholder="请输入" allowClear />,
       },
       {
         label: '纯文本字段',
-        name: '222',
         render: () => <span>'纯文本'</span>,
       },
       {
@@ -123,7 +123,7 @@ export default () => {
         render: () => <Input placeholder="请输入" allowClear />,
       },
       {
-        label: '关联对象关联对象关联对象333333',
+        label: '从对象',
         name: 'name3',
         rules: [
           { required: true, message: '特殊日名称必填' },
@@ -166,7 +166,7 @@ export default () => {
       {
         label: '开始日期',
         name: 'startTime',
-        render: () => <DatePicker allowClear style={{ width: '100%' }} />,
+        render: () => <DatePicker placeholder="请选择开始日期" allowClear />,
       },
       {
         label: '是否使用',
@@ -188,7 +188,7 @@ export default () => {
     items: [
       {
         label: '名称',
-        name: 'name',
+        name: 'name222',
         rules: [
           { required: true, message: '特殊日名称必填' },
           { max: 256, message: '不可超过255个字符' },
@@ -198,24 +198,58 @@ export default () => {
       {
         label: '操作人',
         name: 'operator',
-        render: () => <Select allowClear style={{ width: '100%' }} />,
+        render: () => <Select allowClear />,
       },
       {
         label: '操作时间',
         name: 'operatTime',
-        render: () => <Select allowClear style={{ width: '100%' }} />,
+        render: () => <DatePicker />,
       },
       {
         label: '状态',
         name: 'status',
-        render: () => <Select allowClear style={{ width: '100%' }} />,
+        render: () => <Select allowClear />,
       },
       {
         label: '备注',
         name: 'desc',
         span: 2,
-        render: () => <Input />,
+        render: () => <Input.TextArea />,
         tooltip: '备注的注视',
+      },
+    ],
+  };
+  const specialInfo: DataFormLayoutInfoBlock = {
+    title: '特殊格式信息',
+    items: [
+      {
+        isFullLine: true,
+        render: () => (
+          <div style={{ border: '1px solid #333', padding: 10 }}>
+            <h1>自定义区域</h1>
+            <Table
+              columns={[
+                {
+                  title: '对象编号',
+                  dataIndex: 'objectCode',
+                  width: 150,
+                  sorter: true,
+                },
+                {
+                  title: '对象名称',
+                  dataIndex: 'objectName',
+                  width: 150,
+                  sorter: true,
+                },
+                {
+                  title: '对象描述',
+                  dataIndex: 'objectDesc',
+                  width: 150,
+                },
+              ]}
+            />
+          </div>
+        )
       },
     ],
   };
@@ -225,7 +259,7 @@ export default () => {
       <DataFormLayout
         form={modalForm}
         title="新建字段"
-        info={[baseInfo, otherInfo]}
+        info={[baseInfo, otherInfo, specialInfo]}
         loading={loading}
         fieldPermission={{
           encoding: 'xxxxx',
@@ -265,6 +299,7 @@ export default () => {
 
   const baseInfo: DataFormLayoutInfoBlock = {
     title: '基本信息',
+    column: 1,
     items: [
       {
         label: '名称',
