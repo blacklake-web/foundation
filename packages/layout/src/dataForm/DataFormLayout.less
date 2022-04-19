@@ -31,6 +31,7 @@
           white-space: pre-wrap;
           text-align: justify;
           align-items: flex-start;
+          word-break: break-all;
         }
 
         .bl-form-item {
@@ -44,6 +45,11 @@
           .ant-form-item-explain {
             font-size: 12px;
           }
+        }
+
+        // 水平布局下，约束isFullline表单项的输入区宽度，避免被撑到换行（如固定表头的表格)
+        .ant-form-horizontal .bl-form-item-full-line > .ant-form-item-control {
+          max-width: calc(100% - 133px);
         }
 
         .data-layout-title {

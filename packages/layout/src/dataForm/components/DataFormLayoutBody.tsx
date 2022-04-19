@@ -141,7 +141,7 @@ const DataFormLayoutBody = (props: DataFormLayoutBodyProps) => {
       }
     }
     const baseFormItemProps = {
-      className: 'bl-form-item',
+      className: `bl-form-item ${isFullLine ? 'bl-form-item-full-line' : ''}`,
       style: _.assign(baseStyle, style),
       wrapperCol: _.assign(baseWrapperCol, formItemProps.wrapperCol),
     };

@@ -19,6 +19,7 @@ group:
 import React, { useState, useEffect } from 'react';
 import { Form, Checkbox, Input, InputNumber, DatePicker, Select, Table, Radio } from 'antd';
 import { DataFormLayout, DataFormLayoutInfoBlock } from '@blacklake-web/layout';
+import { BlTable } from '@blacklake-web/component';
 
 export default () => {
   const [modalForm] = Form.useForm();
@@ -131,7 +132,7 @@ export default () => {
         ],
         isFullLine: true,
         render: () => (
-          <Table
+          <BlTable
             columns={[
               {
                 title: '对象编号',
@@ -151,6 +152,7 @@ export default () => {
                 width: 150,
               },
             ]}
+            scroll={{ y: 400 }}
           />
         ),
       },
