@@ -42,8 +42,15 @@ export interface DataFormLayoutBodyProps {
 const infoBlockStyle = {
   marginTop: 24,
 };
+// label宽度仅在水平布局下生效
+const LABEL_WIDTH = 120;
+const INPUT_AREA_WIDTH = 440;
+const BLOCK_PADDING = 24;
 // 最小宽度: label + 输入区 + infoBlock 左右边距
-const FORM_LAYOUT_MIN_WIDTH = 133 + 440 + 24 * 2;
+const FORM_LAYOUT_MIN_WIDTH = LABEL_WIDTH + INPUT_AREA_WIDTH + BLOCK_PADDING * 2;
+const FORM_LAYOUT_OUTER_PADDING = 24;
+// 为表单弹窗设置的最小宽度，考虑滚动条额外给15px
+export const MODAL_MIN_WIDTH = FORM_LAYOUT_MIN_WIDTH + FORM_LAYOUT_OUTER_PADDING * 2 + 15;
 
 /**
  * 检验是否有字段权限,如果不传参数默认为有权限
@@ -135,9 +142,9 @@ const DataFormLayoutBody = (props: DataFormLayoutBodyProps) => {
     // 横向布局时, 约束输入区宽度；纵向布局时，约束表单项总宽度
     if (!isFullLine) {
       if (overallFormLayout === 'horizontal') {
-        baseWrapperCol.flex = '440px';
+        baseWrapperCol.flex = `${INPUT_AREA_WIDTH}px`;
       } else {
-        baseStyle.width = 440;
+        baseStyle.width = INPUT_AREA_WIDTH;
       }
     }
     const baseFormItemProps = {
@@ -180,7 +187,7 @@ const DataFormLayoutBody = (props: DataFormLayoutBodyProps) => {
     if (items.length === 0) return null;
 
     return (
-      <Row style={{ padding: '24px 24px 0 24px' }}>
+      <Row style={{ padding: `${BLOCK_PADDING}px ${BLOCK_PADDING}px 0 ${BLOCK_PADDING}px` }}>
         {items.map((item, itemIndex) => renderItem(infoBlock, item, itemIndex))}
       </Row>
     );
@@ -247,10 +254,8 @@ const DataFormLayoutBody = (props: DataFormLayoutBodyProps) => {
     <div
       style={{
         height: '100%',
-        padding: '0px 24px',
+        padding: `0px ${FORM_LAYOUT_OUTER_PADDING}px`,
         overflowY: 'auto',
-        boxSizing: 'content-box',
-        minWidth: FORM_LAYOUT_MIN_WIDTH,
         ...bodyStyle,
       }}
       ref={contentRef}
@@ -261,8 +266,8 @@ const DataFormLayoutBody = (props: DataFormLayoutBodyProps) => {
         <Form
           form={form}
           name="dataFormInfo"
-          style={{ width: '100%' }}
-          labelCol={overallFormLayout === 'horizontal' ? { flex: '133px' } : undefined}
+          style={{ width: '100%', minWidth: FORM_LAYOUT_MIN_WIDTH }}
+          labelCol={overallFormLayout === 'horizontal' ? { flex: `${LABEL_WIDTH}px` } : undefined}
           layout={overallFormLayout}
           {...formProps}
         >

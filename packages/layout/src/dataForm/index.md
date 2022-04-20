@@ -104,7 +104,6 @@ export default () => {
               label="关联对象关联对象关联对象关联对象关联对象"
               name="name1"
               rules={[
-                { required: true, message: '特殊日名称必填' },
                 { max: 256, message: '不可超过255个字符' },
               ]}
             >
@@ -292,6 +291,7 @@ import {
   DataFormLayoutInfoBlock,
   DataFormLayoutForModal,
   DataFormLayoutForDrawer,
+  MODAL_MIN_WIDTH,
 } from '@blacklake-web/layout';
 
 export default () => {
@@ -424,7 +424,7 @@ export default () => {
       <DataFormLayoutForModal
         visible={visibleType === 'modal'}
         onClose={onCancel}
-        width={800}
+        width={MODAL_MIN_WIDTH}
         content={
           <DataFormLayout
             form={modalForm}
@@ -436,7 +436,7 @@ export default () => {
       <DataFormLayoutForDrawer
         visible={visibleType === 'drawer'}
         onClose={onCancel}
-        width={800}
+        width={MODAL_MIN_WIDTH}
         content={<DataFormLayout form={modalForm} title="新建字段" info={[baseInfo]} />}
       />
     </div>
