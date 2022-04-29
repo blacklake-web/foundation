@@ -73,6 +73,16 @@ const isColumnConfigChange = (originColumnConfig: ConfigColumn[], columnConfig: 
   return _isChange;
 };
 
+const getRenderText = (text: any, contentWidth: number | string) => {
+  if (_.isNil(text)) return DEFAULT_TAG;
+
+  if (_.isString(text)) {
+    return <TextTooltip text={text || DEFAULT_TAG} width={contentWidth} />;
+  }
+
+  return text;
+};
+
 const BlTable = <RecordType extends object = any>(props: BlTableProps<RecordType>) => {
   const {
     dataSource,
@@ -108,20 +118,14 @@ const BlTable = <RecordType extends object = any>(props: BlTableProps<RecordType
     const contentWidth = _.isNumber(colWidth) ? (colWidth as number) - PADDING * 2 : colWidth;
     // 不存在自定义render时，返回指定render
     if (!col?.render) {
-      return (text: any) => {
-        return <TextTooltip text={text || DEFAULT_TAG} width={contentWidth} />;
-      };
+      return (text: any) => getRenderText(text, contentWidth);
     }
 
     // 存在自定义render时，判断render返回的类型
     return (text: any, record: any, index: number) => {
       const resultText = col?.render?.(text, record, index, { contentWidth, width: colWidth });
 
-      if (typeof resultText === 'string') {
-        return <TextTooltip text={resultText || DEFAULT_TAG} width={contentWidth} />;
-      } else {
-        return resultText ?? DEFAULT_TAG;
-      }
+      return getRenderText(resultText, contentWidth);
     };
   };
 

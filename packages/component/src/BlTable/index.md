@@ -29,7 +29,7 @@ export default () => {
         job: `job_job_job_job_jobs_jobs_jobs_jobs_jobs_jobs_jobs_job_job_job_${i}`,
         school: `school_${i}`,
         phone: `phone_${i}`,
-        qq: `qq_${i}`,
+        qq: i,
       };
       dataSource.push(item);
     }
