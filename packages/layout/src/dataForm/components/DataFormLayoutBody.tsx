@@ -1,4 +1,4 @@
-import React, { ReactNode, CSSProperties } from 'react';
+import React, { ReactNode, CSSProperties, useEffect, useState, useCallback } from 'react';
 import _ from 'lodash';
 import { Row, Col, Button, FormProps, Form, FormInstance, Input } from 'antd';
 import useResizeObserver from '@react-hook/resize-observer';
@@ -37,6 +37,14 @@ export interface DataFormLayoutBodyProps {
   loading?: boolean;
   /** 字段权限 */
   fieldPermission?: IFieldPermission;
+  /** 指定 DataFormLayoutBody 根结点的类名 */
+  bodyClassName?: string;
+  /**
+   * 另行指定被监听宽度变化的容器。
+   * 在嵌套<DataFormLayout>的情形下，获取外层的body容器<div>传给内层，使内外层的FormItem布局（水平/垂直）始终保持一致。
+   * 注意：使用此属性时，column 必须置为1，否则页面排版可能错乱。
+   */
+  getAdaptiveContainer?: () => HTMLDivElement;
 }
 
 const infoBlockStyle = {
@@ -71,18 +79,19 @@ export const checkFieldHasPermission = (
   return result;
 };
 
-const getAdaptiveColumn = (windowSize) => {
-  if (windowSize < 1280) {
-    return 1
-  }
-  if (windowSize >= 1440) {
-    return 3;
-  }
-  return 2;
-};
-
 const renderOptionalContent = (content?: ReactNode) => () => {
   return content ? <div>{content}</div> : null;
+}
+
+const useSize = (target) => {
+  const [rowWidth, setRowWidth] = useState(0);
+
+  React.useLayoutEffect(() => {
+    setRowWidth(target.current.getBoundingClientRect());
+  }, [target]);
+
+  useResizeObserver(target, (entry) => setRowWidth(entry.contentRect.width));
+  return rowWidth;
 }
 
 const DataFormLayoutBody = (props: DataFormLayoutBodyProps) => {
@@ -98,20 +107,30 @@ const DataFormLayoutBody = (props: DataFormLayoutBodyProps) => {
     bodyStyle,
     formProps = {},
     fieldPermission,
+    bodyClassName = '',
+    getAdaptiveContainer,
   } = props;
-  const contentRef = React.useRef(null);
+  const contentRef = React.useRef<HTMLDivElement | null>(null);
+  const [breakpointOffset, setBreakpointOffset] = useState(0);
   const { judgeVisible, addVisible, deleteVisible } = useVisible();
 
-  const useSize = (target) => {
-    const [rowWidth, setRowWidth] = React.useState(0);
+  useEffect(() => {
+    if (getAdaptiveContainer && contentRef.current) {
+      const adaptiveContainer = getAdaptiveContainer();
+      const offset = contentRef.current.clientWidth - adaptiveContainer.clientWidth;
+      setBreakpointOffset(offset);
+    }
+  }, []);
 
-    React.useLayoutEffect(() => {
-      setRowWidth(target.current.getBoundingClientRect().width);
-    }, [target]);
-
-    useResizeObserver(target, (entry) => setRowWidth(entry.contentRect.width));
-    return rowWidth;
-  };
+  const getAdaptiveColumn = useCallback((windowSize) => {
+    if (windowSize < 1280 + breakpointOffset) {
+      return 1;
+    }
+    if (windowSize >= 1440 + breakpointOffset) {
+      return 3;
+    }
+    return 2;
+  }, [breakpointOffset]);
 
   const overallColumnNum = getAdaptiveColumn(useSize(contentRef));
   // 表单标题与输入项的相对位置
@@ -252,6 +271,7 @@ const DataFormLayoutBody = (props: DataFormLayoutBodyProps) => {
 
   return (
     <div
+      className={bodyClassName}
       style={{
         height: '100%',
         padding: `0px ${FORM_LAYOUT_OUTER_PADDING}px`,
