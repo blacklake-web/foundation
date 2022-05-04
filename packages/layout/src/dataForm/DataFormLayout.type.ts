@@ -1,5 +1,5 @@
-import { ReactElement, ReactNode } from 'react';
-import { FormInstance, FormItemProps } from 'antd';
+import { CSSProperties, ReactElement, ReactNode } from 'react';
+import { FormItemProps } from 'antd';
 
 export interface IFieldPermission {
   encoding?: string;
@@ -19,13 +19,13 @@ export interface DataFormLayoutInfoBlock {
  * DataFormLayoutInfoItem 在只做布局，DataFormLayoutInfoItem.render返回自定义组件时，DataFormLayoutInfoItem.name不传。
  */
 export interface DataFormLayoutInfoItem extends FormItemProps {
-  render: (
+  render?: (
     formItemStyles: { [index: string]: any },
     fieldPermission?: IFieldPermission,
   ) => (() => ReactNode) | ReactNode;
-  span?: number;
+  /** 表单项是否独占并占满一行 */
   isFullLine?: boolean;
-  style?: any;
+  style?: CSSProperties;
 }
 
 // drawer

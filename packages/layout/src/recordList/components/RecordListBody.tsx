@@ -355,6 +355,7 @@ const RecordListBody = <RecordType extends object = any>(
 
       return (
         <Popconfirm
+          key={item.title}
           {...defaultPopconfirm}
           {...customPopconfirm}
           disabled={disabled}
@@ -367,7 +368,7 @@ const RecordListBody = <RecordType extends object = any>(
       );
     }
     return (
-      <Button type="link" disabled={disabled} onClick={item?.onClick}>
+      <Button key={item.title} type="link" disabled={disabled} onClick={item?.onClick}>
         {item.title}
       </Button>
     );

@@ -5,6 +5,7 @@ export interface BlSearchSelectProps<VT>
   extends Omit<SelectProps<VT>, 'showSearch' | 'listHeight' | 'onSearch' | 'options'> {
   fetchFn: (params: BlSearchSelectParams) => Promise<any>;
   formatter: (res: any) => BlSearchSelectFormatterData;
+  onDropdownVisibleChangeFn?: (open: boolean, refresh: (search: string) => void) => void;
   params?: {
     [prop: string]: unknown;
   };

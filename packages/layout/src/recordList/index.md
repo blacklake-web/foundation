@@ -42,16 +42,31 @@ export default () => {
   const [customData, setCustomData] = useState(data());
 
   const columns = [
-    { title: '姓名', dataIndex: 'name', width: 200 },
+    { title: '姓名', dataIndex: 'name', width: 200, type: FilterFieldType.text },
     { title: '性别', dataIndex: 'sex', width: 200 },
-    { title: '年龄', dataIndex: 'old', width: 200 },
-    { title: '职业', dataIndex: 'job', width: 200 },
+    { title: '年龄', dataIndex: 'age', width: 200, type: FilterFieldType.number },
+    {
+      title: '职业',
+      dataIndex: 'job',
+      width: 200,
+      type: FilterFieldType.multiSelect,
+      selectProps: {
+        mode: 'multiple',
+        options: [
+          { label: '警察', value: 'police' },
+          { label: '医生', value: 'doctor' },
+          { label: '工程师', value: 'engineer' },
+        ]
+      }
+    },
     { title: '学校', dataIndex: 'school', width: 200 },
+    { title: '核酸检测时间', dataIndex: 'checkTime', width: 200, type: FilterFieldType.date },
     { title: '手机号', dataIndex: 'phone', width: 200 },
     { title: 'qq', dataIndex: 'qq', width: 200 },
   ];
 
-  const requestFn = () => {
+  const requestFn = (params) => {
+    console.log('请求参数：', params);
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         const data = () => {
@@ -60,22 +75,11 @@ export default () => {
             const item = {
               name: `name_${i}`,
               sex: `sex_${i}`,
-              old: `old_${i}`,
+              age: Math.floor(Math.random() * 20) + 18,
               job: `job_${i}`,
               school: `school_${i}`,
               phone: `phone_${i}`,
               qq: `qq_${i}`,
-              childredn: [
-                {
-                  name: `name_${i}${i}`,
-                  sex: `sex_${i}${i}`,
-                  old: `old_${i}${i}`,
-                  job: `job_${i}${i}`,
-                  school: `school_${i}${i}`,
-                  phone: `phone_${i}${i}`,
-                  qq: `qq_${i}${i}`,
-                },
-              ],
             };
             dataSource.push(item);
           }
@@ -97,7 +101,7 @@ export default () => {
             total: list.length,
           },
         });
-      }, 2000);
+      }, 500);
     });
   };
 
@@ -179,20 +183,14 @@ export default () => {
     setSelectedKeys(selectedKeys);
   };
 
-  const filterList = [
-    {
-      label: '姓名',
-      name: 'name',
-      type: FilterFieldType.select,
-      props: { options: [{ label: 'test', value: 123 }] },
-    },
-    {
-      label: '姓名2',
-      name: 'name2',
-      type: FilterFieldType.text,
-      props: { width: 200 },
-    },
-  ];
+  const filterList = columns
+    .filter(item => !!item.type)
+    .map(column => ({
+      label: column.title,
+      name: column.dataIndex,
+      type: column.type,
+      selectProps: column.selectProps,
+    }));
 
   const getOperationList = (record, idx) => {
     return [

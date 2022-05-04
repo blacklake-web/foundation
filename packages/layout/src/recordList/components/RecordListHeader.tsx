@@ -404,6 +404,7 @@ const RecordListHeader = (props: RecordListHeaderProps) => {
               }}
               onPressEnter={handleQuickPress}
               onSearch={handleQuickSearch}
+              allowClear
             />
           )}
           {isNeedFilterButton && (

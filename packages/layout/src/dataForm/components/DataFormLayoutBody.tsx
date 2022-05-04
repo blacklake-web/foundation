@@ -1,6 +1,6 @@
-import React, { ReactNode, useCallback, useState } from 'react';
+import React, { ReactNode, CSSProperties } from 'react';
 import _ from 'lodash';
-import { Row, Col, FormProps, Form, FormInstance, Input } from 'antd';
+import { Row, Col, Button, FormProps, Form, FormInstance, Input } from 'antd';
 import useResizeObserver from '@react-hook/resize-observer';
 import { NamePath } from 'antd/lib/form/interface';
 import { BlIcon } from '@blacklake-web/component';
@@ -42,6 +42,15 @@ export interface DataFormLayoutBodyProps {
 const infoBlockStyle = {
   marginTop: 24,
 };
+// label宽度仅在水平布局下生效
+const LABEL_WIDTH = 120;
+const INPUT_AREA_WIDTH = 440;
+const BLOCK_PADDING = 24;
+// 最小宽度: label + 输入区 + infoBlock 左右边距
+const FORM_LAYOUT_MIN_WIDTH = LABEL_WIDTH + INPUT_AREA_WIDTH + BLOCK_PADDING * 2;
+const FORM_LAYOUT_OUTER_PADDING = 24;
+// 为表单弹窗设置的最小宽度，考虑滚动条额外给15px
+export const MODAL_MIN_WIDTH = FORM_LAYOUT_MIN_WIDTH + FORM_LAYOUT_OUTER_PADDING * 2 + 15;
 
 /**
  * 检验是否有字段权限,如果不传参数默认为有权限
@@ -62,37 +71,19 @@ export const checkFieldHasPermission = (
   return result;
 };
 
-const getColumn = (windowSize) => {
-  if (windowSize >= 1280 && windowSize < 1440) {
-    return 2;
+const getAdaptiveColumn = (windowSize) => {
+  if (windowSize < 1280) {
+    return 1
   }
   if (windowSize >= 1440) {
     return 3;
   }
-  return 1;
+  return 2;
 };
 
-/**
- * 判断一项是否在行尾
- * 对于不在行尾的项, 右侧padding要加大
- */
-const isItemInLineEnd = (
-  infoBlock: DataFormLayoutInfoBlock,
-  itemIndex: number,
-  isFullLineItem: boolean,
-  columnNum: number,
-) => {
-  if (isFullLineItem) {
-    return true;
-  }
-  const lastFullLineItemIndex = _.findLastIndex(
-    infoBlock.items.slice(0, itemIndex),
-    (item) => !!item.isFullLine,
-  );
-  const rankSinceLastFullLineItem =
-    lastFullLineItemIndex === -1 ? itemIndex : itemIndex - lastFullLineItemIndex - 1;
-  return (rankSinceLastFullLineItem + 1) % columnNum === 0;
-};
+const renderOptionalContent = (content?: ReactNode) => () => {
+  return content ? <div>{content}</div> : null;
+}
 
 const DataFormLayoutBody = (props: DataFormLayoutBodyProps) => {
   const {
@@ -110,9 +101,6 @@ const DataFormLayoutBody = (props: DataFormLayoutBodyProps) => {
   } = props;
   const contentRef = React.useRef(null);
   const { judgeVisible, addVisible, deleteVisible } = useVisible();
-  // const dataCount = info
-  //   ?.map((i) => i.items?.length || 0)
-  //   .reduce((previousValue, currentValue) => previousValue + currentValue);
 
   const useSize = (target) => {
     const [rowWidth, setRowWidth] = React.useState(0);
@@ -125,37 +113,48 @@ const DataFormLayoutBody = (props: DataFormLayoutBodyProps) => {
     return rowWidth;
   };
 
-  const calculatedColumnNum = getColumn(useSize(contentRef));
-  const baseSpan = (1 / calculatedColumnNum) * 100;
+  const overallColumnNum = getAdaptiveColumn(useSize(contentRef));
+  // 表单标题与输入项的相对位置
+  const overallFormLayout = overallColumnNum === 1 ? 'horizontal' : formLayout;
 
   const renderItem = (
     infoBlock: DataFormLayoutInfoBlock,
     item: DataFormLayoutInfoItem,
     itemIndex: number,
   ) => {
-    const { column, align = 'left' } = infoBlock;
+    //  向后兼容：infoBlock 上的 column 仅当为1时才有效
+    const { column: blockCloumn, align = 'left' } = infoBlock;
+    const { render, style, isFullLine, ...formItemProps } = item;
+    let colspan: number;
 
-    const { span, render, style, isFullLine, ...formItemProps } = item;
-    // 是否固定独占一行
-    const isFullLineItem = isFullLine || column === 1;
-    const colSpan = isFullLineItem ? 100 : baseSpan;
-
-    const baseFormItemProps = {
-      key: `formItem_${itemIndex}`,
-      className: isFullLine ? 'bl-form-item-full-line' : 'bl-form-item-normal',
-      style: {
-        flex: `0 0 ${colSpan}%`,
-        maxWidth: `${colSpan}%`,
-        justifyContent: align,
-        ...style,
-      },
-    };
-    if (!isItemInLineEnd(infoBlock, itemIndex, isFullLineItem, calculatedColumnNum)) {
-      baseFormItemProps.style.paddingRight = 36; // = 48 - 12
+    if (formItemProps.hidden) {
+      colspan = 0;
+    } else {
+      const blockRealColumn = blockCloumn === 1 ? blockCloumn : overallColumnNum;
+      const itemColumn = isFullLine ? 1 : blockRealColumn;
+      colspan = 24 / itemColumn;
     }
 
+    let baseWrapperCol: any = {};
+    let baseStyle: CSSProperties = { justifyContent: align };
+
+    // 当输入控件非占满整行时，指定一个宽度
+    // 横向布局时, 约束输入区宽度；纵向布局时，约束表单项总宽度
+    if (!isFullLine) {
+      if (overallFormLayout === 'horizontal') {
+        baseWrapperCol.flex = `${INPUT_AREA_WIDTH}px`;
+      } else {
+        baseStyle.width = INPUT_AREA_WIDTH;
+      }
+    }
+    const baseFormItemProps = {
+      className: `bl-form-item ${isFullLine ? 'bl-form-item-full-line' : ''}`,
+      style: _.assign(baseStyle, style),
+      wrapperCol: _.assign(baseWrapperCol, formItemProps.wrapperCol),
+    };
     /* 把基础的 formItemProps 传下去，适配dependencies 或 shouldUpdate的两层formItem情况 */
-    const itemComponents = render(baseFormItemProps, fieldPermission);
+    // 当 hidden 为 true 时无需传 render
+    let itemComponents = render ? render(baseFormItemProps, fieldPermission) : null;
 
     if (fieldPermission) {
       const hasPermission = checkFieldHasPermission(item?.name, fieldPermission);
@@ -169,18 +168,16 @@ const DataFormLayoutBody = (props: DataFormLayoutBodyProps) => {
         typeof itemComponents !== 'number' &&
         typeof itemComponents !== 'undefined'
       ) {
-        return (
-          <Form.Item {...formItemProps} {...baseFormItemProps}>
-            {React.cloneElement(itemComponents, { disabled: true })}
-          </Form.Item>
-        );
+        itemComponents = React.cloneElement(itemComponents, { disabled: true });
       }
     }
 
     return (
-      <Form.Item {...formItemProps} {...baseFormItemProps}>
-        {itemComponents}
-      </Form.Item>
+      <Col span={colspan} key={`formItem_${itemIndex}`}>
+        <Form.Item {...formItemProps} {...baseFormItemProps}>
+          {itemComponents}
+        </Form.Item>
+      </Col>
     );
   };
 
@@ -190,7 +187,7 @@ const DataFormLayoutBody = (props: DataFormLayoutBodyProps) => {
     if (items.length === 0) return null;
 
     return (
-      <Row style={{ paddingTop: 24 }}>
+      <Row style={{ padding: `${BLOCK_PADDING}px ${BLOCK_PADDING}px 0 ${BLOCK_PADDING}px` }}>
         {items.map((item, itemIndex) => renderItem(infoBlock, item, itemIndex))}
       </Row>
     );
@@ -208,14 +205,14 @@ const DataFormLayoutBody = (props: DataFormLayoutBodyProps) => {
             <span className="title-left-border"></span>
             <span className="title-left">{title}</span>
           </div>
-          <div
-            className={'bl-toggleButon'}
+          <Button
+            type="text"
+            className="bl-toggleButon"
             onClick={() =>
               judgeVisible(infoIndex) ? deleteVisible(infoIndex) : addVisible(infoIndex)
             }
-          >
-            <BlIcon type={judgeVisible(infoIndex) ? 'iconzhankai' : 'iconshouqi'} />
-          </div>
+            icon={<BlIcon type={judgeVisible(infoIndex) ? 'iconzhankai' : 'iconshouqi'} />}
+          />
         </div>
       );
     };
@@ -248,35 +245,16 @@ const DataFormLayoutBody = (props: DataFormLayoutBodyProps) => {
     return null;
   };
 
-  const renderTopContext = () => {
-    if (!topContext) return null;
-
-    return <div>{topContext}</div>;
-  };
-
-  const renderBottomContext = () => {
-    if (!bottomContext) return null;
-
-    return <div>{bottomContext}</div>;
-  };
-
-  const renderLeftContext = () => {
-    if (!leftContext) return null;
-
-    return <div>{leftContext}</div>;
-  };
-
-  const renderRightContext = () => {
-    if (!rightContext) return null;
-
-    return <div>{rightContext}</div>;
-  };
+  const renderTopContext = renderOptionalContent(topContext);
+  const renderBottomContext = renderOptionalContent(bottomContext);
+  const renderLeftContext = renderOptionalContent(leftContext);
+  const renderRightContext = renderOptionalContent(rightContext);
 
   return (
     <div
       style={{
         height: '100%',
-        padding: '0px 20px',
+        padding: `0px ${FORM_LAYOUT_OUTER_PADDING}px`,
         overflowY: 'auto',
         ...bodyStyle,
       }}
@@ -288,14 +266,12 @@ const DataFormLayoutBody = (props: DataFormLayoutBodyProps) => {
         <Form
           form={form}
           name="dataFormInfo"
-          style={{ width: '100%', marginBottom: 24 }}
-          labelCol={calculatedColumnNum === 1 ? { flex: '120px' } : {}}
-          layout={calculatedColumnNum === 1 ? 'horizontal' : formLayout}
+          style={{ width: '100%', minWidth: FORM_LAYOUT_MIN_WIDTH }}
+          labelCol={overallFormLayout === 'horizontal' ? { flex: `${LABEL_WIDTH}px` } : undefined}
+          layout={overallFormLayout}
           {...formProps}
         >
-          {info?.map((infoBlock: DataFormLayoutInfoBlock, infoIndex) =>
-            renderInfoBlock(infoBlock, infoIndex),
-          )}
+          {info?.map(renderInfoBlock)}
           {renderFieldEncoding()}
         </Form>
         {renderRightContext()}
