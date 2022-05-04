@@ -106,7 +106,7 @@ const RenderInfoBlock: React.FC<{
               <Descriptions.Item
                 key={`${item.dataIndex}_${index}`}
                 span={item.isFullLine ? baseColumn : 1}
-                contentStyle={{ width: '100%', display: 'inline-block' }}
+                contentStyle={{ width: 'calc(100% - 120px)', display: 'inline-block' }}
                 labelStyle={{ wordBreak: 'break-word', maxWidth: 120, flexShrink: 0 }}
                 label={
                   item.desc ? (
