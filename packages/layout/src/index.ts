@@ -23,7 +23,7 @@ import type {
   DetailLayoutInfoItem,
   DetailLayoutMenuItem,
 } from './detail/DetailLayout.type';
-import { FormatDataToQueryData, FilterItem } from './recordList/recordListLayout.type';
+import { FormatDataToQueryData, FilterItem, OperationListItem } from './recordList/recordListLayout.type';
 
 export * from './dataForm';
 export {
@@ -53,4 +53,5 @@ export type {
   FormatDataToQueryData,
   FilterItem,
   RecordListLayoutProps,
+  OperationListItem,
 };
