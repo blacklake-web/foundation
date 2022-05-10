@@ -8,7 +8,7 @@ import { BlIcon } from '@blacklake-web/component';
 import { hidePopover } from '../../utils';
 import './styles.less';
 
-export type ReasonConformCallback = (reason: string) => Promise<void>;
+export type ReasonConformCallback = (reason: string) => Promise<any>;
 export interface ReasonPopconfirmProps {
   /** 操作名 */
   opName: string;
@@ -36,11 +36,16 @@ const PopReasonConfirm: React.FC<ReasonPopconfirmProps> = ({
       onConfirm(form.getFieldValue('reason'))
         .then(() => {
           message.success(`${opName}成功！`);
+          form.setFieldsValue({ reason: '' });
           setLoading(false);
           hidePopover();
         })
         .catch(() => setLoading(false));
     });
+  };
+  const onCancel = () => {
+    form.setFieldsValue({ reason: '' });
+    hidePopover();
   };
   const content = (
     <div className="bl-pop-reason-confirm">
@@ -57,7 +62,7 @@ const PopReasonConfirm: React.FC<ReasonPopconfirmProps> = ({
         </Form.Item>
       </Form>
       <div className="bl-pop-reason-confirm-footer" >
-        <Button type="default" size="small" onClick={hidePopover}>取消</Button>
+        <Button type="default" size="small" onClick={onCancel}>取消</Button>
         <Button type="primary" size="small" loading={loading} onClick={onOk}>确定</Button>
       </div>
     </div>

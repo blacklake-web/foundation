@@ -99,7 +99,7 @@ export type OperationListItem = {
   /** 是否禁用 */
   disabled?: boolean;
   /** 点击回调。如果使用了二次确认弹窗，需返回一个Promise */
-  onClick: (...args: any) => void | ReasonConformCallback;
+  onClick: ((...args: any) => void) | ReasonConformCallback;
   /** 二次确认弹窗 */
   popconfirm?: PopconfirmProps;
   /** 填写原因的二次确认弹窗 */
