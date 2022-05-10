@@ -25,6 +25,7 @@ import {
 } from '../recordListLayout.type';
 
 type BlSortOrder = 'asc' | 'desc';
+type SyncCallback = Exclude<OperationListItem['onClick'], ReasonConformCallback>;
 
 const toBlOrderMap = new Map<SortOrder, BlSortOrder>([
   ['ascend', 'asc'],
@@ -361,7 +362,7 @@ const RecordListBody = <RecordType extends object = any>(
             {...defaultPopconfirm}
             {...customPopconfirm}
             disabled={disabled}
-            onConfirm={item.onClick}
+            onConfirm={item.onClick as SyncCallback}
           >
             <Button key={item.title} type="link" disabled={disabled}>
               {item.title}
@@ -387,7 +388,7 @@ const RecordListBody = <RecordType extends object = any>(
       }
     }
     return (
-      <Button key={item.title} type="link" disabled={disabled} onClick={item?.onClick}>
+      <Button key={item.title} type="link" disabled={disabled} onClick={item?.onClick as SyncCallback}>
         {item.title}
       </Button>
     );
@@ -411,7 +412,7 @@ const RecordListBody = <RecordType extends object = any>(
           {...defaultPopconfirm}
           {...customPopconfirm}
           disabled={disabled}
-          onConfirm={item.onClick}
+          onConfirm={item.onClick as SyncCallback}
         >
           <Menu.Item key={item.title} disabled={disabled}>
             {item.title}
@@ -420,7 +421,7 @@ const RecordListBody = <RecordType extends object = any>(
       );
     }
     return (
-      <Menu.Item key={item.title} disabled={disabled} onClick={item.onClick}>
+      <Menu.Item key={item.title} disabled={disabled} onClick={item.onClick as SyncCallback}>
         {item.title}
       </Menu.Item>
     );
