@@ -255,12 +255,60 @@ export default () => {
     ],
   };
 
+  const nestingInfo: DataFormLayoutInfoBlock = {
+    title: '嵌套格式',
+    items: [
+      {
+        label: '',
+        isFullLine: true,
+        render: () => {
+          return (
+            <div style={{ padding: '0px 24px' }}>
+              <DataFormLayout
+                form={modalForm}
+                title=""
+                footer={false}
+                info={[
+                  {
+                    title: '基本信息',
+                    column: 1,
+                    items: [
+                      {
+                        label: '名称',
+                        name: 'nesting-name',
+                        render: () => (
+                          <Select
+                            placeholder="请输入"
+                            allowClear
+                            options={[
+                              { label: 'name1', value: '1' },
+                              { label: 'name2', value: '2' },
+                            ]}
+                          />
+                        ),
+                      },
+                      {
+                        label: '年龄',
+                        name: 'nesting-age',
+                        render: () => <InputNumber placeholder="请输入" />,
+                      },
+                    ]
+                  }
+                ]}
+                getAdaptiveContainer={() => document.querySelector('.parent-data-form')}
+              />
+            </div>
+          );
+        },
+      },
+    ],
+  };
   return (
     <div style={{ border: '1px solid #d8d8d8', position: 'relative' }}>
       <DataFormLayout
         form={modalForm}
         title="新建字段"
-        info={[baseInfo, otherInfo, specialInfo]}
+        info={[baseInfo, otherInfo, specialInfo, nestingInfo]}
         loading={loading}
         fieldPermission={{
           encoding: 'xxxxx',
@@ -271,6 +319,7 @@ export default () => {
           const value = await modalForm?.validateFields();
           console.log('%c [ value ]-220', 'font-size:px; color:#bf2c9f;', value);
         }}
+        bodyClassName="parent-data-form"
       />
     </div>
   );

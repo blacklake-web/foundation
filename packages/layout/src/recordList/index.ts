@@ -3,8 +3,8 @@ import RecordListLayout, {
 } from './RecordListLayout';
 import { BL_SELECTED_ALL, KNOWN_EMPTY_LIST_PARAM } from './constants';
 
-import { FormatDataToQueryData, FilterItem } from './recordListLayout.type';
+import { FormatDataToQueryData, FilterItem, OperationListItem } from './recordListLayout.type';
 
 export { RecordListLayout, BL_SELECTED_ALL, KNOWN_EMPTY_LIST_PARAM };
 
-export type { FormatDataToQueryData, FilterItem, RecordListLayoutProps };
+export type { FormatDataToQueryData, FilterItem, RecordListLayoutProps, OperationListItem };

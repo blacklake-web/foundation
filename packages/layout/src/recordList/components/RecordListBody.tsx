@@ -5,6 +5,7 @@ import { Button, Dropdown, Menu, Popconfirm, PopconfirmProps, TableProps } from 
 import { BlColumnsType, BlTable, BlIcon } from '@blacklake-web/component';
 import { SortOrder } from 'antd/lib/table/interface';
 //
+import ReasonPopconfirm, { ReasonConformCallback } from '../../components/reasonPopconfirm';
 import {
   BL_SELECTED_ALL,
   ListLayoutContext,
@@ -344,28 +345,46 @@ const RecordListBody = <RecordType extends object = any>(
   const renderButton = (item: OperationListItem) => {
     const disabled = item?.disabled ?? false;
 
-    if (item?.popconfirm) {
-      const defaultPopconfirm: PopconfirmProps = {
-        placement: 'topRight',
-        okText: '确定',
-        cancelText: '取消',
-        title: `确定要${item.title}吗?`,
-      };
-      const customPopconfirm = _.isObject(item?.popconfirm) ? item?.popconfirm : {};
-
-      return (
-        <Popconfirm
-          key={item.title}
-          {...defaultPopconfirm}
-          {...customPopconfirm}
-          disabled={disabled}
-          onConfirm={item.onClick}
-        >
-          <Button type="link" disabled={disabled}>
-            {item.title}
-          </Button>
-        </Popconfirm>
-      );
+    if (!disabled) {
+      if (item?.popconfirm) {
+        const defaultPopconfirm: PopconfirmProps = {
+          placement: 'topRight',
+          okText: '确定',
+          cancelText: '取消',
+          title: `确定要${item.title}吗?`,
+        };
+        const customPopconfirm = _.isObject(item?.popconfirm) ? item?.popconfirm : {};
+  
+        return (
+          <Popconfirm
+            key={item.title}
+            {...defaultPopconfirm}
+            {...customPopconfirm}
+            disabled={disabled}
+            onConfirm={item.onClick}
+          >
+            <Button key={item.title} type="link" disabled={disabled}>
+              {item.title}
+            </Button>
+          </Popconfirm>
+        );
+      }
+      if (item?.reasonconfirm) {
+        const reasonconfirmProps = _.isPlainObject(item.reasonconfirm)
+          ? item.reasonconfirm
+          : {};
+        return (
+          <ReasonPopconfirm
+            opName={item.title}
+            onConfirm={item.onClick as unknown as ReasonConformCallback}
+            {...reasonconfirmProps}
+          >
+            <Button key={item.title} type="link" disabled={disabled}>
+              {item.title}
+            </Button>
+          </ReasonPopconfirm>
+        );
+      }
     }
     return (
       <Button key={item.title} type="link" disabled={disabled} onClick={item?.onClick}>

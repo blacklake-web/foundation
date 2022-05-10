@@ -23,6 +23,8 @@ const BlDataFormLayout: React.FC<
     formProps,
     infoBlockStyleProps,
     fieldPermission,
+    bodyClassName,
+    getAdaptiveContainer,
     ...footerProps
   } = props;
 
@@ -45,6 +47,8 @@ const BlDataFormLayout: React.FC<
               formProps={formProps}
               infoBlockStyleProps={infoBlockStyleProps}
               fieldPermission={fieldPermission}
+              bodyClassName={bodyClassName}
+              getAdaptiveContainer={getAdaptiveContainer}
             />
           ) : null}
           {children}
