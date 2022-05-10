@@ -16,6 +16,15 @@ import React, { useState, useEffect } from 'react';
 import { Button, message } from 'antd';
 import { RecordListLayout, FilterFieldType } from '@blacklake-web/layout';
 
+const mockAPI = (params) => {
+  console.log(params);
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      Math.random() > 0.2 ? resolve() : reject();
+    }, 500);
+  });
+};
+
 export default () => {
   const [selectedKeys, setSelectedKeys] = useState([]);
   const [dataSource, setDataSource] = useState([]);
@@ -25,14 +34,14 @@ export default () => {
     const dataSource = [];
     for (let i = 1; i < 50; i++) {
       const item = {
+        id: i,
         name: `name_${i}`,
         sex: `sex_${i}`,
-        old: `old_${i}`,
+        age: Math.floor(Math.random() * 20) + 18,
         job: `job_${i}`,
         school: `school_${i}`,
         phone: `phone_${i}`,
         qq: `qq_${i}`,
-        children: [],
       };
       dataSource.push(item);
     }
@@ -69,25 +78,7 @@ export default () => {
     console.log('请求参数：', params);
     return new Promise((resolve, reject) => {
       setTimeout(() => {
-        const data = () => {
-          const dataSource = [];
-          for (let i = 1; i < 50; i++) {
-            const item = {
-              name: `name_${i}`,
-              sex: `sex_${i}`,
-              age: Math.floor(Math.random() * 20) + 18,
-              job: `job_${i}`,
-              school: `school_${i}`,
-              phone: `phone_${i}`,
-              qq: `qq_${i}`,
-            };
-            dataSource.push(item);
-          }
-          return dataSource;
-        };
-
         const list = data();
-
         const data2 = {
           data: {
             list,
@@ -200,7 +191,12 @@ export default () => {
         disabled: idx % 2 === 0,
         onClick: () => message.info(`编辑 ${record.name}`),
       },
-      { title: '删除', disabled: true, onClick: () => message.warn(`删除 ${record.name}`) },
+      {
+        title: '删除',
+        disabled: idx % 2 === 0,
+        reasonconfirm: true,
+        onClick: (reason) => mockAPI({ id: record.id, reason }),
+      },
       {
         title: '操作记录',
         auth: 'OP_RECORD_VIEW',
