@@ -57,6 +57,7 @@ export interface BlRecordListLayoutProps<RecordType>
    */
   expandable?: any;
   isLoading?: boolean;
+  delayLoadTime?: number;
 }
 
 const listLayoutReducer = (
@@ -168,6 +169,7 @@ const ListLayout = <RecordType extends object = any>(
     userAuth,
     getOperationList,
     maxOperationCount,
+    delayLoadTime,
   } = props;
 
   useEffect(() => {
@@ -249,7 +251,7 @@ const ListLayout = <RecordType extends object = any>(
     }
   };
 
-  const fetchData = (
+  const fetchData = async (
     params: ListLayoutQueryParams,
     successCB?: (responseData: TableResponseData) => void,
     failCB?: () => void,
@@ -271,6 +273,9 @@ const ListLayout = <RecordType extends object = any>(
 
     let requestOrNot = requestFn;
 
+    if (_.isNil(delayLoadTime)) {
+      await pauseSomeTime(Number(delayLoadTime));
+    }
     for (const key in afterFormatParams) {
       if (afterFormatParams[key] === KNOWN_EMPTY_LIST_PARAM) {
         requestOrNot = () => {
@@ -284,7 +289,6 @@ const ListLayout = <RecordType extends object = any>(
         break;
       }
     }
-
     requestOrNot(afterFormatParams)
       .then((json: TableResponseData) => {
         handleAfterFetchData(json);
@@ -452,6 +456,14 @@ const ListLayout = <RecordType extends object = any>(
         });
       }
       setFilterToUrl(params);
+    });
+  };
+
+  const pauseSomeTime = (time: number) => {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(true);
+      }, time);
     });
   };
 
