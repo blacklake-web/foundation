@@ -273,7 +273,7 @@ const ListLayout = <RecordType extends object = any>(
 
     let requestOrNot = requestFn;
 
-    if (_.isNil(delayLoadTime)) {
+    if (!_.isNil(delayLoadTime)) {
       await pauseSomeTime(Number(delayLoadTime));
     }
     for (const key in afterFormatParams) {
