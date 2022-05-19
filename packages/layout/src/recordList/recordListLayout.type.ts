@@ -101,7 +101,7 @@ export type OperationListItem = {
   /** 点击回调。如果使用了二次确认弹窗，需返回一个Promise */
   onClick: ((...args: any) => void) | ReasonConformCallback;
   /** 二次确认弹窗 */
-  popconfirm?: PopconfirmProps;
+  popconfirm?: boolean | Partial<PopconfirmProps>;
   /** 填写原因的二次确认弹窗 */
   reasonconfirm?: boolean | Omit<ReasonPopconfirmProps, 'opName' | 'onConfirm'>;
 };
