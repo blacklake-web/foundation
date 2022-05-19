@@ -117,8 +117,12 @@ const DataFormLayoutBody = (props: DataFormLayoutBodyProps) => {
   useEffect(() => {
     if (getAdaptiveContainer && contentRef.current) {
       const adaptiveContainer = getAdaptiveContainer();
-      const offset = contentRef.current.clientWidth - adaptiveContainer.clientWidth;
-      setBreakpointOffset(offset);
+      if (adaptiveContainer) {
+        const offset = contentRef.current.clientWidth - adaptiveContainer.clientWidth;
+        setBreakpointOffset(offset);
+      } else {
+        console.error('<DataFormLayout>: getAdaptiveContainer未获取到DOM节点，请检查bodyClassName设置是否正确');
+      }
     }
   }, []);
 
