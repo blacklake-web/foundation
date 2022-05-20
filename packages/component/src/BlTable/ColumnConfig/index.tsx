@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { SortableContainer, SortableElement, SortableHandle } from 'react-sortable-hoc';
 import arrayMove from 'array-move';
-import { isEqual } from 'lodash';
+import { isEqual, isNil } from 'lodash';
 //
 import {
   EyeInvisibleOutlined,
@@ -134,9 +134,13 @@ const TableColumnConfig = <RecordType extends object = any>(
     const { display, fixed, disabled } = config.colConfig;
     const isLessTotal = total <= MIN_CONFIG_AMOUNT;
 
-    const currentCol = columns.find((item) => isEqual(item.dataIndex, config.dataIndex)) ?? {
-      title: <span className="errorColItem">错误数据</span>,
-    };
+    // const currentCol = columns.find((item) => isEqual(item.dataIndex, config.dataIndex)) ?? {
+    //   title: <span className="errorColItem">错误数据</span>,
+    // };
+    // 错误提示隐藏
+    const currentCol = columns.find((item) => isEqual(item.dataIndex, config.dataIndex));
+
+    if (isNil(currentCol)) return null;
 
     return disabled ? (
       <div className="colConfigItem" key={`configItem_${index}`}>
