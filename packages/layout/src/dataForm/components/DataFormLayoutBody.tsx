@@ -81,7 +81,7 @@ export const checkFieldHasPermission = (
 
 const renderOptionalContent = (content?: ReactNode) => () => {
   return content ? <div>{content}</div> : null;
-}
+};
 
 const useSize = (target) => {
   const [rowWidth, setRowWidth] = useState(0);
@@ -92,7 +92,7 @@ const useSize = (target) => {
 
   useResizeObserver(target, (entry) => setRowWidth(entry.contentRect.width));
   return rowWidth;
-}
+};
 
 const DataFormLayoutBody = (props: DataFormLayoutBodyProps) => {
   const {
@@ -121,20 +121,25 @@ const DataFormLayoutBody = (props: DataFormLayoutBodyProps) => {
         const offset = contentRef.current.clientWidth - adaptiveContainer.clientWidth;
         setBreakpointOffset(offset);
       } else {
-        console.error('<DataFormLayout>: getAdaptiveContainer未获取到DOM节点，请检查bodyClassName设置是否正确');
+        console.error(
+          '<DataFormLayout>: getAdaptiveContainer未获取到DOM节点，请检查bodyClassName设置是否正确',
+        );
       }
     }
   }, []);
 
-  const getAdaptiveColumn = useCallback((windowSize) => {
-    if (windowSize < 1280 + breakpointOffset) {
-      return 1;
-    }
-    if (windowSize >= 1440 + breakpointOffset) {
-      return 3;
-    }
-    return 2;
-  }, [breakpointOffset]);
+  const getAdaptiveColumn = useCallback(
+    (windowSize) => {
+      if (windowSize < 1280 + breakpointOffset) {
+        return 1;
+      }
+      if (windowSize >= 1440 + breakpointOffset) {
+        return 3;
+      }
+      return 2;
+    },
+    [breakpointOffset],
+  );
 
   const overallColumnNum = getAdaptiveColumn(useSize(contentRef));
   // 表单标题与输入项的相对位置
@@ -204,13 +209,18 @@ const DataFormLayoutBody = (props: DataFormLayoutBodyProps) => {
     );
   };
 
-  const renderItems = (infoBlock: DataFormLayoutInfoBlock) => {
+  const renderItems = (infoBlock: DataFormLayoutInfoBlock, infoIndex) => {
     const { items = [] } = infoBlock;
 
     if (items.length === 0) return null;
 
     return (
-      <Row style={{ padding: `${BLOCK_PADDING}px ${BLOCK_PADDING}px 0 ${BLOCK_PADDING}px` }}>
+      <Row
+        style={{
+          padding: `${BLOCK_PADDING}px ${BLOCK_PADDING}px 0 ${BLOCK_PADDING}px`,
+          display: !judgeVisible(infoIndex) ? '' : 'none',
+        }}
+      >
         {items.map((item, itemIndex) => renderItem(infoBlock, item, itemIndex))}
       </Row>
     );
@@ -246,7 +256,7 @@ const DataFormLayoutBody = (props: DataFormLayoutBodyProps) => {
         style={{ ...infoBlockStyle, ...infoBlockStyleProps }}
       >
         {renderTitle(infoBlock)}
-        {!judgeVisible(infoIndex) && renderItems(infoBlock)}
+        {renderItems(infoBlock, infoIndex)}
       </div>
     );
   };
