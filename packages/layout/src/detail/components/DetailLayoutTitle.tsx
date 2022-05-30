@@ -1,6 +1,6 @@
 import React, { CSSProperties, ReactElement, ReactNode } from 'react';
 import _ from 'lodash';
-import { Row, Col, Button, Dropdown, Menu, Space } from 'antd';
+import { Button, Dropdown, Menu, Space } from 'antd';
 import { BlIcon } from '@blacklake-web/component';
 import { filterListAuth } from '../../utils';
 import { DetailLayoutMenuItem } from '../DetailLayout.type';
@@ -20,7 +20,7 @@ interface DetailLayoutTitleProps {
 }
 
 const titleStyle = {
-  padding: '10px 20px',
+  padding: '16px 20px',
   borderBottom: '1px solid #b1b1b12e',
 };
 const extraStyle = {
@@ -44,7 +44,7 @@ const DetailLayoutTitle = (props: DetailLayoutTitleProps) => {
   const renderTitle = () => {
     const isNodeTitle = typeof title === 'object';
 
-    return isNodeTitle ? title : <h2 style={{ margin: '10px 0', fontSize: 18 }}>{title}</h2>;
+    return isNodeTitle ? title : <h2 className="bl-layout-title-text">{title}</h2>;
   };
 
   const renderMenu = (menuList: DetailLayoutMenuItem[]) => {
@@ -140,16 +140,14 @@ const DetailLayoutTitle = (props: DetailLayoutTitleProps) => {
   };
 
   return title || !_.isEmpty(baseMenu) ? (
-    <div className={'detail-title '} style={{ ...titleStyle, ...style }}>
-      <Row justify={'space-between'} style={{ alignItems: 'center' }}>
-        <Col span={14}>{renderTitle()}</Col>
-        <Col span={10} style={extraStyle}>
-          <Space size={8} align="start">
-            {extra}
-            {renderBaseMenu()}
-          </Space>
-        </Col>
-      </Row>
+    <div className={'detail-title'} style={{ ...titleStyle, ...style }}>
+      <div className={'detail-left'}>
+        {renderTitle()}
+      </div>
+      <Space size={8} align="start">
+        {extra}
+        {renderBaseMenu()}
+      </Space>
     </div>
   ) : null;
 };

@@ -173,7 +173,7 @@ export default () => {
   return (
     <div style={{ border: '1px solid #d8d8d8' }}>
       <DetailLayout
-        title="详情"
+        title="名字超长超长_long_long超长超长_long_long_long_long_long_long_long_long超长_long_long_long_long_long_long_long_long_long_long超长详情"
         info={[detailInfo, materialInfo, otherInfo]}
         dataSource={dataSource}
         baseMenu={baseMenu}
