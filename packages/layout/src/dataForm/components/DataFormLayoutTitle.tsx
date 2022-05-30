@@ -13,7 +13,7 @@ const DataFormLayoutTitle = (props: DataFormLayoutTitleProps) => {
   const renderTitle = () => {
     const isNodeTitle = typeof title === 'object';
 
-    return isNodeTitle ? title : <h2 style={{ margin: '10px 0', fontSize: 18 }}>{title}</h2>;
+    return isNodeTitle ? title : <h2 className="bl-layout-title-text">{title}</h2>;
   };
 
   return title ? (
