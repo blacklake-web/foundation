@@ -114,4 +114,70 @@ export default () => {
 };
 ```
 
+```tsx
+/**
+ * title: 纯排序列表
+ * desc: 在只需排序无需编辑的场景使用
+ */
+
+import React, { useEffect } from 'react';
+import { Form, Input, InputNumber, Select, Button } from 'antd';
+import { BlSortFormList } from '@blacklake-web/component';
+
+export default () => {
+  const [form] = Form.useForm();
+
+  useEffect(() => {
+    form.setFieldsValue({
+      list: [
+        { id: 0, name: 'name_0' },
+        { id: 1, name: 'name_1' },
+        { id: 2, name: 'name_2' },
+        { id: 3, name: 'name_3' },
+        { id: 4, name: 'name_4' },
+      ],
+    });
+  }, []);
+
+  return (
+    <div>
+      <BlSortFormList
+        name="list"
+        form={form}
+        isNeedAdd={false}
+        isNeedDelete={false}
+        tableProps={{ showHeader: false }}
+        renderColumns={() => {
+          return [
+            {
+              title: '名称',
+              dataIndex: 'name',
+              render: (text, field) => (
+                <Form.Item
+                  name={[field.name, 'name']}
+                  fieldKey={[field.fieldKey, 'name']}
+                  style={{ marginBottom: '0' }}
+                  rules={[{ required: true, message: '名称不能为空' }]}
+                >
+                  <Input disabled />
+                </Form.Item>
+              ),
+            },
+          ];
+        }}
+      />
+      <div style={{ marginTop: 16, textAlign: 'center' }}>
+        <Button
+          type="primary"
+          onClick={() => {
+            console.log(form.getFieldsValue().list.map(it => it.name));
+          }}
+        >
+          提交
+        </Button>
+      </div>
+    </div>
+  );
+};
+```
 <API />

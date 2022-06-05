@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Input, Form, FormInstance, Button, Popover, Space, Tooltip } from 'antd';
+import { Input, Form, FormInstance, Button, Popover, Space, Tooltip, FormProps } from 'antd';
 import { FormListFieldData, FormListProps } from 'antd/lib/form/FormList';
 import { ColumnProps, TableProps } from 'antd/lib/table';
 import { SortableContainer, SortableElement, SortableHandle } from 'react-sortable-hoc';
@@ -15,6 +15,10 @@ export interface BlSortFormListProps {
    * Form 实例
    */
   form?: FormInstance;
+  /**
+   * 如果传入Form实例，可自定义props
+   */
+  formProps?: Omit<FormProps, 'form'>;
   /**
    * list 字段名称
    */
@@ -149,6 +153,7 @@ export const formatDeleteListToApi = (deleteListFormValue?: {
 const BlSortFormList = (props: BlSortFormListProps) => {
   const {
     form: propsForm,
+    formProps = {},
     name,
     renderColumns,
     isNeedDrag = true,
@@ -426,6 +431,7 @@ const BlSortFormList = (props: BlSortFormListProps) => {
     });
   };
 
+  const hasFooter = isNeedAdd || isNeedBatchAdd || !_.isNil(extraButton);
   const renderFooter = (
     add: (defaultValue?: any, insertIndex?: number | undefined) => void,
     data: FormListFieldData[],
@@ -539,7 +545,7 @@ const BlSortFormList = (props: BlSortFormListProps) => {
                   pagination={false}
                   columns={getColumns()}
                   dataSource={data}
-                  footer={() => renderFooter(add, fields)}
+                  footer={hasFooter ? () => renderFooter(add, fields) : undefined}
                   rowKey={(field) => field?.key}
                   id="attrTable"
                   components={
@@ -565,7 +571,7 @@ const BlSortFormList = (props: BlSortFormListProps) => {
   };
 
   const renderWithForm = () => {
-    return <Form form={propsForm}>{renderBase()}</Form>;
+    return <Form form={propsForm} {...formProps}>{renderBase()}</Form>;
   };
 
   return propsForm ? renderWithForm() : renderBase();
