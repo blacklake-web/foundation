@@ -1,6 +1,6 @@
 {
   "name": "@blacklake-web/hooks",
-  "version": "1.0.13-alpha.12",
+  "version": "1.0.1",
   "description": "blacklack-web react hook",
   "keywords": [
     "hooks",
