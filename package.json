@@ -31,5 +31,8 @@
   },
   "dependencies": {
     "dumi": "^1.1.18"
+  },
+  "publishConfig": {
+    "registry": "https://npm.blacklake.tech"
   }
 }

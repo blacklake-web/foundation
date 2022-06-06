@@ -1,9 +1,7 @@
 import React from 'react';
 import { Spin } from 'antd';
-
 import { DetailLayoutContent } from './components/DetailLayoutContent';
 import { DetailLayoutTitle } from './components/DetailLayoutTitle';
-//
 import { DetailLayoutProps } from './DetailLayout.type';
 import './DetailLayout.less';
 
