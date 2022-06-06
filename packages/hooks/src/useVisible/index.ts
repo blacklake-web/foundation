@@ -23,9 +23,7 @@ export const useVisible = (defaultVisibleList?: string[]): UseVisibleRt => {
    * @param key string
    * @returns boolean
    */
-  const judgeVisible = (key: string) => {
-    return visibleList.includes(key);
-  };
+  const judgeVisible = (key: string) => visibleList.includes(key);
 
   /**
    * 增加状态

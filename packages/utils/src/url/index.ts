@@ -47,7 +47,7 @@ function setParams(params: Param) {
 /** to make relative path and absolute path both work
  * @description 登录跳转时使用
  * @param path
- * @returns
+ * @returns {string}
  */
 export const getRelativePath = (path: string): string => {
   if (!path) {

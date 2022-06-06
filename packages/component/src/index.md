@@ -1,3 +1,3 @@
 # 首页
 
-'欢迎来到 90 年代'
+@blacklake-web/component
