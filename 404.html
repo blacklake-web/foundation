@@ -7,21 +7,24 @@
       content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no"
     />
     <link rel="shortcut icon" type="image/x-icon" href="./favicon.ico" />
-    <link rel="stylesheet" href="/foundation/umi.css" />
+    <link rel="stylesheet" href="/foundation/umi.ae8ad023.css" />
     <script>
       window.routerBase = "/foundation/";
     </script>
     <script>
-      //! umi version: 3.5.11
+      //! umi version: 3.5.41
     </script>
     <script>
       !(function () {
-        var e = localStorage.getItem("dumi:prefers-color"),
-          t = window.matchMedia("(prefers-color-scheme: dark)").matches,
-          r = ["light", "dark", "auto"];
+        var e =
+            navigator.cookieEnabled && void 0 !== window.localStorage
+              ? localStorage.getItem("dumi:prefers-color")
+              : "auto",
+          o = window.matchMedia("(prefers-color-scheme: dark)").matches,
+          t = ["light", "dark", "auto"];
         document.documentElement.setAttribute(
           "data-prefers-color",
-          e === r[2] ? (t ? r[1] : r[0]) : r.includes(e) ? e : r[0]
+          e === t[2] ? (o ? t[1] : t[0]) : t.indexOf(e) > -1 ? e : t[0]
         );
       })();
     </script>
@@ -29,6 +32,6 @@
   <body>
     <div id="root"></div>
 
-    <script src="/foundation/umi.js"></script>
+    <script src="/foundation/umi.ecbf31f0.js"></script>
   </body>
 </html>
